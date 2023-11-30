@@ -1,16 +1,41 @@
-// PetList.js
-
 import React, { useState, useEffect } from 'react';
 
 function PetList() {
   const [pets, setPets] = useState([]);
   const [error, setError] = useState(null);
+  const [accessToken, setAccessToken] = useState('');
+
+  useEffect(() => {
+    async function fetchAccessToken() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/token/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: '123@email.com',
+            password: '123',
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch access token');
+        }
+
+        const tokenData = await response.json();
+        setAccessToken(tokenData.access); // Store the access token in state
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    fetchAccessToken();
+  }, []);
 
   useEffect(() => {
     async function fetchPets() {
       try {
-        // Replace 'YOUR_ACCESS_TOKEN' with the actual access token
-        const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMzMwMTY0LCJpYXQiOjE3MDEzMjgzNjQsImp0aSI6ImQwOGM2NzFkYjNmNjQ1MGE5MmU5Nzk3YTQ2YTVkZGFlIiwidXNlcl9pZCI6Mn0.HG97x-S_tg8M66jgMK1c5gkyh1s4jjySU9MwMi7lJwg';
         const response = await fetch('http://localhost:8000/pets/', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -28,8 +53,10 @@ function PetList() {
       }
     }
 
-    fetchPets();
-  }, []);
+    if (accessToken) {
+      fetchPets();
+    }
+  }, [accessToken]); // Trigger the effect when the access token changes
 
   if (error) {
     return <div>Error: {error}</div>;

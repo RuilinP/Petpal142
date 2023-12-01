@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-%tnv=*s^zccliz5_(5xta(z!)bk#rkwe46@svjl$a5)4-_55)!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -76,9 +76,30 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # or your React app's URL
+
+ALLOWED_HOSTS=['*']
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
 ROOT_URLCONF = 'petpal.urls'
 
 TEMPLATES = [

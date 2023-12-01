@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchAccessToken, fetchSinglePet } from '../../ajax'; // Assuming ajax.js is in the same directory
+import axios from 'axios'; 
 
 function SinglePetInfo() {
   const [petInfo, setPetInfo] = useState({});
@@ -8,57 +10,37 @@ function SinglePetInfo() {
   const { petId } = useParams();
 
   useEffect(() => {
-    async function fetchAccessToken() {
+    async function fetchData() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/token/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: '123@email.com',
-            password: '123',
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch access token');
-        }
-
-        const tokenData = await response.json();
-        setAccessToken(tokenData.access); // Store the access token in state
+        const token = await fetchAccessToken('123@email.com', '123');
+        setAccessToken(token);
       } catch (error) {
         setError(error.message);
       }
     }
 
-    fetchAccessToken();
+    fetchData();
   }, []);
 
   useEffect(() => {
-    async function fetchSinglePet() {
+    async function fetchPetData() {
       try {
-        const response = await fetch(`http://localhost:8000/pets/${petId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        if (accessToken && petId) {
+          const response = await axios.get(`http://localhost:8000/pets/${petId}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          
+          setPetInfo(response.data);
         }
-
-        const petData = await response.json();
-        setPetInfo(petData); // Set the pet data in the state
       } catch (error) {
         setError(error.message);
       }
     }
 
-    if (accessToken) {
-      fetchSinglePet();
-    }
-  }, [accessToken, petId]); // Trigger the effect when the access token or petId changes
+    fetchPetData();
+  }, [accessToken, petId]);
 
   if (error) {
     return <div>Error: {error}</div>;

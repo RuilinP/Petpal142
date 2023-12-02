@@ -12,6 +12,9 @@ function SinglePetInfo() {
   const [error, setError] = useState(null);
   const [accessToken, setAccessToken] = useState('');
   const { petId } = useParams();
+  const [processedList, setProcessedList] = useState([]);
+  const [classList, setClass] = useState([]);
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -65,6 +68,32 @@ function SinglePetInfo() {
 
     fetchShelterData();
   }, [accessToken, petInfo.shelter]);
+  useEffect(() => {
+    if (petInfo.gallery) {
+      const galleryItems = petInfo.gallery.split(',');
+      const listSize = 4;
+      const resultList = new Array(listSize).fill('').map((_, index) => {
+        return galleryItems[index % galleryItems.length];
+      });
+      const processedList = resultList.map(item => {
+        if (!item.includes('.')) {
+          return `//player.vimeo.com/video/${item}`;
+        }
+        return `/assets/images/shelter-uploads/${item}`;
+      });
+  
+      setProcessedList(processedList); 
+  
+      const processed = resultList.map(item => {
+        if (!item.includes('.')) {
+          return 'embed-responsive-item'; // Set class for video
+        }
+        return 'd-block'; // Set class for image
+      });
+  
+      setClass(processed); // Store class list
+    }
+  }, [petInfo.gallery]);
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -112,25 +141,18 @@ function SinglePetInfo() {
 					aria-label="Slide 4"></button>
 			</div>
 			<div className="carousel-inner">
-				<div className="carousel-item active">
-					<img src="/assets/images/shelter-uploads/lemur1.jpeg" className="d-block" alt="..."/>
-				</div>
-				<div className="carousel-item">
-					<img src="/assets/images/shelter-uploads/lemur2.jpeg" className="d-block" alt="..."/>
-				</div>
-				<div className="carousel-item">
-					{/* <!-- Embed YouTube Video --> */}
-					<div className="embed-responsive embed-responsive-16by9 video-container">
-						<iframe className="embed-responsive-item" src="//player.vimeo.com/video/863395004"></iframe>
-					</div>
-				</div>
-				<div className="carousel-item">
-					{/* <!-- Embed YouTube Video --> */}
-					<div className="embed-responsive embed-responsive-16by9 video-container">
-						<iframe className="embed-responsive-item" src="//player.vimeo.com/video/863395014"></iframe>
-					</div>
-				</div>
-			</div>
+  {processedList.map((item, index) => (
+    <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+      {classList[index] === 'embed-responsive-item' ? (
+        <div className="embed-responsive embed-responsive-16by9 video-container">
+          <iframe className="embed-responsive-item" src={item}></iframe>
+        </div>
+      ) : (
+        <img src={item} className="d-block" alt={`Slide ${index + 1}`} />
+      )}
+    </div>
+  ))}
+</div> 
 			<button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
 				data-bs-slide="prev">
 				<span className="carousel-control-prev-icon" aria-hidden="true"></span>

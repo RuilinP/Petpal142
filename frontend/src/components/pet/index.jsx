@@ -8,6 +8,7 @@ import { scrollToTop } from '../../assets/js/scroll';
 
 function SinglePetInfo() {
   const [petInfo, setPetInfo] = useState({});
+  const [shelterInfo, setShelterInfo] = useState({});
   const [error, setError] = useState(null);
   const [accessToken, setAccessToken] = useState('');
   const { petId } = useParams();
@@ -44,6 +45,26 @@ function SinglePetInfo() {
 
     fetchPetData();
   }, [accessToken, petId]);
+
+  useEffect(() => {
+    async function fetchShelterData() {
+      try {
+        if (accessToken && petInfo.shelter) { // Check if petInfo.shelter exists
+          const response = await axios.get(`http://localhost:8000/accounts/shelters/${petInfo.shelter}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          
+          setShelterInfo(response.data);
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    fetchShelterData();
+  }, [accessToken, petInfo.shelter]);
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -178,13 +199,13 @@ function SinglePetInfo() {
   <img src="assets/images/chihuahua.png" height="100" alt="" loading="lazy" />
 </div>
 
-								<h5 className="card-title text-center text-white">Annex Cat Rescue</h5>
-								<p className="card-text text-center text-white mb-4">Toronto, Ontario</p>
+								<h5 className="card-title text-center text-white">{shelterInfo.organization}</h5>
+								<p className="card-text text-center text-white mb-4">{shelterInfo.city}, {shelterInfo.state}</p>
 								<p className="card-text text-center text-white">
-									<a href="mailto:adoption@annexcatrescue.ca" className="text-white">adoption@annexcatrescue.ca</a>
+									<a href="mailto:adoption@annexcatrescue.ca" className="text-white">{shelterInfo.email}</a>
 								</p>
 								
-								<p className="card-text text-center text-white mb-5">☎ (416) 410-3835</p>
+								<p className="card-text text-center text-white mb-5">☎ {shelterInfo.phone_number}</p>
 								<ul className="list-group">
 									<li className="list-group-item border-0 bg-info text-center">
 										<a href="shelter-details.html" className="btn btn-dark">Shelter Page</a>

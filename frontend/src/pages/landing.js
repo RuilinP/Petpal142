@@ -9,15 +9,16 @@ class Landing extends React.Component {
     render() {
         return (
             <div>
-                <header>
-                    {/* Back to Top Button */}
-                    <div className="back-to-top-button">
-                        <button type="button" className="btn btn-secondary btn-sm" onClick={this.scrollToTop}> &#x2191; </button>
-                    </div>
+                <header className="bg-primary"> 
+                {/* Back to Top Button */}
+                <div className="back-to-top-button">
+                    <button type="button" className="btn btn-secondary btn-sm" onClick={this.scrollToTop}> &#x2191; </button>
+                </div>
 
+                <Container fluid className="p-0"> 
                     <Navbar expand="sm" bg="primary" variant="light">
-                        <Container>
-                            <Navbar.Brand href="landing.html">
+                        <Container fluid> 
+                            <Navbar.Brand href="/">
                                 <img className="logo d-inline-block ms-0" src="../assets/images/logo.png" alt="PetPal Logo" />
                             </Navbar.Brand>
                             <Navbar.Toggle aria-controls="navbarNav" />
@@ -30,7 +31,8 @@ class Landing extends React.Component {
                             </Navbar.Collapse>
                         </Container>
                     </Navbar>
-                </header>
+                </Container>
+            </header>
 
                 <main>
                 <div className="container-fluid p-0">

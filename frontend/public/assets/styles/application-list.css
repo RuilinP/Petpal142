@@ -1,0 +1,12 @@
+.application-thumbnail {
+    border-radius: 10px;
+    width: 75px;
+    height: 75px;
+    overflow: hidden;
+}
+
+.application-thumbnail img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

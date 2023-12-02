@@ -1,0 +1,192 @@
+/* Notif Icon active mode */
+@keyframes bellRing {
+    0% { transform: rotate(0); }
+    25% { transform: rotate(10deg); }
+    50% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0); }
+}
+
+
+.has-notifications {
+    animation: bellRing 2s infinite;
+}
+
+
+
+/* body headings */
+
+.section-heading {
+    padding: 1rem; 
+    background-color: #f0f0f0; 
+    border-radius: .2rem;
+    margin-bottom: 6rem;
+}
+
+/* Sub Nav Bar text color */
+#subNavbar {
+    background: #08418d;
+    color:#f0f0f0!important;
+}
+
+/* profile pic & statement */
+
+.profile-pic-container {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.profile-pic-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.statement-container {
+    max-width: 800px; 
+    width: 100%;
+}
+
+
+/* animals for adoption - Shelter Details Page */
+
+.animal-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+.animal-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.animal-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.animal-container:hover .animal-info {
+    opacity: 1;
+}
+
+/* ratings & reviews */
+
+.avgrating-container {
+    border-radius: 0.5rem;
+    padding: 1rem; 
+    margin: 2rem 0;
+    background-color: #f0f0f0; 
+}
+
+.rating-color{
+    color:#fbc634 !important;
+}
+
+.review-pic-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%; /* For circular picture container */
+}
+.review-pic-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* google map size */
+
+iframe {
+    width: 100%;
+    height: 350px;
+}
+
+
+
+/* shelter mgmt. animal pfp container */
+
+.animal-image-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.animal-image-container img {
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+/* notif page */
+
+#SystemNotif {
+    color: #08418d;
+    background: #8ebcf8;
+    border-radius: 0.3rem;
+}
+
+#ImportantNotif {
+    color: #761111;
+    background: #fab4b4;
+    border-radius: 0.3rem;
+}
+
+#PromoteNotif {
+    color: #ac740b;
+    background: #f3e7b8;
+    border-radius: 0.3rem;
+}
+
+.notification-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 3rem;  /* Adjust margin-bottom to create space between notifications */
+}
+
+.notification-container {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    width: 100%;  /* Make sure the container takes up the full width */
+}
+
+.delete-btn {
+    border: none;
+    background: none;
+    color: #CA1DC3;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.delete-btn.btn-bordered {
+    border: 1px solid #CA1DC3;
+    width: 30px;
+    height: 30px;
+    padding-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.delete-btn:focus {
+    outline: none;
+    box-shadow: none;
+}

@@ -1,0 +1,41 @@
+.login-signup-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 15px;
+}
+
+.login-signup-box {
+    background-image: url("../images/login-signup-background.png");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100%;
+    background-color: white;
+    border-radius: 6px;
+    padding: 30px;
+    padding-bottom: 300px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.multiple-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+@media screen and (max-width: 480px) {
+    .login-signup-box {
+        padding-bottom: 250px;
+    }
+}

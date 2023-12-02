@@ -3,10 +3,12 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PetList from './components/pets';
 import SinglePetInfo from './components/pet';
+import Landing from './pages/landing';
 
 function App() {
   return <BrowserRouter>
   <Routes>
+  <Route path="/" element={<Landing />} />
   <Route path="/pets/" element={<PetList />} />
   <Route path="/pets/:petId" element={<SinglePetInfo />} />
     {/* <Route path="/login/" exact element={<Login />} /> */}

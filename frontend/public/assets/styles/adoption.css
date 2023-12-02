@@ -1,0 +1,19 @@
+.adoption-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.adoption-photo {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.adoption-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

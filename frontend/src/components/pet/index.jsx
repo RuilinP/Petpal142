@@ -12,7 +12,7 @@ function SinglePetInfo() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const token = await fetchAccessToken('123@email.com', '123');
+        const token = await fetchAccessToken('ruilin@gmail.com', '123');
         setAccessToken(token);
       } catch (error) {
         setError(error.message);

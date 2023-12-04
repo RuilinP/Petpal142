@@ -9,6 +9,19 @@ function PetList() {
   const [accessToken, setAccessToken] = useState('');
   const [breed, setBreed] = useState('Any');
   const [age, setAge] = useState('Any');
+  const [status, setStatus] = useState('Available');
+
+  const handleStatusChange = (selectedStatus) => {
+    const statusArray = status.split(',');
+  
+    if (statusArray.includes(selectedStatus)) {
+      const updatedStatus = statusArray.filter((s) => s !== selectedStatus).join(',');
+      setStatus(updatedStatus);
+    } else {
+      const updatedStatus = status ? `${status},${selectedStatus}` : selectedStatus;
+      setStatus(updatedStatus);
+    }
+  };
 
   useEffect(() => {
     async function fetchAccessToken() {
@@ -41,7 +54,8 @@ function PetList() {
   useEffect(() => {
     async function fetchPets() {
       try {
-        const response = await fetch('http://localhost:8000/pets/', {
+        const url = `http://localhost:8000/pets${status ? `/?status=${status}` : ''}`;
+        const response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -61,7 +75,7 @@ function PetList() {
     if (accessToken) {
       fetchPets();
     }
-  }, [accessToken]); // Trigger the effect when the access token changes
+  }, [accessToken, status]); // Trigger the effect when the access token changes
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -78,7 +92,7 @@ function PetList() {
           <p className="card-text text-center">{pet.location}</p>
           <ul className="list-group">
             <li className="list-group-item border-0 bg-white text-center">
-              <a href="#" className="btn btn-dark">Learn more</a>
+              <a href={`/pets/${pet.id}`} className="btn btn-dark">Learn more</a>
             </li>
           </ul>
         </div>
@@ -120,34 +134,61 @@ function PetList() {
                 </Container>
             </header>
             <main>
-            {/* <div className="col mt-3">
-        <div className="form-group">
-          <label htmlFor="orderbreed" className="form-label fw-bold">Breed:</label>
-          <div className="dropdown">
-            <button
-              type="button"
-              id="orderbreed"
-              className="btn btn-dark dropdown-toggle"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              data-default-text={breed}
-            >
-              {breed}
-            </button>
-            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#" data-option="Any">Any</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Abyssinian">Abyssinian</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="American Bob">American Bobtail</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="American curl">American curl</a></li>
-                                <li>
-                                    <hr className="dropdown-divider"/>
-                                </li>
-                                <li><a className="dropdown-item" href="#" data-option="Balinese">Balinese</a></li>
-                            </ul>
-          </div>
-        </div>
-        
-      </div> */}
+            <div className="container">
+            <div className="row mb-3 p-3">
+            <div className="col mt-3">
+  <div className="form-group">
+    <label htmlFor="orderbreed" className="form-label fw-bold">Status:</label>
+    <div className="dropdown">
+      <div className="btn-group">
+        <button
+          type="button"
+          id="orderbreed"
+          className="btn btn-dark dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          data-default-text={status}
+        >
+          {status}
+        </button>
+        <ul className="dropdown-menu">
+  <li key="available">
+    <div className="form-check">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        value="Available"
+        id="availableCheckbox"
+        onChange={() => handleStatusChange('Available')}
+        checked={status.includes('Available')}
+      />
+      <label className="form-check-label" htmlFor="availableCheckbox">
+        Available
+      </label> 
+    </div>
+  </li>
+  <li key="adopted">
+    <div className="form-check">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        value="Adopted"
+        id="adoptedCheckbox"
+        onChange={() => handleStatusChange('Adopted')}
+        checked={status.includes('Adopted')}
+      />
+      <label className="form-check-label" htmlFor="adoptedCheckbox">
+        Adopted
+      </label>
+    </div>
+  </li>
+</ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+      </div>
 
 <div className="container mb-5">
     <div className="row row-cols-1 row-cols-md-3 g-4">

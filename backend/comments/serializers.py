@@ -19,7 +19,7 @@ class ReplySerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.email')
-    replies = ReplySerializer(many=True, read_only=True)
+    replies = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -28,3 +28,8 @@ class CommentSerializer(serializers.ModelSerializer):
             'object_id', 'content_type', 'replies'
         ]
         read_only_fields = ['author', 'created_at', 'object_id', 'content_type']
+
+    def get_replies(self, obj):
+        # Fetch only up to 4 replies for each comment
+        replies = obj.replies.all()[:4]
+        return ReplySerializer(replies, many=True, context=self.context).data

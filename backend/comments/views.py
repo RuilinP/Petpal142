@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 from .models import Comment
 from application.models import Application
 from accounts.models import Shelter, CustomUser
@@ -26,8 +27,20 @@ class ApplicationCommentDetailView(APIView):
                     status=status.HTTP_403_FORBIDDEN)
         
         comment = get_object_or_404(Comment, pk=comment_id)
-        serializer = CommentSerializer(comment)
-        return Response(serializer.data)
+        # Retrieve and paginate the replies
+        replies = comment.replies.all()
+        paginator = PageNumberPagination()
+        paginated_replies = paginator.paginate_queryset(replies, request)
+
+        # Serialize the paginated replies
+        serializer = ReplySerializer(paginated_replies, many=True, context={'request': request})
+
+        # Combine serialized comment with paginated replies
+        response_data = {
+            'comment': CommentSerializer(comment, context={'request': request}).data,
+            'replies': paginator.get_paginated_response(serializer.data).data
+        }
+        return Response(response_data)
 
     def post(self, request, application_id, comment_id):
         serializer = ReplySerializer(data=request.data, context={'request': request})
@@ -70,8 +83,13 @@ class ApplicationCommentListView(APIView):
         # filter for comments associated with the application
         content_type = ContentType.objects.get_for_model(Application)
         comments = Comment.objects.filter(content_type=content_type, object_id=application_id)
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
+
+        # Apply pagination
+        paginator = PageNumberPagination()
+        result_page = paginator.paginate_queryset(comments, request)
+        
+        serializer = CommentSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
     def post(self, request, application_id):
         serializer = CommentSerializer(data=request.data, context={'request': request})
@@ -105,8 +123,19 @@ class ShelterCommentDetailView(APIView):
         get_object_or_404(CustomUser, pk=request.user.id)
 
         comment = get_object_or_404(Comment, pk = comment_id)
-        serializer = CommentSerializer(comment)
-        return Response(serializer.data)
+        # Retrieve and paginate the replies
+        replies = comment.replies.all()
+        paginator = PageNumberPagination()
+        paginated_replies = paginator.paginate_queryset(replies, request)
+
+        # Serialize the paginated replies
+        serializer = ReplySerializer(paginated_replies, many=True, context={'request': request})
+        # Combine serialized comment with paginated replies
+        response_data = {
+            'comment': CommentSerializer(comment, context={'request': request}).data,
+            'replies': paginator.get_paginated_response(serializer.data).data
+        }
+        return Response(response_data)
 
     def post(self, request, shelter_id, comment_id):
         serializer = ReplySerializer(data=request.data, context={'request': request})
@@ -142,8 +171,13 @@ class ShelterCommentListView(APIView):
         # filter for comments made to the shelter
         content_type = ContentType.objects.get_for_model(Shelter)
         comments = Comment.objects.filter(object_id=shelter_id, content_type=content_type)
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
+
+        # Apply pagination
+        paginator = PageNumberPagination()
+        result_page = paginator.paginate_queryset(comments, request)
+        
+        serializer = CommentSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
     def post(self, request, shelter_id):
         serializer = CommentSerializer(data=request.data, context={'request': request})

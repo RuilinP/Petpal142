@@ -7,6 +7,8 @@ function PetList() {
   const [pets, setPets] = useState([]);
   const [error, setError] = useState(null);
   const [accessToken, setAccessToken] = useState('');
+  const [breed, setBreed] = useState('Any');
+  const [age, setAge] = useState('Any');
 
   useEffect(() => {
     async function fetchAccessToken() {
@@ -65,6 +67,29 @@ function PetList() {
     return <div>Error: {error}</div>;
   }
 
+  
+  function createPetCard(pet) {
+    return (
+      <div className="card h-100 bg-white">
+        <img src={`../assets/images/shelter-uploads/${pet.gallery.split(',')[0]}`} className="card-img-top" alt="..." />
+        <div className="card-body">
+          <h5 className="card-title fw-bold text-center text-dark">{pet.name}</h5>
+          <p className="card-text text-center">{pet.age} - {pet.breed}</p>
+          <p className="card-text text-center">{pet.location}</p>
+          <ul className="list-group">
+            <li className="list-group-item border-0 bg-white text-center">
+              <a href="#" className="btn btn-dark">Learn more</a>
+            </li>
+          </ul>
+        </div>
+        <div className="card-footer bg-info">
+          <small className="text-white">Last updated 1 min ago</small>
+        </div>
+      </div>
+    );
+  }
+
+
   return (
     <div className='bg-secondary'>
       <header className="bg-primary"> 
@@ -95,17 +120,21 @@ function PetList() {
                 </Container>
             </header>
             <main>
-            <div className="container">
-            <div className="row mb-3 p-3">
-                <div className="col mt-3">
-                    <div className="form-group">
-                        <label for="orderbreed" className="form-label fw-bold">Breed:</label>
-                        <div className="dropdown">
-                            <button type="button" id="orderbreed" className="btn btn-dark dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false" data-default-text="Any">
-                                Any
-                            </button>
-                            <ul className="dropdown-menu">
+            {/* <div className="col mt-3">
+        <div className="form-group">
+          <label htmlFor="orderbreed" className="form-label fw-bold">Breed:</label>
+          <div className="dropdown">
+            <button
+              type="button"
+              id="orderbreed"
+              className="btn btn-dark dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-default-text={breed}
+            >
+              {breed}
+            </button>
+            <ul className="dropdown-menu">
                                 <li><a className="dropdown-item" href="#" data-option="Any">Any</a></li>
                                 <li><a className="dropdown-item" href="#" data-option="Abyssinian">Abyssinian</a></li>
                                 <li><a className="dropdown-item" href="#" data-option="American Bob">American Bobtail</a></li>
@@ -115,217 +144,26 @@ function PetList() {
                                 </li>
                                 <li><a className="dropdown-item" href="#" data-option="Balinese">Balinese</a></li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-    
-                <div className="col mt-3">
-                    <div className="form-group">
-                        <label for="orderage" className="form-label fw-bold">Age:</label>
-                        <div className="dropdown">
-                            <button type="button" id="orderage" className="btn btn-dark dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false"  data-default-text="Any">
-                                Any
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#" data-option="Any">Any</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Kitten">Kitten</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Young">Young</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Adult">Adult</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Senior">Senior</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div className="col mt-3">
-                    <div className="form-group">
-                        <label for="ordersize" className="form-label fw-bold">Size:</label>
-                        <div className="dropdown">
-                            <button type="button" id="ordersize" className="btn btn-dark dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false"  data-default-text="Any">
-                                Any
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#" data-option="Any">Any</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="S">Small (0-6 lbs)</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="M">Medium (7-11 lbs)</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="L">Large (12-16 lbs)</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="XL">Extra Large (&gt;=17 lbs)</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div className="col mt-3">
-                    <div className="form-group">
-                        <label for="ordergender" className="form-label fw-bold">Gender:</label>
-                        <div className="dropdown">
-                            <button type="button" id="ordergender" className="btn btn-dark dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false"  data-default-text="Any">
-                                Any
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#" data-option="Any">Any</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="♂">Male</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="♀">Female</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div className="col mt-3">
-                    <div className="form-group">
-                        <label for="ordergender" className="form-label fw-bold">Color:</label>
-                        <div className="dropdown">
-                            <button type="button" id="ordergender" className="btn btn-dark dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false"  data-default-text="Any">
-                                Any
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#" data-option="Grey">Any</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Grey">Grey</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="White">White</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="G&W">Grey&White</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div className="col mt-3">
-                    <div className="form-group">
-                        <label for="ordergender" className="form-label fw-bold">Shelter:</label>
-                        <div className="dropdown">
-                            <button type="button" id="ordergender" className="btn btn-dark dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false" 
-                                 data-default-text="Any">
-                                Any
-                            </button>
-                            <ul className="dropdown-menu" id="dropdown1">
-                                <li> <label for="searchshelter" className="form-label mx-2">🔍 Search by shelter name</label>
-                                    <input type="text" className="form-control mx-2" id="searchshelter"
-                                        aria-label="Text input with dropdown button" placeholder="Input shelter name here"/>
-                                </li>
-                                <li>
-                                    <hr className="dropdown-divider"/>
-                                </li>
-                                <li><a className="dropdown-item" href="#" data-option="Any">Any</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="ACT">Annex Cat Rescue</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="AAS">Alberta Animal Service</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-    
-                <div className="col offset-md-4 mt-3">
-                    <div className="form-group">
-                        <label for="ordergender" className="form-label fw-bold">Sort by:</label>
-                        <div className="dropdown">
-    
-                            <button type="button" id="sortby" className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false" 
-                                data-default-text="Best Match">
-                                Best match
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#" data-option="Best match">Best match</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Newest">Newest addition</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Oldest">Oldest addition</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Nearest">Nearest</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Furthest">Furthest</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="A-Z">Name A-Z</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Z-A">Name Z-A</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Youngest">Young to Old</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Oldest">Old to Young</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Smallest">Small to Large</a></li>
-                                <li><a className="dropdown-item" href="#" data-option="Largest">Large to Small</a></li>
-                                </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-
-
-            <div id="filteredPetCards" style={{ display: 'none' }}></div>
-
-        <div className="container mb-5">
-            <div className="row row-cols-1 row-cols-md-3 g-4">
-                <div className="col" data-sort-value="Best match" data-last-updated="00000000000060">
-                    <div className="card h-100 bg-white">
-                        <img src="assets/images/shelter-uploads/cat1.jpeg" className="card-img-top" alt="..."/>
-                        <div className="card-body">
-                            <h5 className="card-title fw-bold text-center text-dark">RINGO</h5>
-                            <p className="card-text text-center"> Senior- Domestic Short Hair </p>
-                            <p className="card-text text-center"> 2km away </p>
-                            <ul className="list-group">
-                                <li className="list-group-item border-0 bg-white text-center">
-                                    <a href="#" className="btn btn-dark">Learn more</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="card-footer bg-info">
-                            <small className="text-white">Last updated 1 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div className="col" data-sort-value="Best match" data-last-updated="00000000000180">
-                    <div className="card h-100 bg-white">
-                        <img src="assets/images/shelter-uploads/cat2.jpeg" className="card-img-top" alt="..."/>
-                        <div className="card-body">
-                            <h5 className="card-title fw-bold text-center text-dark">WERTHER</h5>
-                            <p className="card-text text-center"> Adult- Domestic Short Hair </p>
-                            <p className="card-text text-center"> 2km away </p>
-                            <ul className="list-group">
-                                <li className="list-group-item border-0 bg-white text-center">
-                                    <a href="#" className="btn btn-dark">Learn more</a>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div className="card-footer bg-info">
-                            <small className="text-white">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div className="col" data-sort-value="Best match" data-last-updated="00000000000120">
-                    <div className="card h-100 bg-white">
-                        <img src="assets/images/shelter-uploads/cat3.jpeg" className="card-img-top" alt="..."/>
-                        <div className="card-body">
-                            <h5 className="card-title fw-bold text-center text-dark">LEMUR</h5>
-                            <p className="card-text text-center"> Senior- Domestic Short Hair </p>
-                            <p className="card-text text-center"> 2km away </p>
-                            <ul className="list-group">
-                                <li className="list-group-item border-0 bg-white text-center">
-                                    <a href="pet-detail.html" className="btn btn-dark">Learn more</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="card-footer bg-info">
-                            <small className="text-white">Last updated 2 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col" data-sort-value="Best match" data-last-updated="00000000000060">
-                    <div className="card h-100 bg-white">
-                        <img src="assets/images/shelter-uploads/cat4.jpeg" className="card-img-top" alt="..."/>
-                        <div className="card-body">
-                            <h5 className="card-title fw-bold text-center text-dark">BAGEL</h5>
-                            <p className="card-text text-center"> Adult- Domestic Short Hair </p>
-                            <p className="card-text text-center"> 2km away </p>
-                            <ul className="list-group">
-                                <li className="list-group-item border-0 bg-white text-center">
-                                    <a href="#" className="btn btn-dark">Learn more</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="card-footer bg-info">
-                            <small className="text-white">Last updated 1 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="no-result-message text-center mt-3" style={{ marginTop: '20px' }}>
-                <h1 className="fw-bold text-center">No results found.</h1>
-            </div>
+          </div>
         </div>
+        
+      </div> */}
+
+<div className="container mb-5">
+    <div className="row row-cols-1 row-cols-md-3 g-4">
+    {pets.map((pet, index) => (
+      <div className="col" key={index} data-sort-value="Best match" data-last-updated="00000000000060">
+        {createPetCard(pet)}
+      </div>
+    ))}
+  </div>
+  {pets.length === 0 && (
+    <div className="no-result-message text-center mt-3" style={{ marginTop: '20px' }}>
+      <h1 className="fw-bold text-center">No results found.</h1>
+    </div>
+  )}
+  </div>
+
             </main>
       
       <footer>

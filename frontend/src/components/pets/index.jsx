@@ -11,6 +11,7 @@ function PetList() {
   const [species, setSpecies] = useState('Any');
   const [size, setSize] = useState('Any');
   const [gender, setGender] = useState('Any');
+  const [sortOption, setSortOption] = useState('id');
 
   const ages = ['Any', 'Baby', 'Young', 'Adult', 'Senior'];
   const genders = ['Any', 'Male', 'Female'];
@@ -421,6 +422,40 @@ function PetList() {
     </div>
   </div>
 </div>
+
+<div className="col offset-md-4 mt-3">
+  <div className="form-group">
+    <label htmlFor="sortby" className="form-label fw-bold">
+      Sort by:
+    </label>
+    <div className="dropdown">
+      <button
+        type="button"
+        id="sortby"
+        className="btn btn-dark dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        data-default-text={sortOption}
+      >
+        {sortOption}
+      </button>
+      <ul className="dropdown-menu">
+        <li>
+          <a
+            className="dropdown-item"
+            href="#"
+            onClick={() => setSortOption('id')} // Set to 'id' for default sorting
+          >
+            Default match
+          </a>
+        </li>
+        {/* Add other sorting options here */}
+        {/* Remember to update the sorting parameter based on backend options */}
+      </ul>
+    </div>
+  </div>
+</div>
+
 
 </div>
       </div>

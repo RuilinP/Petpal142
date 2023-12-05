@@ -37,7 +37,7 @@ function SearchPets() {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/pets/?' + new URLSearchParams(formData), {
+            const response = await fetch('http://localhost:8000/pets/?' + + queryParams, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -224,16 +224,16 @@ function PetList() {
     <label htmlFor="orderbreed" className="form-label fw-bold">Species:</label>
     <div className="dropdown">
       <div className="btn-group">
-        <button
-          type="button"
-          id="orderbreed"
-          className="btn btn-dark dropdown-toggle"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          data-default-text={species === 'Any' ? 'Any' : 'Species'} // Update the displayed text to show the selected species
-        >
-          {species === 'Any' ? 'Any' : 'Species'}
-        </button>
+      <button
+  type="button"
+  id="orderbreed"
+  className="btn btn-dark dropdown-toggle"
+  data-bs-toggle="dropdown"
+  aria-expanded="false"
+  data-default-text={species === 'Any' ? 'Any' : species} // Update the displayed text to show the selected species
+>
+  {species === 'Any' ? 'Any' : species}
+</button>
         <ul className="dropdown-menu">
           <li key="any">
             <div className="form-check">

@@ -218,7 +218,7 @@ function PetCreationForm() {
 					<Form.Group controlId="shelter">
 						<Form.Label>Shelter:</Form.Label>
 						<Form.Control
-							type="text"
+							type="number"
 							name="shelter"
 							placeholder="shelter"
 							value={formData.shelter}
@@ -243,7 +243,6 @@ function PetCreationForm() {
 					<Button variant="secondary">
 						Cancel
 					</Button>
-					<p>{JSON.stringify(formData)}</p>
 				</Card.Footer>
 			</Form>
 		</Card >

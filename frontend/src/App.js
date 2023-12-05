@@ -13,6 +13,7 @@ import { UserProvider } from './contexts/UserContext';
 import NotFound from './pages/404';
 import ShelterReviews from './pages/CommentPages/shelterReviews';
 import CreatePet from './components/pet/create/CreatePet';
+import PetUpdate from './components/pets/update';
 
 function App() {
   return (
@@ -23,13 +24,12 @@ function App() {
           <Route path="/pets/" element={<PetList />} />
           <Route path="/pets/:petId" element={<SinglePetInfo />} />
           <Route path="/login/" element={<Login />} />
-          {/* ... other routes ... */}
           <Route path="/pet/create" element={<CreatePet />} />
           <Route path="/signup-shelter" element={<ShelterSignup />} />
           <Route path="/signup-seeker" element={<SeekerSignup />} />
-          <Route path="/search-pets" element={<SearchPets />} />
           <Route path="/shelters/:shelterId/comments/" element={<ShelterReviews />} />
-          <Route path="/404/" element={<NotFound />} />
+          <Route path="/search-pets" element={<SearchPets />} />
+          <Route path="/pet/update" element={<PetUpdate />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>

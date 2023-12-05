@@ -388,16 +388,16 @@ function PetList() {
     <label htmlFor="gender" className="form-label fw-bold">Gender:</label>
     <div className="dropdown">
       <div className="btn-group">
-        <button
-          type="button"
-          id="gender"
-          className="btn btn-dark dropdown-toggle"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          data-default-text={gender === 'Any' ? 'Any' : 'Gendergender'}
-        >
-          {gender === 'Any' ? 'Any' : 'Gender'}
-        </button>
+      <button
+  type="button"
+  id="gender"
+  className="btn btn-dark dropdown-toggle"
+  data-bs-toggle="dropdown"
+  aria-expanded="false"
+  data-default-text={gender === 'Any' ? 'Any' : gender}
+>
+  {gender === 'Any' ? 'Any' : gender}
+</button>
         <ul className="dropdown-menu">
           {genders.map((g) => (
             <li key={g}>

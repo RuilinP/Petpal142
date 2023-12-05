@@ -87,7 +87,7 @@ function PetList() {
           size !== 'Any' ? `&size=${size}` : ''
         }${age !== 'Any' ? `&age=${age}` : ''}${
           gender !== 'Any' ? `&gender=${gender}` : ''
-        }`;
+        }${sortOption !== 'id' ? `&sort=${sortOption}` : ''}`;
         const response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -107,7 +107,7 @@ function PetList() {
     if (accessToken) {
       fetchPets();
     }
-  }, [accessToken, status, species, size, age, gender]); // Trigger the effect when the access token changes
+  }, [accessToken, status, species, size, age, gender, sortOption]); // Trigger the effect when the access token changes
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -429,16 +429,16 @@ function PetList() {
       Sort by:
     </label>
     <div className="dropdown">
-      <button
-        type="button"
-        id="sortby"
-        className="btn btn-dark dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        data-default-text={sortOption}
-      >
-        {sortOption}
-      </button>
+    <button
+  type="button"
+  id="sortby"
+  className="btn btn-dark dropdown-toggle"
+  data-bs-toggle="dropdown"
+  aria-expanded="false"
+  data-default-text={sortOption}
+>
+  {sortOption === 'name' ? 'A-Z' : sortOption}
+</button>
       <ul className="dropdown-menu">
         <li>
           <a
@@ -449,8 +449,15 @@ function PetList() {
             Default match
           </a>
         </li>
-        {/* Add other sorting options here */}
-        {/* Remember to update the sorting parameter based on backend options */}
+        <li>
+          <a
+            className="dropdown-item"
+            href="#"
+            onClick={() => setSortOption('name')} // Set to 'id' for default sorting
+          >
+            A-Z
+          </a>
+        </li>
       </ul>
     </div>
   </div>

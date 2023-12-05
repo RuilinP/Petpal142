@@ -64,6 +64,7 @@ class PetListSearch(generics.ListAPIView):
         specie_param = self.request.query_params.get('specie')
         breed_param = self.request.query_params.get('breed')
         age_param = self.request.query_params.get('age')
+        size_param = self.request.query_params.get('size')
 
         queryset = Pet.objects.all().order_by(sort)
         if not status_param:
@@ -111,5 +112,12 @@ class PetListSearch(generics.ListAPIView):
             query_filter = Q()
             for gender in genders:
                 query_filter |= Q(gender=gender)
+            queryset = queryset.filter(query_filter)
+            
+        if size_param:
+            sizes = size_param.split(',')
+            query_filter = Q()
+            for size in sizes:
+                query_filter |= Q(size=size)  # Change 'size' to match your Pet model's field name for size
             queryset = queryset.filter(query_filter)
         return queryset

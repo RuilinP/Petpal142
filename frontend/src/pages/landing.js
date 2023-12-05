@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Navbar, Nav, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 class Landing extends React.Component {
     scrollToTop() {
@@ -26,7 +27,7 @@ class Landing extends React.Component {
                                 <Nav className="me-auto">
                                     <Nav.Link href="landing.html">Home</Nav.Link>
                                 </Nav>
-                                <Button variant="dark" size="sm" href="login.html" role="button" className="me-0">Login</Button>
+                                <Button variant="dark" size="sm" as={Link} to="/login" role="button" className="me-0">Login</Button>
                                 <Button variant="dark" size="sm" href="signup.html" role="button" className="ms-3">Signup</Button>
                             </Navbar.Collapse>
                         </Container>
@@ -44,7 +45,9 @@ class Landing extends React.Component {
                     <div className="d-none d-lg-inline text-start landing-top-image"><img className="image" src="assets/images/landing-top3.jpg" /></div>
                     <div className="d-lg-none landing-top-image"><img className="image" src="assets/images/landing-top1.png" /></div>
                 </div>
-                <div className="pt-3"><a className="btn btn-dark" href="pet-search.html" role="button">Search for a Pet</a></div>
+                <div className="pt-3">
+                    <Link to="/search-pets" className="btn btn-dark" role="button">Search for a Petr</Link>
+                </div>
             </div>
 
             <div className="d-flex align-items-stretch bg-primary">
@@ -52,7 +55,9 @@ class Landing extends React.Component {
                 <div className="p-5 d-flex flex-column justify-content-center">
                     <h1 className="pb-3">Looking to adopt a pet?</h1>
                     <p className="fs-5">Ready to bring a new furry friend into your life? Explore pet adoption! Find your perfect companion and provide a loving forever home to a pet in need. Start your journey today!</p>
-                    <div className="pt-3"><a className="btn btn-dark" href="signup-pet-seeker/signup-pet-seeker.html" role="button">Signup as a Pet Seeker</a></div>
+                    <div className="pt-3">
+                    <Link to="/signup-seeker" className="btn btn-dark" role="button">Signup as a Pet Seeker</Link>
+                    </div>
                 </div>
             </div>
 
@@ -60,7 +65,9 @@ class Landing extends React.Component {
                 <div className="p-5 d-flex flex-column justify-content-center">
                     <h1 className="pb-3">Looking to put a pet up for adoption?</h1>
                     <p className="fs-5">Seeking a loving home for your beloved pet? Consider pet adoption. Help your pet find a caring family that will cherish them as much as you do. Get started today!</p>
-                    <div className="pt-3"><a className="btn btn-dark" href="signup-pet-shelter/signup-pet-shelter.html" role="button">Signup as a Pet Shelter</a></div>
+                    <div className="pt-3">
+                        <Link to="/signup-shelter" className="btn btn-dark" role="button">Signup as a Pet Shelter</Link>
+                    </div>
                 </div>
                 <img className="d-none d-lg-inline-block landing-row-thumb img-responsive ms-auto" src="assets/images/landing-2.png" />
             </div>

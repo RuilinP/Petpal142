@@ -9,6 +9,8 @@ from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated,SAFE_METHODS
 from .permissions import IsShelterUser
 from rest_framework.response import Response
+from django.db.models import Case, When
+from django.db import models
 
 
 
@@ -56,6 +58,7 @@ class PetListSearch(generics.ListAPIView):
 
     def get_queryset(self):
         sort = self.request.query_params.get('sort', 'id')
+        
 
         name = self.request.query_params.get('name')
         shelter_param = self.request.query_params.get('shelter')
@@ -65,8 +68,29 @@ class PetListSearch(generics.ListAPIView):
         breed_param = self.request.query_params.get('breed')
         age_param = self.request.query_params.get('age')
         size_param = self.request.query_params.get('size')
-
-        queryset = Pet.objects.all().order_by(sort)
+        queryset = Pet.objects.all()
+        if sort == 'age':
+            age_ordering = Case(
+                When(age='Baby', then=0),
+                When(age='Young', then=1),
+                When(age='Adult', then=2),
+                When(age='Senior', then=3),
+                default=4,  # Any other value should come after the defined ones
+                output_field=models.IntegerField(),
+            )
+            queryset = queryset.order_by(age_ordering)
+        elif sort == 'size':
+            size_ordering = Case(
+                When(size='Small', then=0),
+                When(size='Medium', then=1),
+                When(size='Large', then=2),
+                default=3,  # Any other value should come after the defined ones
+                output_field=models.IntegerField(),
+            )
+            queryset = queryset.order_by(size_ordering)
+        else:
+            queryset = Pet.objects.all().order_by(sort)
+        # queryset = Pet.objects.all().order_by(sort)
         if not status_param:
             status_param = 'Available'  
             queryset = queryset.filter(status=status_param)

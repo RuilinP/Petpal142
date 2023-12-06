@@ -28,7 +28,7 @@ class ApplicationCommentDetailView(APIView):
         
         comment = get_object_or_404(Comment, pk=comment_id)
         # Retrieve and paginate the replies
-        replies = comment.replies.all()
+        replies = comment.replies.all().order_by('-created_at')
         paginator = PageNumberPagination()
         paginated_replies = paginator.paginate_queryset(replies, request)
 
@@ -124,7 +124,7 @@ class ShelterCommentDetailView(APIView):
 
         comment = get_object_or_404(Comment, pk = comment_id)
         # Retrieve and paginate the replies
-        replies = comment.replies.all()
+        replies = comment.replies.all().order_by('-created_at')
         paginator = PageNumberPagination()
         paginated_replies = paginator.paginate_queryset(replies, request)
 

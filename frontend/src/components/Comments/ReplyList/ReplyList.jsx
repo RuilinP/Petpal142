@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CommentThreads from "./CommentThreads";
+import ReplyThreads from './ReplyThreads';
 
 function FlipPage(action) {
     // scroll to top
@@ -9,17 +9,18 @@ function FlipPage(action) {
     action();
 }
 
-function CommentList({shelterId, applicationId}) {
+function ReplyList({shelterId, applicationId, commentId}) {
     const [query, setQuery] = useState({ page: 1 });
     const [totalPages, setTotalPages] = useState(1);
-    const [comments, setComments] = useState([]);
+    const [replies, setReplies] = useState([]);
+    const [comment, setComment] = useState([]);
     const [shelterEmail, setShelterEmail] = useState({});
     const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
         const { page } = query;
-        const handleNewComment = () => {
-            fetch(`http://localhost:8000/shelters/${shelterId}/comments/?page=${page}`, {
+        const handleNewReply = () => {
+            fetch(`http://localhost:8000/shelters/${shelterId}/comments/${commentId}/?page=${page}`, {
                 method: 'GET',
                 headers: {
                   'Authorization': `Bearer ${accessToken}`
@@ -27,17 +28,18 @@ function CommentList({shelterId, applicationId}) {
               })
                 .then(response => response.json())
                 .then(json => {
-                    setComments(json.results);
-                    setTotalPages(Math.ceil(json.count / 10)); // page size
+                    setComment(json.comment);
+                    setReplies(json.replies.results);
+                    setTotalPages(Math.ceil(json.replies.count / 10)); // page size
                 });
         };
 
-        handleNewComment();
+        handleNewReply();
 
-        window.addEventListener('commentPosted', handleNewComment);
+        window.addEventListener('replyPosted', handleNewReply);
 
         return () => {
-            window.removeEventListener('commentPosted', handleNewComment);
+            window.removeEventListener('replyPosted', handleNewReply);
         };
     }, [query]);
 
@@ -76,7 +78,7 @@ function CommentList({shelterId, applicationId}) {
     
     return (
         <>
-            <CommentThreads comments={comments} relevant_shelterEmail={shelterEmail} />
+            <ReplyThreads replies={replies} comment={comment} relevant_shelterEmail={shelterEmail} />
             <div className="d-flex justify-content-center col-12 mt-4">
                 {query.page > 1 && (
                     <button className='btn btn-dark' onClick={() => FlipPage(() => setQuery({ ...query, page: query.page - 1 }))}>
@@ -94,4 +96,4 @@ function CommentList({shelterId, applicationId}) {
     );
 }
 
-export default CommentList;
+export default ReplyList;

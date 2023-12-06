@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import RatingStars from './RatingStars';
-import CommentAvatar from './CommentAvatar';
+import React from 'react';
+import RatingStars from '../RatingStars';
+import CommentAvatar from '../CommentAvatar';
 
 
 function CommentThreads({ comments, relevant_shelterEmail }) {
@@ -12,7 +12,7 @@ function CommentThreads({ comments, relevant_shelterEmail }) {
         if (comment.author === reply.author) {
             replyClass = 'aReply';
             replyText = 'Author Reply';
-        } else if (reply.author === relevant_shelterEmail) {
+        } else if (reply.author === relevant_shelterEmail[2]) {
             replyClass = 'sReply';
             replyText = 'Shelter Reply';
         }

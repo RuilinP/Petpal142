@@ -8,8 +8,9 @@ import Login from './components/login'
 import ShelterSignup from './components/ShelterSignup'
 import SeekerSignup from './components/SeekerSignup';
 import SearchPets from './components/Searchpets';
-import ShelterReviews from './pages/CommentPages/ShelterCommentPage';
 import { UserProvider } from './contexts/UserContext';
+import ShelterCommentPage from './pages/CommentPages/ShelterCommentPage';
+import ShelterCommentDetails from './pages/CommentPages/ShelterCommentDetailsPage';
 import NotFound from './pages/404';
 import CreatePet from './components/pet/create/CreatePet';
 import PetUpdate from './components/pets/update';
@@ -31,13 +32,14 @@ function App() {
           <Route path="/pet/create" element={<CreatePet />} />
           <Route path="/signup-shelter" element={<ShelterSignup />} />
           <Route path="/signup-seeker" element={<SeekerSignup />} />
-          <Route path="/shelters/:shelterId/comments/" element={<ShelterReviews />} />
           <Route path="/search-pets" element={<SearchPets />} />
           <Route path="/pet/update" element={<PetUpdate />} />
           <Route path="/pet/adoption" element={<AdoptionApplicationForm />} />
           <Route path="/pet/application-list" element={<ApplicationList />} />
           <Route path="/pet/application" element={<Application petId={1} />} />
           <Route path="/application/comments" element={<ApplicationCommentPage applicationID={1} />} />
+          <Route path="/shelters/:shelterId/comments/" element={<ShelterCommentPage/>} />
+          <Route path="/shelters/:shelterId/comments/:commentId" element={<ShelterCommentDetails/>} />
           <Route path="/404/" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -17,6 +17,7 @@ import AdoptionApplicationForm from './components/pet/adoption/AdoptionApplicati
 import ApplicationList from './components/pet/adoption/ApplicationList';
 import Application from './components/pet/adoption/Application';
 import ApplicationCommentPage from './pages/CommentPages/ApplicationCommentPage';
+import ApplicationCommentDetails from './pages/CommentPages/ApplicationCommentDetailsPage';
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
           <Route path="/application/comments" element={<ApplicationCommentPage applicationID={1} />} />
           <Route path="/shelters/:shelterId/comments/" element={<ShelterCommentPage/>} />
           <Route path="/shelters/:shelterId/comments/:commentId" element={<ShelterCommentDetails/>} />
+          <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage/>} />
+          <Route path="/applications/:applicationId/comments/:commentId" element={<ApplicationCommentDetails/>} />
           <Route path="/404/" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

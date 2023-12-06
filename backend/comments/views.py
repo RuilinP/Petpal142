@@ -58,7 +58,7 @@ class ApplicationCommentDetailView(APIView):
 
             # save the new reply with the comment related to the application
             serializer.save(comment=comment, content_object=content_object, 
-                            author = author,
+                            author = author, author_id_record = author.id, author_is_seeker = hasattr(author, 'seeker'),
                             object_id=application_id, content_type=content_type)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -106,7 +106,7 @@ class ApplicationCommentListView(APIView):
 
                 
             serializer.save(content_object=content_object, 
-                            author = author,
+                            author = author, author_id_record = author.id, author_is_seeker = hasattr(author, 'seeker'),
                             object_id=application_id, content_type=content_type)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -152,7 +152,7 @@ class ShelterCommentDetailView(APIView):
             author = get_object_or_404(CustomUser, pk=request.user.id)            
             # save the new reply with the comment related to the application
             serializer.save(comment=comment, content_object=content_object, 
-                            author = author,
+                            author = author, author_id_record = author.id, author_is_seeker = hasattr(author, 'seeker'),
                             object_id=shelter_id, content_type=content_type)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -183,9 +183,10 @@ class ShelterCommentListView(APIView):
         serializer = CommentSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             content_type = ContentType.objects.get_for_model(Shelter)
+            author = get_object_or_404(CustomUser, pk=request.user.id)
             serializer.save(content_object=get_object_or_404(Shelter, pk=shelter_id), 
-                            object_id=shelter_id, content_type=content_type, 
-                            author = get_object_or_404(CustomUser, pk=request.user.id))
+                            object_id=shelter_id, content_type=content_type, author_is_seeker = hasattr(author, 'seeker'),
+                            author = author, author_id_record = author.id,)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

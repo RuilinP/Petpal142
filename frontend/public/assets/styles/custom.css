@@ -12,7 +12,11 @@
     animation: bellRing 2s infinite;
 }
 
-
+/* main white container */
+.white-container {
+    background: white;
+    border-radius: 0.25rem;
+}
 
 /* body headings */
 
@@ -81,13 +85,6 @@
 }
 
 /* ratings & reviews */
-
-.avgrating-container {
-    border-radius: 0.5rem;
-    padding: 1rem; 
-    margin: 2rem 0;
-    background-color: #f0f0f0; 
-}
 
 .rating-color{
     color:#fbc634 !important;
@@ -160,6 +157,7 @@ iframe {
 }
 
 .notification-container {
+    position: relative;
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
@@ -167,6 +165,9 @@ iframe {
 }
 
 .delete-btn {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
     border: none;
     background: none;
     color: #CA1DC3;
@@ -183,7 +184,6 @@ iframe {
     align-items: center;
     justify-content: center;
     border-radius: 0.25rem;
-    margin-top: 0.5rem;
 }
 
 .delete-btn:focus {

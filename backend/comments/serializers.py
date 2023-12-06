@@ -11,10 +11,10 @@ class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reply
         fields = [
-            'id', 'text', 'author', 'created_at', 'comment',
+            'id', 'text', 'author', 'author_id_record', 'author_is_seeker', 'created_at', 'comment',
             'object_id', 'content_type'
         ]
-        read_only_fields = ['author', 'comment', 'created_at', 'object_id', 'content_type']
+        read_only_fields = ['author', 'author_id_record', 'author_is_seeker', 'comment', 'created_at', 'object_id', 'content_type']
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -24,10 +24,10 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
-            'id', 'rating', 'text', 'author', 'created_at', 
+            'id', 'rating', 'text', 'author', 'author_id_record', 'author_is_seeker', 'created_at', 
             'object_id', 'content_type', 'replies'
         ]
-        read_only_fields = ['author', 'created_at', 'object_id', 'content_type']
+        read_only_fields = ['author', 'author_id_record', 'author_is_seeker', 'created_at', 'object_id', 'content_type']
 
     def get_replies(self, obj):
         # Fetch only up to 4 replies for each comment

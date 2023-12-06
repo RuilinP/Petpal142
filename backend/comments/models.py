@@ -16,6 +16,8 @@ class Comment(models.Model):
 
     rating = models.IntegerField(choices=RATING_CHOICES)
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    author_id_record = models.PositiveIntegerField()
+    author_is_seeker = models.BooleanField(default=True)
     text = models.TextField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -37,6 +39,8 @@ class Comment(models.Model):
 class Reply(models.Model):
 
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    author_id_record = models.PositiveIntegerField()
+    author_is_seeker = models.BooleanField(default=True)
     comment = models.ForeignKey(Comment, related_name='replies', on_delete=models.CASCADE)
     text = models.TextField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)

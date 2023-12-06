@@ -1,0 +1,163 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+$primary: #D18EFA;
+$dark: #CA1DC3;
+$secondary: #C6C4C4;
+$info: #050593;
+$input-border-color: #919191;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap/scss/_navbar";
+@import "../node_modules/bootstrap/scss/_dropdown";
+
+// Then add additional custom code here
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Reddit Sans', sans-serif;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    padding: 1rem;
+    background-color: $primary;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+footer p {
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    margin-bottom: 0;
+}
+
+.btn-outline-primary {
+    background-color: white;
+    border-color: #ba4bff;
+    color: #ba4bff;
+}
+
+.logo {
+    width: 100px;
+}
+
+.chat-scroll {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.masthead {
+    background-image: url("assets/images/header-image.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.masthead-title {
+    text-shadow: 2px 2px black;
+}
+
+.carousel-item {
+    background: #000;
+    justify-content: center;
+}
+
+.carousel-inner img {
+    display: block;
+    margin: auto;
+    min-height: 220px;
+    max-height: 220px;
+    width: auto;
+}
+
+.embed-responsive {
+    margin-bottom: 20px;
+}
+
+.video-container {
+    height: 200px;
+    /* Set the desired height here */
+    overflow: hidden;
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card {
+    width: 95%;
+}
+
+.filterspacing {
+    margin-right: 5px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+#card2 {
+    width: 100%;
+}
+
+// #characteristics {
+//     height: 100px;
+//     padding-top: 0;
+// }
+
+
+
+#dropdown1 {
+    width: 400px;
+}
+
+#searchshelter {
+    width: 70%;
+}
+
+.square {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    border: 8px solid black;
+}
+
+.square img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.btn-outline-dark {
+    color: #555;
+    border-color: #555; 
+}

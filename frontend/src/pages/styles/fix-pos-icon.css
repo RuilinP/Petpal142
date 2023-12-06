@@ -1,0 +1,23 @@
+
+/* Notif Icon on Small Screen */
+.notif-icon {
+    position: fixed;
+    right: 0;
+    bottom: 3.3rem;
+    z-index: 1030; /* Higher than Bootstrap's navbar z-index */
+}
+
+.notif-icon a {
+    text-decoration: none;
+}
+
+
+/* Back to Top Icon */
+.back-to-top-button {
+    position: fixed;
+    right: 0.42rem;
+    bottom: 1rem;
+    z-index: 1030;
+    opacity: 0.7;
+}
+

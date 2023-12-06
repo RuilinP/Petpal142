@@ -8,10 +8,12 @@ import Login from './components/login'
 import ShelterSignup from './components/ShelterSignup'
 import SeekerSignup from './components/SeekerSignup';
 import SearchPets from './components/Searchpets';
-import ShelterReviews from './pages/CommentPages/shelterReviews';
+import ShelterReviews from './pages/CommentPages/ShelterCommentPage';
+import { UserProvider } from './contexts/UserContext';
 
 function App() {
   return (
+    <UserProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -24,6 +26,7 @@ function App() {
         <Route path="/shelters/:shelterId/comments/" element={<ShelterReviews/>} />
       </Routes>
     </BrowserRouter>
+    </UserProvider>
   );
 }
 

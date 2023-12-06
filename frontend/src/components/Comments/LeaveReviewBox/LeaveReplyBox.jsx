@@ -78,8 +78,8 @@ function LeaveReplyBox({ shelterId, applicationId, commentId }) {
                 <textarea name="message" id="message" cols="30" rows="5" className="form-control" value={review.message} onChange={handleChange} required></textarea>
             </div>
             <div className="form-inline">
-                <input type="checkbox" name="termsAccepted" id="checkbx" className="mr-1" checked={review.termsAccepted} onChange={handleChange} required />
-                <label htmlFor="checkbx">I have read and agree to the terms and conditions & privacy policy.</label>
+                <input type="checkbox" name="termsAccepted" id="checkbx" checked={review.termsAccepted} onChange={handleChange} required />
+                <label htmlFor="checkbx" className="ms-1" >I have read and agree to the terms and conditions & privacy policy.</label>
             </div>
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
             {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}

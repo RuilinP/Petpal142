@@ -4,6 +4,7 @@ import { fetchAccessToken, fetchSinglePet } from '../../ajax'; // Assuming ajax.
 import axios from 'axios'; 
 import { Button, Navbar, Nav, Container } from 'react-bootstrap';
 import { scrollToTop } from '../../assets/js/scroll';
+import { useNavigate } from 'react-router-dom';
 
 
 function SinglePetInfo() {
@@ -14,6 +15,7 @@ function SinglePetInfo() {
   const { petId } = useParams();
   const [processedList, setProcessedList] = useState([]);
   const [classList, setClass] = useState([]);
+  const navigate = useNavigate();
   
 
   useEffect(() => {
@@ -33,7 +35,7 @@ function SinglePetInfo() {
     async function fetchPetData() {
       try {
         if (accessToken && petId) {
-          const response = await axios.get(`http://localhost:8000/pets/${petId}`, {
+          const response = await axios.get(`http://192.168.2.75:8000/pets/${petId}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -42,7 +44,7 @@ function SinglePetInfo() {
           setPetInfo(response.data);
         }
       } catch (error) {
-        setError(error.message);
+        navigate('/404');
       }
     }
 
@@ -53,7 +55,7 @@ function SinglePetInfo() {
     async function fetchShelterData() {
       try {
         if (accessToken && petInfo.shelter) { // Check if petInfo.shelter exists
-          const response = await axios.get(`http://localhost:8000/accounts/shelters/${petInfo.shelter}`, {
+          const response = await axios.get(`http://192.168.2.75:8000/accounts/shelters/${petInfo.shelter}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

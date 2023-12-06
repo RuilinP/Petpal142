@@ -81,6 +81,8 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True  # If your frontend sends requests with credentials
 
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '192.168.2.75']
+
 # Allow specific methods and headers if needed
 CORS_ALLOW_METHODS = [
     'DELETE',

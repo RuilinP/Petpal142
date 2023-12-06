@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Navbar, Nav, Container } from 'react-bootstrap';
 import { scrollToTop } from '../../assets/js/scroll';
+import { useNavigate } from 'react-router-dom';
+
 
 function PetList() {
   const [pets, setPets] = useState([]);
@@ -20,6 +22,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
   const ages = ['Any', 'Baby', 'Young', 'Adult', 'Senior'];
   const genders = ['Any', 'Male', 'Female'];
   const sizes = ['Any', 'Small', 'Medium', 'Large'];
+  const navigate = useNavigate();
 
   const handleStatusChange = (selectedStatus) => {
     if (
@@ -57,7 +60,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
   useEffect(() => {
     async function fetchAccessToken() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/token/', {
+        const response = await fetch('http://192.168.2.75:8000/api/token/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -85,7 +88,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
   useEffect(() => {
     async function fetchPets() {
       try {
-        const url = `http://localhost:8000/pets${
+        const url = `http://192.168.2.75:8000/pets${
           status ? `/?status=${status}` : ''
         }${species !== 'Any' ? `&specie=${species}` : ''}${
           size !== 'Any' ? `&size=${size}` : ''
@@ -98,7 +101,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
           },
         });
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          navigate('/404');
         }
 
         const petData = await response.json();
@@ -199,7 +202,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
   
   const fetchPetsByPage = async (pageNumber) => {
     try {
-      const url = `http://localhost:8000/pets?page=${pageNumber}${
+      const url = `http://192.168.2.75:8000/pets?page=${pageNumber}${
         status ? `&status=${status}` : ''
       }${species !== 'Any' ? `&specie=${species}` : ''}${
         size !== 'Any' ? `&size=${size}` : ''

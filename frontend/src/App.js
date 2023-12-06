@@ -11,6 +11,8 @@ import SearchPets from './components/Searchpets';
 import { UserProvider } from './contexts/UserContext';
 import ShelterCommentPage from './pages/CommentPages/ShelterCommentPage';
 import ShelterCommentDetails from './pages/CommentPages/ShelterCommentDetailsPage';
+import NotFound from './pages/404';
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
         <Route path="/search-pets" element={<SearchPets/>} />
         <Route path="/shelters/:shelterId/comments/" element={<ShelterCommentPage/>} />
         <Route path="/shelters/:shelterId/comments/:commentId" element={<ShelterCommentDetails/>} />
+        <Route path="/404/" element={<NotFound/>} />
       </Routes>
     </BrowserRouter>
     </UserProvider>

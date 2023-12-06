@@ -4,3 +4,78 @@
 
 # 1. All the packages you need to install
 # 2. How to configure various servers (e.g., Nginx, Apache, etc)
+
+Assume that a Ubuntu 22.04.6 LTS server is freshly installed.
+Mine for testing:
+
+ruilin@ubuntu:/etc/netplan$ neofetch
+            .-/+oossssoo+/-.               ruilin@ubuntu 
+        `:+ssssssssssssssssss+:`           ------------- 
+      -+ssssssssssssssssssyyssss+-         OS: Ubuntu 20.04.6 LTS aarch64 
+    .ossssssssssssssssssdMMMNysssso.       Host: Raspberry Pi 4 Model B Rev 1.2 
+   /ssssssssssshdmmNNmmyNMMMMhssssss/      Kernel: 5.4.0-1098-raspi 
+  +ssssssssshmydMMMMMMMNddddyssssssss+     Uptime: 5 hours, 40 mins 
+ /sssssssshNMMMyhhyyyyhmNMMMNhssssssss/    Packages: 722 (dpkg), 4 (snap) 
+.ssssssssdMMMNhsssssssssshNMMMdssssssss.   Shell: bash 5.0.17 
++sssshhhyNMMNyssssssssssssyNMMMysssssss+   Terminal: /dev/pts/0 
+ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: BCM2835 (4) @ 1.500GHz 
+ossyNMMMNyMMhsssssssssssssshmmmhssssssso   Memory: 237MiB / 3791MiB 
++sssshhhyNMMNyssssssssssssyNMMMysssssss+
+.ssssssssdMMMNhsssssssssshNMMMdssssssss.                           
+ /sssssssshNMMMyhhyyyyhdNMMMNhssssssss/                            
+  +sssssssssdmydMMMMMMMMddddyssssssss+
+   /ssssssssssshdmNNNNmyNMMMMhssssss/
+    .ossssssssssssssssssdMMMNysssso.
+      -+sssssssssssssssssyyyssss+-
+        `:+ssssssssssssssssss+:`
+            .-/+oossssoo+/-.
+
+
+
+1. Internet
+The first step is to connect to the internet.
+Either through an ethernet cable or netplan if wireless
+-----------------------------
+sudo nano 50-cloud-init.yaml |
+------------------------------
+=========================================================
+#edit it this way
+network:
+    version: 2
+    wifis:
+        wlan0:
+            optional: true
+            access-points:
+                "{SSID}":
+                    password: "{password}"
+            dhcp4: true
+=========================================================
+-------------------------------------------------------------------
+sudo netplan -debug generate #to fix errors in 50-cloud-init.yaml |
+sudo reboot                                                       |
+-------------------------------------------------------------------
+After reboot
+---------------------------
+ip a                      |
+---------------------------
+to check the local ip address which can be used to ssh or api call later.
+To be accessible beyong the LAn the server is connected, port forwarding and firewall options
+need to be edited on the configuration of the router.
+
+
+
+2. Setup
+
+After connected to the internet,
+-----------------------------
+sudo apt update              |
+sudo apt upgrade             |
+sudo apt install pip3        |
+sudo apt install python3-venv|
+sudo pip3 install mod-wsgi   |
+------------------------------
+like in any debian distro for basic setup(local development server)
+To install Apche
+--------------------------------------------------------------------------------
+sudo apt-get install apache2 apache2-dev apache2-utils libapache2-mod-wsgi-py3 |
+--------------------------------------------------------------------------------

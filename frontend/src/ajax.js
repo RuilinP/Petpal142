@@ -1,5 +1,5 @@
 // ajax.js
-const BASE_URL = 'http://localhost:8000'; 
+const BASE_URL = 'http://192.168.2.75:8000'; 
 
 export async function fetchAccessToken(email, password) {
   try {

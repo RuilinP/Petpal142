@@ -59,6 +59,8 @@ After reboot
 ip a                      |
 ---------------------------
 to check the local ip address which can be used to ssh or api call later.
+To be accessible beyong the LAn the server is connected, port forwarding and firewall options
+need to be edited on the configuration of the router.
 
 
 

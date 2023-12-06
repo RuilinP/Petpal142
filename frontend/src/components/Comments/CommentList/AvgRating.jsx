@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import RatingStars from './RatingStars';
+import RatingStars from '../RatingStars';
 
 const AverageRating = ({ shelterId }) => {
     

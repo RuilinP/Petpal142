@@ -62,6 +62,8 @@ function LeaveReplyBox({ shelterId, applicationId, commentId }) {
                 message: '',
                 termsAccepted: false
             });
+            const event = new Event('replyPosted');
+            window.dispatchEvent(event);
         })
         .catch(error => {
             // Handle errors in submission

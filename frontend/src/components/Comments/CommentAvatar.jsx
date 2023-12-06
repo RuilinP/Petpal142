@@ -31,10 +31,13 @@ const CommentAvatar = ({ comment }) => {
     };
 
     useEffect(() => {
-        fetchProfileImage(comment.author_id_record, comment.author_is_seeker)
-            .then(url => setProfileImageUrl(url))
-            .catch(error => console.error('Error fetching image:', error));
-    }, [comment.author_id_record, comment.author_is_seeker]);
+        if (comment !== 'undefined') {
+            fetchProfileImage(comment.author_id_record, comment.author_is_seeker)
+                .then(url => setProfileImageUrl(url))
+                .catch(error => console.error('Error fetching image:', error));
+        }
+
+    }, [comment.author_id_record]);
 
     return (
             <img className="review-page-pfp rounded-circle shadow-1-strong me-3" 

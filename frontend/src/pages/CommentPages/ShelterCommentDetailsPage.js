@@ -1,15 +1,14 @@
 import { useParams } from 'react-router-dom';
-import LeaveCommentBox from '../../components/Comments/LeaveReviewBox/LeaveCommentBox'; 
 import '../styles/reviews.css'
 import '../styles/custom.css'
 import '../styles/main.css'
 import '../styles/daterangepicker-bs3.css'
 import '../styles/fix-pos-icon.css'
-import CommentList from '../../components/Comments/CommentList/CommentList';
-import AverageRating from '../../components/Comments/CommentList/AvgRating';
+import LeaveReplyBox from '../../components/Comments/LeaveReviewBox/LeaveReplyBox';
+import ReplyList from '../../components/Comments/ReplyList/ReplyList';
 
-function ShelterCommentPage() {
-    const { shelterId } = useParams();
+function ShelterCommentDetails() {
+    const { shelterId, commentId } = useParams();
 
     return (
         <main>
@@ -17,17 +16,15 @@ function ShelterCommentPage() {
 
                 <section id="reviews" className="my-5">
                     <div className="section-heading mb-4">
-                        <h2>Shelter Reviews</h2>
+                        <h2>Comment Details</h2>
                     </div>
-
-                    <AverageRating shelterId={shelterId} />
 
                     <div className="container">
                         <div id="reviewBody" className="row d-flex justify-content-center">
                             <div className="col-lg-10 col-12 pb-4">
 
-                            <LeaveCommentBox shelterId={shelterId} />
-                            <CommentList shelterId={shelterId}/>
+                            <LeaveReplyBox shelterId={shelterId} commentId={commentId} />
+                            <ReplyList commentId={commentId} shelterId={shelterId}/>
 
                             </div>
                         </div>
@@ -39,4 +36,4 @@ function ShelterCommentPage() {
     );
 }
 
-export default ShelterCommentPage;
+export default ShelterCommentDetails;

@@ -87,7 +87,7 @@ class SeekerRetrieveUpdatePermission(BasePermission):
 
 class SeekerRetrieveUpdateView(RetrieveUpdateAPIView):
     serializer_class = SeekerSerializer
-    permission_classes = [SeekerRetrieveUpdatePermission]
+    permission_classes = [ShelterRetrieveUpdatePermission]
 
     def get_object(self):
         return get_object_or_404(Seeker, id=self.kwargs['pk'])

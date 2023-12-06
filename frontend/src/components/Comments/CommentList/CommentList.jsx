@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CommentThreads from "./CommentThreads";
+import { useNavigate } from 'react-router-dom';
 
 function FlipPage(action) {
     // scroll to top
@@ -15,6 +16,7 @@ function CommentList({shelterId, applicationId}) {
     const [comments, setComments] = useState([]);
     const [shelterEmail, setShelterEmail] = useState({});
     const accessToken = localStorage.getItem('accessToken');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const { page } = query;
@@ -49,7 +51,8 @@ function CommentList({shelterId, applicationId}) {
 
     const fetchShelterEmail = () => {
             if (applicationId) {
-                fetch(`http://localhost:8000/applications/${applicationId}`, {
+                try {
+                    fetch(`http://localhost:8000/applications/${applicationId}`, {
                     method: 'GET',
                     headers: {
                       'Authorization': `Bearer ${accessToken}`
@@ -59,17 +62,28 @@ function CommentList({shelterId, applicationId}) {
                     .then(data => {
                         setShelterEmail(prev => ({ ...prev, [applicationId]: data.shelter.email }));
                     });
+                }
+                catch {
+                    navigate('/404');
+                }
+
             } else if (shelterId) { 
-                fetch(`http://localhost:8000/accounts/shelters/${shelterId}`, {
-                    method: 'GET',
-                    headers: {
-                      'Authorization': `Bearer ${accessToken}`
-                    }
-                  })
-                .then(response => response.json())
-                .then(data => {
-                    setShelterEmail(prev => ({ ...prev, [shelterId]: data.email }));
-                });
+                try {
+                    fetch(`http://localhost:8000/accounts/shelters/${shelterId}`, {
+                        method: 'GET',
+                        headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        setShelterEmail(prev => ({ ...prev, [shelterId]: data.email }));
+                    });
+                }
+                catch {
+                    navigate('/404');
+                }
+
             }
     };
 

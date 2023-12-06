@@ -8,7 +8,6 @@ import Login from './components/login'
 import ShelterSignup from './components/ShelterSignup'
 import SeekerSignup from './components/SeekerSignup';
 import SearchPets from './components/Searchpets';
-import { UserProvider } from './contexts/UserContext';
 import ShelterCommentPage from './pages/CommentPages/ShelterCommentPage';
 import ShelterCommentDetails from './pages/CommentPages/ShelterCommentDetailsPage';
 import NotFound from './pages/404';
@@ -21,7 +20,6 @@ import ApplicationCommentPage from './pages/CommentPages/ApplicationCommentPage'
 
 function App() {
   return (
-    <UserProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -43,7 +41,6 @@ function App() {
           <Route path="/404/" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </UserProvider>
   );
 }
 

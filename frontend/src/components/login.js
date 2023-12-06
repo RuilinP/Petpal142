@@ -1,16 +1,14 @@
 // Login.js
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Container, Navbar, Nav, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './login.css';
-import { UserContext } from '../contexts/UserContext';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(''); // To store any error messages
     const [isLogged, setIsLogged] = useState(false); // To check if the user is logged in
-    const { updateUser } = useContext(UserContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -36,7 +34,6 @@ function Login() {
                 localStorage.setItem('refreshToken', data.refresh);
                 setIsLogged(true);
                 // Redirect user or do something upon successful login
-                updateUser(); // update user info in contexts
             } else {
                 // Handle errors, e.g. display error message to the user
                 setError(data.detail || 'Invalid credentials. Please try again.');

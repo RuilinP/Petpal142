@@ -13,6 +13,7 @@ function FlipPage(action) {
 function CommentList({shelterId, applicationId}) {
     const [query, setQuery] = useState({ page: 1 });
     const [totalPages, setTotalPages] = useState(1);
+    const [commentType, setCommentType] = useState('shelters');
     const [comments, setComments] = useState([]);
     const [shelterEmail, setShelterEmail] = useState({});
     const accessToken = localStorage.getItem('accessToken');
@@ -21,17 +22,33 @@ function CommentList({shelterId, applicationId}) {
     useEffect(() => {
         const { page } = query;
         const handleNewComment = () => {
-            fetch(`http://localhost:8000/shelters/${shelterId}/comments/?page=${page}`, {
-                method: 'GET',
-                headers: {
-                  'Authorization': `Bearer ${accessToken}`
-                }
-              })
-                .then(response => response.json())
-                .then(json => {
-                    setComments(json.results);
-                    setTotalPages(Math.ceil(json.count / 10)); // page size
-                });
+            if (shelterId) {
+                fetch(`http://localhost:8000/shelters/${shelterId}/comments/?page=${page}`, {
+                    method: 'GET',
+                    headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        setComments(json.results);
+                        setTotalPages(Math.ceil(json.count / 10)); // page size
+                    });                
+            } else if (applicationId) {
+                fetch(`http://localhost:8000/applications/${applicationId}/comments/?page=${page}`, {
+                    method: 'GET',
+                    headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        setComments(json.results);
+                        setCommentType('applications');
+                        setTotalPages(Math.ceil(json.count / 10)); // page size
+                    });  
+            }
+
         };
 
         handleNewComment();
@@ -90,7 +107,7 @@ function CommentList({shelterId, applicationId}) {
     
     return (
         <>
-            <CommentThreads comments={comments} relevant_shelterEmail={shelterEmail} />
+            <CommentThreads commentType={commentType} comments={comments} relevant_shelterEmail={shelterEmail} />
             <div className="d-flex justify-content-center col-12 mt-4">
                 {query.page > 1 && (
                     <button className='btn btn-dark' onClick={() => FlipPage(() => setQuery({ ...query, page: query.page - 1 }))}>
@@ -103,7 +120,9 @@ function CommentList({shelterId, applicationId}) {
                     </button>
                 )}
             </div>
-            <div className="d-flex justify-content-center col-12 mt-3">Page {query.page} out of {totalPages}.</div>           
+            <div className="d-flex justify-content-center col-12 mt-3">
+                {comments.length === 0 ? "Be the first to comment." : `Page ${query.page} out of ${totalPages}.`}
+            </div>           
         </>
     );
 }

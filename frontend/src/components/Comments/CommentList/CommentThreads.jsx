@@ -3,7 +3,7 @@ import RatingStars from '../RatingStars';
 import CommentAvatar from '../CommentAvatar';
 
 
-function CommentThreads({ comments, relevant_shelterEmail }) {
+function CommentThreads({ commentType, comments, relevant_shelterEmail }) {
 
     const getReplyType = (comment, reply) => {
         let replyClass = '';
@@ -31,8 +31,7 @@ function CommentThreads({ comments, relevant_shelterEmail }) {
                                 <p className="mb-1">
                                     {comment.author} <span className="small">- {new Date(comment.created_at).toLocaleTimeString()}</span>
                                 </p>
-                                {/* Add reply link functionality */}
-                                <a href="#!"> 
+                                <a href={`/${commentType}/${comment.object_id}/comments/${comment.id}/`}> 
                                     <span className="small">details
                                     </span>
                                 </a>

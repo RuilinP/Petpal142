@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function LeaveCommentBox({ shelterId, applicationId, onCommentPost }) {
+function LeaveCommentBox({ shelterId, applicationId }) {
 
     const [review, setReview] = useState({
         rating: '5star',

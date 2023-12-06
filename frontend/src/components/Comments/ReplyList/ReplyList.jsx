@@ -20,18 +20,34 @@ function ReplyList({shelterId, applicationId, commentId}) {
     useEffect(() => {
         const { page } = query;
         const handleNewReply = () => {
-            fetch(`http://localhost:8000/shelters/${shelterId}/comments/${commentId}/?page=${page}`, {
-                method: 'GET',
-                headers: {
-                  'Authorization': `Bearer ${accessToken}`
-                }
-              })
-                .then(response => response.json())
-                .then(json => {
-                    setComment(json.comment);
-                    setReplies(json.replies.results);
-                    setTotalPages(Math.ceil(json.replies.count / 10)); // page size
-                });
+            if (shelterId) {
+                fetch(`http://localhost:8000/shelters/${shelterId}/comments/${commentId}/?page=${page}`, {
+                    method: 'GET',
+                    headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        setComment(json.comment);
+                        setReplies(json.replies.results);
+                        setTotalPages(Math.ceil(json.replies.count / 10)); // page size
+                    });                
+            } else if (applicationId) {
+                fetch(`http://localhost:8000/applications/${applicationId}/comments/${commentId}/?page=${page}`, {
+                    method: 'GET',
+                    headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        setComment(json.comment);
+                        setReplies(json.replies.results);
+                        setTotalPages(Math.ceil(json.replies.count / 10)); // page size
+                    });
+            }
+
         };
 
         handleNewReply();
@@ -91,7 +107,9 @@ function ReplyList({shelterId, applicationId, commentId}) {
                     </button>
                 )}
             </div>
-            <div className="d-flex justify-content-center col-12 mt-3">Page {query.page} out of {totalPages}.</div>           
+            <div className="d-flex justify-content-center col-12 mt-3">
+                {replies.length === 0 ? "Be the first to reply." : `Page ${query.page} out of ${totalPages}.`}
+            </div>         
         </>
     );
 }

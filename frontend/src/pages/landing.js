@@ -46,7 +46,7 @@ class Landing extends React.Component {
                     <div className="d-lg-none landing-top-image"><img className="image" src="assets/images/landing-top1.png" /></div>
                 </div>
                 <div className="pt-3">
-                    <Link to="/search-pets" className="btn btn-dark" role="button">Search for a Petr</Link>
+                    <Link to="/pets" className="btn btn-dark" role="button">Search for a Pet</Link>
                 </div>
             </div>
 

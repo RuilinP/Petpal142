@@ -60,7 +60,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
   useEffect(() => {
     async function fetchAccessToken() {
       try {
-        const response = await fetch('http://192.168.2.75:8000/api/token/', {
+        const response = await fetch('http://142.126.176.248:8000/api/token/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
   useEffect(() => {
     async function fetchPets() {
       try {
-        const url = `http://192.168.2.75:8000/pets${
+        const url = `http://142.126.176.248:8000/pets${
           status ? `/?status=${status}` : ''
         }${species !== 'Any' ? `&specie=${species}` : ''}${
           size !== 'Any' ? `&size=${size}` : ''
@@ -202,7 +202,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
   
   const fetchPetsByPage = async (pageNumber) => {
     try {
-      const url = `http://192.168.2.75:8000/pets?page=${pageNumber}${
+      const url = `http://142.126.176.248:8000/pets?page=${pageNumber}${
         status ? `&status=${status}` : ''
       }${species !== 'Any' ? `&specie=${species}` : ''}${
         size !== 'Any' ? `&size=${size}` : ''

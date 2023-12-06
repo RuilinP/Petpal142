@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken, refreshToken } from "../../../utils/auth";
+import ErrorCard from "../../ErrorCard";
 
 
 function PetCreationForm() {
@@ -227,11 +228,7 @@ function PetCreationForm() {
 					</Form.Group>
 					{
 						error && (
-							<Card bg="danger" text="white">
-								<Card.Body>
-									<Card.Title>{error.message}</Card.Title>
-								</Card.Body>
-							</Card>
+							<ErrorCard error={error} />
 						)
 					}
 				

@@ -75,7 +75,49 @@ sudo apt install python3-venv|
 sudo pip3 install mod-wsgi   |
 ------------------------------
 like in any debian distro for basic setup(local development server)
-To install Apche
+To install nginx for reverse proxy(Thing is that, what's deployed on frontend might actaully make https request, but we can only process http, so we need https -> http and then http -> https)
 --------------------------------------------------------------------------------
-sudo apt-get install apache2 apache2-dev apache2-utils libapache2-mod-wsgi-py3 |
+sudo apt-get install nginx                                                     | 
+sudo apt install certbot python3-certbot-nginx                                 |
+cd /etc/nginx/sites-available                                                  |
+sudo nano petpal #nginx conf                                                   |
 --------------------------------------------------------------------------------
+========================================================================================================================
+server {
+    listen 8000;
+    server_name x.x.x.x; # Your domain name or server IP
+
+    location ^~ /.well-known/acme-challenge/ {
+        allow all;
+        root /var/www/acme-challenge;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name x.x.x.x; # Your domain name or server IP
+
+    ssl_certificate /path/to/your/certificate.crt; # Path to SSL certificate
+    ssl_certificate_key /path/to/your/privatekey.key; # Path to private key
+
+    # SSL configurations
+
+    location / {
+        proxy_pass http://0.0.0.0:8000; # Replace with your Django app address (e.g., http://127.0.0.1:8000)
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Ssl on;
+
+        proxy_redirect http:// https://;
+    }
+}
+
+==================================================================================================================
+------------------------------------------------------------------------------------
+systemctl nginx restart                                                             |
+sudo certbot --nginx -d petpal.ruilinp.com                                          |
+# and then put the certificate in conf                                              |
+------------------------------------------------------------------------------------

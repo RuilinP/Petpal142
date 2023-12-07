@@ -3,9 +3,11 @@ import propTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { Button, Col, Container, FormControl, Image, InputGroup, Row, Form, ButtonGroup, Toast, ToastContainer, ToastHeader } from "react-bootstrap";
 import { getAccessToken, login } from "../../../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const Application = (props) => {
 	const { petId } = props;
+	const navigate = useNavigate();
 	const [application, setApplication] = useState({
 		"id": null, 
 		"seeker": null, 
@@ -139,7 +141,7 @@ const Application = (props) => {
 
 						<Row className="p-3 justify-content-md-center">
 							<ButtonGroup>
-								<Button variant="primary">
+								<Button variant="primary" onClick={navigate(`/applications/${application.id}/comments/`)}>
 									Chat with Applicant
 								</Button>
 								<Button variant="secondary" onClick={acceptApplication}>

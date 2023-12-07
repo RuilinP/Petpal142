@@ -6,14 +6,15 @@ from application.models import Application
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from accounts.models import Shelter
+from pet.models import Pet
 
 class NotificationSerializer(serializers.ModelSerializer):
     content_object_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Notification
-        fields = ['id', 'recipient', 'object_id', 'content_type', 'created_at', 'is_read', 'content_object_url']
-        read_only_fields = ['id', 'recipient', 'object_id', 'content_type', 'created_at', 'is_read']
+        fields = ['id', 'recipient', 'object_id', 'content_type_str', 'created_at', 'is_read', 'content_object_url']
+        read_only_fields = ['id', 'recipient', 'object_id', 'content_type_str', 'created_at', 'is_read']
 
     def get_content_object_url(self, obj):
         # obj.object_id is the id for either application or comment/reply associated with the notification
@@ -23,6 +24,9 @@ class NotificationSerializer(serializers.ModelSerializer):
             if obj.content_type == ContentType.objects.get_for_model(Application):
                 return reverse('applications-retrieve', args=[obj.object_id])
             
+            elif obj.content_type == ContentType.objects.get_for_model(Pet):
+                return reverse('pet-detail', args=[obj.object_id])
+
             else : # comment or reply
                 if obj.content_type == ContentType.objects.get_for_model(Comment):
                     comment = get_object_or_404(Comment, pk=obj.object_id)

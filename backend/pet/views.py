@@ -11,6 +11,8 @@ from .permissions import IsShelterUser
 from rest_framework.response import Response
 from django.db.models import Case, When
 from django.db import models
+from accounts.models import Seeker
+from notifications.signals import create_notification_for_user
 
 
 
@@ -18,10 +20,30 @@ class PetCreateView(generics.CreateAPIView):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
 
+
     permission_classes = [IsAuthenticated, IsShelterUser]
 
     def perform_create(self, serializer):
-        serializer.save(shelter=self.request.user.id)
+        pet = serializer.save(shelter=self.request.user.id)
+
+        # logic to create notif for seekers who has the preference for the pet's specie
+        all_seekers = Seeker.objects.all()
+        matching_seekers = []
+
+        # Iterate through seekers and check their preferences
+        for seeker in all_seekers:
+            # Fetch preferences for each seeker
+            seeker_preferences = seeker.preferences.all() 
+
+            # Check if any of the preferences match the pet's species
+            for preference in seeker_preferences:
+                if preference.preference.lower() == pet.specie.lower():
+                    matching_seekers.append(seeker)
+                    break
+
+        for seeker in matching_seekers:
+            create_notification_for_user(seeker, pet, "Hello there! A furry friend who matches your preferences has just arrived. Hurry and check them out at ")
+            
 
 
 class PetRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):

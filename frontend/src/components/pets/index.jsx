@@ -126,9 +126,18 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
 
   
   function createPetCard(pet) {
+    const firstGalleryItem = pet.gallery.split(',')[0];
+  
+    // Check if the first gallery item contains "imgur"
+    const isImgurLink = firstGalleryItem.includes('imgur');
+  
     return (
       <div className="card h-100 bg-white">
-        <img src={`../assets/images/shelter-uploads/${pet.gallery.split(',')[0]}`} className="card-img-top" alt="..." />
+        <img
+          src={isImgurLink ? firstGalleryItem : `../assets/images/shelter-uploads/${firstGalleryItem}`}
+          className="card-img-top"
+          alt="..."
+        />
         <div className="card-body">
           <h5 className="card-title fw-bold text-center text-dark">{pet.name}</h5>
           <p className="card-text text-center">{pet.age} - {pet.breed}</p>

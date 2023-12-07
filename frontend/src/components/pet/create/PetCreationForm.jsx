@@ -2,23 +2,34 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getAccessToken, refreshToken } from "../../../utils/auth";
 import ErrorCard from "../../ErrorCard";
-
+import { fetchAccessToken, fetchSinglePet } from '../../../ajax';
+import { getAccessToken, refreshToken } from "../../../utils/auth";
 
 function PetCreationForm() {
 
 	const [error, setError] = useState();
+	const [accessToken, setAccessToken] = useState('');
+	const shelterid = 1;
+	const [shelterInfo, setShelterInfo] = useState({});
+	const ageOptions = ['Select Age','Baby', 'Young', 'Adult', 'Senior'];
+
+	const handleAgeChange = (e) => {
+        setFormData({
+            ...formData,
+            age: e.target.value,
+        });
+    };
 
 	const [formData, setFormData] = useState({
 		"name": "",
 		"gallery": "",
 		"specie": "",
 		"breed": "",
-		"age": 0,
+		"age": "",
 		"size": "",
 		"color": "",
-		"gender": "male",
+		"gender": "Male",
 		"location": "",
 		"health": "",
 		"characteristics": "",
@@ -35,25 +46,129 @@ function PetCreationForm() {
 		});
 	};
 
-	const onFormSubmit = (e) => {
-		e.preventDefault();
-		async function submit() {
-			try {
-				const response = await axios.post(
-					"http://localhost:8000/pet/", formData, {
-					headers: {
-						Authorization: `Bearer ${getAccessToken()}`,
-					},
-				});
-				navigate(`/pets/${response.data.id}`)
-			} catch (e) {
-				setError(e);
-			}
-
+	const isFormComplete = () => {
+		const requiredFields = [
+			'name',
+			'specie',
+			'breed',
+			'age',
+			'size',
+			'color',
+			'gender',
+			'location',
+			'health',
+			'characteristics',
+			'story',
+			"gallery",
+		];
+	
+		const missingFields = requiredFields.filter(field => !formData[field]);
+	
+		if (missingFields.length > 0) {
+			const missingFieldNames = missingFields.join(', ');
+			throw new Error(`Please fill in all required fields: ${missingFieldNames}`);
 		}
-
-		submit();
+	
+		return true; // Return true when all fields are present
 	};
+	
+	
+
+	const onFormSubmit = async (e) => {
+		e.preventDefault();
+	
+		try {
+			if (!isFormComplete()) {
+				throw new Error("Please fill in all required fields.");
+			}
+			const files = document.querySelectorAll('input[type="file"]');
+			const fileNames = [];
+	
+			for (let i = 0; i < files.length; i++) {
+				const file = files[i].files[0];
+				if (file) {
+					const fileName = `${formData.name}_${i + 1}.${file.name.split('.').pop()}`;
+					// Simulate backend logic: save file to public/assets/images/shelter-uploads
+					// Replace this with your backend API or logic to save the file
+					// For example: await axios.post('http://your-api.com/upload', file);
+	
+					// For demo, log the filename and simulate file upload
+					console.log(`Uploading ${fileName} to the server...`);
+					// Simulated success message
+					fileNames.push(fileName);
+				}
+			}
+	
+			if (fileNames.length > 0 && fileNames.length <= 4) {
+				const concatenatedFileNames = fileNames.join(',');
+	
+				const updatedFormData = {
+					...formData,
+					gallery: concatenatedFileNames,
+				};
+	
+				const response = await axios.post(
+					"http://127.0.0.1:8000/pet/",
+					updatedFormData,
+					{
+						headers: {
+							Authorization: `Bearer ${accessToken}`,
+						},
+					}
+				);
+	
+				navigate(`/pets/${response.data.id}`);
+			} else {
+				throw new Error("Please upload between 1 and 4 images.");
+			}
+		} catch (e) {
+			setError(e);
+		}
+	};
+	
+
+	useEffect(() => {
+		if (shelterInfo.city && shelterInfo.state) {
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				location: `${shelterInfo.city}, ${shelterInfo.state}`,
+			}));
+		}
+	}, [shelterInfo.city, shelterInfo.state]);
+	useEffect(() => {
+		async function fetchData() {
+		  try {
+			const token = await fetchAccessToken('ruilin@gmail.com', '123');
+			setAccessToken(token);
+			localStorage.setItem('accessToken', token);
+		  } catch (error) {
+			setError(error.message);
+		  }
+		}
+	
+		fetchData();
+	  }, []);
+
+
+	useEffect(() => {
+		async function fetchShelterData() {
+		  try {
+			if (accessToken && shelterid) { // Check if petInfo.shelter exists
+			  const response = await axios.get(`http://142.126.176.248:8000/accounts/shelters/${shelterid}`, {
+				headers: {
+				  Authorization: `Bearer ${accessToken}`,
+				},
+			  });
+			  
+			  setShelterInfo(response.data);
+			}
+		  } catch (error) {
+			setError(error.message);
+		  }
+		}
+	
+		fetchShelterData();
+	  }, [accessToken, shelterid]);
 
 	useEffect(() => {
 		try {
@@ -79,27 +194,21 @@ function PetCreationForm() {
 						/>
 					</Form.Group>
 
-					<Form.Group controlId="gallery">
-						<Form.Label>Gallery:</Form.Label>
-						<Form.Control
-							type="text"
-							name="gallery"
-							placeholder="gallery"
-							value={formData.gallery}
-							required
-						/>
-					</Form.Group>
 
 					<Form.Group controlId="specie">
-						<Form.Label>Specie:</Form.Label>
-						<Form.Control
-							type="text"
-							name="specie"
-							placeholder="specie"
-							value={formData.specie}
-							required
-						/>
-					</Form.Group>
+    <Form.Label>Specie:</Form.Label>
+    <Form.Control
+        as="select"
+        name="specie"
+        value={formData.specie}
+        onChange={onFormChange} // Ensure you have an onChange handler to update the form data
+        required
+    >
+        <option value="">Select a specie</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+    </Form.Control>
+</Form.Group>
 
 					<Form.Group controlId="breed">
 						<Form.Label>Breed:</Form.Label>
@@ -113,26 +222,37 @@ function PetCreationForm() {
 					</Form.Group>
 
 					<Form.Group controlId="age">
-						<Form.Label>Age:</Form.Label>
-						<Form.Control
-							type="number"
-							name="age"
-							placeholder="age"
-							value={formData.age}
-							required
-						/>
-					</Form.Group>
+                        <Form.Label>Age:</Form.Label>
+                        <Form.Control
+                            as="select"
+                            name="age"
+                            value={formData.age}
+                            onChange={handleAgeChange}
+                            required
+                        >
+                            {ageOptions.map((option, index) => (
+                                <option key={index} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
 
 					<Form.Group controlId="size">
-						<Form.Label>Size:</Form.Label>
-						<Form.Control
-							type="text"
-							name="size"
-							placeholder="size"
-							value={formData.size}
-							required
-						/>
-					</Form.Group>
+    <Form.Label>Size:</Form.Label>
+    <Form.Control
+        as="select"
+        name="size"
+        value={formData.size}
+        onChange={onFormChange} // Make sure to have an onChange handler to update the form data
+        required
+    >
+        <option value="">Select a size</option>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+    </Form.Control>
+</Form.Group>
 
 					<Form.Group controlId="color">
 						<Form.Label>Color:</Form.Label>
@@ -203,29 +323,45 @@ function PetCreationForm() {
 						/>
 					</Form.Group>
 
-					<Form.Group controlId="status">
-						<Form.Label>Status:</Form.Label>
-						<Form.Control
-							as="select"
-							name="status"
-							value={formData.status}
-							required
-						>
-							<option value="Available">Available</option>
-							<option value="Adopted">Adopted</option>
-						</Form.Control>
-					</Form.Group>
+					
 
-					<Form.Group controlId="shelter">
-						<Form.Label>Shelter:</Form.Label>
-						<Form.Control
-							type="number"
-							name="shelter"
-							placeholder="shelter"
-							value={formData.shelter}
-							required
-						/>
-					</Form.Group>
+					<Form.Group controlId="gallery">
+    <Form.Label>Gallery:</Form.Label>
+    <div>
+        <Form.Control
+            type="file"
+            name="gallery"
+            accept="image/*"
+            id="fileInput1"
+            required // Make the first upload field mandatory
+        />
+    </div>
+    <div>
+        <Form.Control
+            type="file"
+            name="gallery"
+            accept="image/*"
+            id="fileInput2"
+        />
+    </div>
+    <div>
+        <Form.Control
+            type="file"
+            name="gallery"
+            accept="image/*"
+            id="fileInput3"
+        />
+    </div>
+    <div>
+        <Form.Control
+            type="file"
+            name="gallery"
+            accept="image/*"
+            id="fileInput4"
+        />
+    </div>
+</Form.Group>
+
 					{
 						error && (
 							<ErrorCard error={error} />
@@ -237,7 +373,7 @@ function PetCreationForm() {
 					<Button variant="secondary" type="submit">
 						Submit
 					</Button>
-					<Button variant="secondary">
+					<Button variant="secondary" href="/">
 						Cancel
 					</Button>
 				</Card.Footer>

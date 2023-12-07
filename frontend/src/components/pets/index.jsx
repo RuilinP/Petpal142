@@ -140,7 +140,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
           </ul>
         </div>
         <div className="card-footer bg-info">
-          <small className="text-white">Last updated 1 min ago</small>
+          <small className="text-white">{pet.status}</small>
         </div>
       </div>
     );

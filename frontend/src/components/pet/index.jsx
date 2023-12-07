@@ -80,9 +80,15 @@ function SinglePetInfo() {
       });
       const processedList = resultList.map(item => {
         if (!item.includes('.')) {
-          return `//player.vimeo.com/video/${item}`;
+          return `//player.vimeo.com/video/${item}`; // Vimeo video URL construction
+          
+        } else {
+          if (item.includes('imgur')) {
+            return item;
+          } else {
+          return `/assets/images/shelter-uploads/${item}`; // Image URL construction
         }
-        return `/assets/images/shelter-uploads/${item}`;
+      }
       });
   
       setProcessedList(processedList); 

@@ -51,34 +51,35 @@ function PetCreationForm() {
 
 	const isFormComplete = () => {
 		const requiredFields = [
-		  'name',
-		  'specie',
-		  'breed',
-		  'age',
-		  'size',
-		  'color',
-		  'gender',
-		  'location',
-		  'health',
-		  'characteristics',
-		  'story',
+			'name',
+			'specie',
+			'breed',
+			'age',
+			'size',
+			'color',
+			'gender',
+			'location',
+			'health',
+			'characteristics',
+			'story',
 		];
-	  
-		const missingFields = requiredFields.filter(field => !formData[field]);
-	  
-		// Check if the gallery field has at least one file uploaded
-		const files = document.querySelector('input[type="file"]').files;
-		if (files.length === 0) {
-		  missingFields.push('gallery');
-		}
-	  
+	
+		const missingFields = requiredFields.filter((field) => !formData[field]);
+	
 		if (missingFields.length > 0) {
-		  const missingFieldNames = missingFields.join(', ');
-		  throw new Error(`Please fill in all required fields: ${missingFieldNames}`);
+			const missingFieldNames = missingFields.join(', ');
+			throw new Error(`Please fill in all required fields: ${missingFieldNames}`);
 		}
-	  
+	
+		// Check if at least one image URL is provided in the gallery
+		if (imagePreviews.length === 0 || imagePreviews.every((url) => url.trim() === '')) {
+			throw new Error('Please provide at least one valid image URL in the gallery.');
+		}
+	
 		return true; // Return true when all fields are present
-	  };
+	};
+	
+	
 	  
 	
 	
@@ -90,46 +91,27 @@ function PetCreationForm() {
 			if (!isFormComplete()) {
 				throw new Error("Please fill in all required fields.");
 			}
-			const files = document.querySelectorAll('input[type="file"]');
-			const fileNames = [];
 	
-			for (let i = 0; i < files.length; i++) {
-				const file = files[i].files[0];
-				if (file) {
-					const fileName = `${formData.name}_${i + 1}.${file.name.split('.').pop()}`;
-					// Simulate backend logic: save file to public/assets/images/shelter-uploads
-					// Replace this with your backend API or logic to save the file
-					// For example: await axios.post('http://your-api.com/upload', file);
+			// Extract image URLs from the form data directly
+			const concatenatedURLs = formData.gallery;
 	
-					// For demo, log the filename and simulate file upload
-					console.log(`Uploading ${fileName} to the server...`);
-					// Simulated success message
-					fileNames.push(fileName);
+			// Proceed with the form submission
+			const updatedFormData = {
+				...formData,
+				gallery: concatenatedURLs,
+			};
+	
+			const response = await axios.post(
+				"http://142.126.176.248:8000/pet/",
+				updatedFormData,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
 				}
-			}
+			);
 	
-			if (fileNames.length > 0 && fileNames.length <= 4) {
-				const concatenatedFileNames = fileNames.join(',');
-	
-				const updatedFormData = {
-					...formData,
-					gallery: concatenatedFileNames,
-				};
-	
-				const response = await axios.post(
-					"http://142.126.176.248:8000/pet/",
-					updatedFormData,
-					{
-						headers: {
-							Authorization: `Bearer ${accessToken}`,
-						},
-					}
-				);
-	
-				navigate(`/pets/${response.data.id}`);
-			} else {
-				throw new Error("Please upload between 1 and 4 images.");
-			}
+			navigate(`/pets/${response.data.id}`);
 		} catch (e) {
 			setError(e);
 		}
@@ -186,7 +168,21 @@ function PetCreationForm() {
 			setError(e);
 		}
 	}, []);
-
+	const handleOptionalImageURLChange = (e, index) => {
+		const newURL = e.target.value.trim();
+		const updatedFormData = { ...formData };
+		
+		if (newURL) {
+			// If a new URL is provided, concatenate it with existing gallery URLs
+			updatedFormData.gallery = updatedFormData.gallery ? `${updatedFormData.gallery},${newURL}` : newURL;
+		}
+	
+		// Update the form data state
+		setFormData(updatedFormData);
+	};
+	
+	
+	
 	const uploadImages = async () => {
 		try {
 			const files = document.querySelectorAll('input[type="file"]');
@@ -407,21 +403,60 @@ function PetCreationForm() {
 						/>
 					</Form.Group>
 
+					<Form.Group controlId="gallery">
+						<Form.Label>Image URL:</Form.Label>
+						<Form.Control
+							type="text"
+							name="gallery"
+							placeholder="Image URL"
+							value={formData.gallery}
+							required
+						/>
+					</Form.Group>
+
+					<Form.Group controlId="gallery1">
+    <Form.Label>Image URL 1:</Form.Label>
+    <Form.Control
+        type="text"
+        name="gallery1"
+        placeholder="Image URL"
+        onChange={(e) => handleOptionalImageURLChange(e, 1)}
+    />
+</Form.Group>
+
+<Form.Group controlId="gallery2">
+    <Form.Label>Image URL 2:</Form.Label>
+    <Form.Control
+        type="text"
+        name="gallery2"
+        placeholder="Image URL"
+        onChange={(e) => handleOptionalImageURLChange(e, 2)}
+    />
+</Form.Group>
+
+<Form.Group controlId="gallery3">
+    <Form.Label>Image URL 3:</Form.Label>
+    <Form.Control
+        type="text"
+        name="gallery3"
+        placeholder="Image URL"
+        onChange={(e) => handleOptionalImageURLChange(e, 3)}
+    />
+</Form.Group>
 					
 
-					<Form.Group controlId="gallery">
+					{/* <Form.Group controlId="gallery">
   <Form.Label>Gallery:</Form.Label>
   {[1, 2, 3, 4].map((index) => (
     <div key={index}>
       <Form.Control
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        id={`fileInput${index}`}
+        type="text"
+        placeholder={`Image URL ${index}`}
+        onChange={(e) => handleImageURLChange(e, index)}
       />
     </div>
   ))}
-</Form.Group>
+</Form.Group> */}
 
 					{
 						error && (

@@ -32,7 +32,7 @@ function App() {
           <Route path="/signup-shelter" element={<ShelterSignup />} />
           <Route path="/signup-seeker" element={<SeekerSignup />} />
           <Route path="/search-pets" element={<SearchPets />} />
-          <Route path="/pet/update" element={<PetUpdate />} />
+          <Route path="/pet/update/:petId" element={<PetUpdate />} />
           <Route path="/pet/adoption" element={<AdoptionApplicationForm />} />
           <Route path="/pet/application-list" element={<ApplicationList />} />
           <Route path="/pet/application" element={<Application petId={1} />} />

@@ -12,6 +12,7 @@ class Notification(models.Model):
     object_id = models.PositiveIntegerField()
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     content_object = GenericForeignKey('content_type', 'object_id')
+    content_type_str = models.CharField(max_length=50)
 
     class Meta:
         ordering = ['-created_at']

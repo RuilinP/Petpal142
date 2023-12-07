@@ -36,7 +36,6 @@ function App() {
           <Route path="/pet/adoption" element={<AdoptionApplicationForm />} />
           <Route path="/pet/application-list" element={<ApplicationList />} />
           <Route path="/pet/application" element={<Application petId={1} />} />
-          <Route path="/application/comments" element={<ApplicationCommentPage applicationID={1} />} />
           <Route path="/shelters/:shelterId/comments/" element={<ShelterCommentPage/>} />
           <Route path="/shelters/:shelterId/comments/:commentId" element={<ShelterCommentDetails/>} />
           <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage/>} />

@@ -15,6 +15,7 @@ function PetCreationForm() {
 	const ageOptions = ['Select Age','Baby', 'Young', 'Adult', 'Senior'];
 	const [imagePreviews, setImagePreviews] = useState([]);
 	const storedImages = localStorage.getItem('imagePreviews');
+	const [additionalGalleryUrls, setAdditionalGalleryUrls] = useState([]);
 
 
 	const handleAgeChange = (e) => {
@@ -170,16 +171,25 @@ function PetCreationForm() {
 	}, []);
 	const handleOptionalImageURLChange = (e, index) => {
 		const newURL = e.target.value.trim();
-		const updatedFormData = { ...formData };
-		
-		if (newURL) {
-			// If a new URL is provided, concatenate it with existing gallery URLs
-			updatedFormData.gallery = updatedFormData.gallery ? `${updatedFormData.gallery},${newURL}` : newURL;
-		}
 	
-		// Update the form data state
-		setFormData(updatedFormData);
+		const updatedGalleryUrls = [...additionalGalleryUrls];
+		updatedGalleryUrls[index] = newURL;
+		setAdditionalGalleryUrls(updatedGalleryUrls);
+	
+		const galleryURLs = [formData.gallery, ...updatedGalleryUrls].filter(Boolean);
+		const concatenatedURLs = galleryURLs.join(',');
+	
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			gallery: concatenatedURLs,
+		}));
 	};
+	
+	
+	
+	  
+	  
+	  
 	
 	
 	
@@ -404,45 +414,21 @@ function PetCreationForm() {
 					</Form.Group>
 
 					<Form.Group controlId="gallery">
-						<Form.Label>Image URL:</Form.Label>
-						<Form.Control
-							type="text"
-							name="gallery"
-							placeholder="Image URL"
-							value={formData.gallery}
-							required
-						/>
-					</Form.Group>
-
-					<Form.Group controlId="gallery1">
-    <Form.Label>Image URL 1:</Form.Label>
+    <Form.Label>Main Imgur URLs, separate with , no space:(BBCode only, up to 4)</Form.Label>
     <Form.Control
         type="text"
-        name="gallery1"
+        name="gallery"
         placeholder="Image URL"
-        onChange={(e) => handleOptionalImageURLChange(e, 1)}
+        onChange={(e) => {
+            onFormChange(e);
+            handleOptionalImageURLChange(e, 0); // Sending the URL to handleOptionalImageURLChange
+        }}
+        required
     />
 </Form.Group>
 
-<Form.Group controlId="gallery2">
-    <Form.Label>Image URL 2:</Form.Label>
-    <Form.Control
-        type="text"
-        name="gallery2"
-        placeholder="Image URL"
-        onChange={(e) => handleOptionalImageURLChange(e, 2)}
-    />
-</Form.Group>
 
-<Form.Group controlId="gallery3">
-    <Form.Label>Image URL 3:</Form.Label>
-    <Form.Control
-        type="text"
-        name="gallery3"
-        placeholder="Image URL"
-        onChange={(e) => handleOptionalImageURLChange(e, 3)}
-    />
-</Form.Group>
+
 					
 
 					{/* <Form.Group controlId="gallery">

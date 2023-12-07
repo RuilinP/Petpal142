@@ -35,7 +35,7 @@ function PetCreationForm() {
 		"characteristics": "",
 		"story": "",
 		"status": "Available",
-		"shelter": ""
+		"shelter": 1,
 	});
 	const navigate = useNavigate();
 
@@ -108,7 +108,7 @@ function PetCreationForm() {
 				};
 	
 				const response = await axios.post(
-					"http://127.0.0.1:8000/pet/",
+					"http://142.126.176.248:8000/pet/",
 					updatedFormData,
 					{
 						headers: {

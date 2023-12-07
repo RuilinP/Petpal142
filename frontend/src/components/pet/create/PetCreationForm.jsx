@@ -13,6 +13,9 @@ function PetCreationForm() {
 	const shelterid = 1;
 	const [shelterInfo, setShelterInfo] = useState({});
 	const ageOptions = ['Select Age','Baby', 'Young', 'Adult', 'Senior'];
+	const [imagePreviews, setImagePreviews] = useState([]);
+	const storedImages = localStorage.getItem('imagePreviews');
+
 
 	const handleAgeChange = (e) => {
         setFormData({
@@ -48,29 +51,35 @@ function PetCreationForm() {
 
 	const isFormComplete = () => {
 		const requiredFields = [
-			'name',
-			'specie',
-			'breed',
-			'age',
-			'size',
-			'color',
-			'gender',
-			'location',
-			'health',
-			'characteristics',
-			'story',
-			"gallery",
+		  'name',
+		  'specie',
+		  'breed',
+		  'age',
+		  'size',
+		  'color',
+		  'gender',
+		  'location',
+		  'health',
+		  'characteristics',
+		  'story',
 		];
-	
+	  
 		const missingFields = requiredFields.filter(field => !formData[field]);
-	
-		if (missingFields.length > 0) {
-			const missingFieldNames = missingFields.join(', ');
-			throw new Error(`Please fill in all required fields: ${missingFieldNames}`);
+	  
+		// Check if the gallery field has at least one file uploaded
+		const files = document.querySelector('input[type="file"]').files;
+		if (files.length === 0) {
+		  missingFields.push('gallery');
 		}
-	
+	  
+		if (missingFields.length > 0) {
+		  const missingFieldNames = missingFields.join(', ');
+		  throw new Error(`Please fill in all required fields: ${missingFieldNames}`);
+		}
+	  
 		return true; // Return true when all fields are present
-	};
+	  };
+	  
 	
 	
 
@@ -177,6 +186,81 @@ function PetCreationForm() {
 			setError(e);
 		}
 	}, []);
+
+	const uploadImages = async () => {
+		try {
+			const files = document.querySelectorAll('input[type="file"]');
+			const fileNames = [];
+	
+			for (let i = 0; i < files.length; i++) {
+				const file = files[i].files[0];
+				if (file) {
+					const fileName = `${formData.name}_${i + 1}.${file.name.split('.').pop()}`;
+					// Simulate backend logic: save file to public/assets/images/shelter-uploads
+					// Replace this with your backend API or logic to save the file
+					// For example: await axios.post('http://your-api.com/upload', file);
+	
+					// For demo, log the filename and simulate file upload
+					console.log(`Uploading ${fileName} to the server...`);
+					// Simulated success message
+					fileNames.push(fileName);
+				}
+			}
+	
+			if (fileNames.length > 0 && fileNames.length <= 4) {
+				const concatenatedFileNames = fileNames.join(',');
+	
+				const updatedFormData = {
+					...formData,
+					gallery: concatenatedFileNames,
+				};
+	
+				// Proceed with form submission or handle image upload logic here
+				console.log('Images uploaded successfully:', concatenatedFileNames);
+			} else {
+				throw new Error("Please upload between 1 and 4 images.");
+			}
+		} catch (e) {
+			setError(e);
+		}
+	};
+
+	const handleFileChange = async (e) => {
+		const files = e.target.files;
+		const previews = [];
+	  
+		for (let i = 0; i < files.length; i++) {
+		  const reader = new FileReader();
+		  reader.readAsDataURL(files[i]);
+	  
+		  reader.onload = () => {
+			previews.push(reader.result);
+			if (previews.length === files.length) {
+			  setImagePreviews(previews);
+			  saveImagesLocally(previews); // Call function to save base64 images locally
+			}
+		  };
+		}
+	  };
+
+	  const saveImagesLocally = (previews) => {
+		// Store base64 images in local storage or app state
+		// For instance, save them in local storage
+		localStorage.setItem('imagePreviews', JSON.stringify(previews));
+	  };
+	  
+	  // Add this useEffect to load previously uploaded images if available
+	  useEffect(() => {
+		const storedImages = localStorage.getItem('imagePreviews');
+		if (storedImages) {
+		  setImagePreviews(JSON.parse(storedImages));
+		}
+	  }, []);
+	
+	// Invoke uploadImages when the form changes (e.g., when files are selected)
+	useEffect(() => {
+		uploadImages();
+	}, [formData.gallery]);
 
 	return (
 		<Card>
@@ -326,40 +410,17 @@ function PetCreationForm() {
 					
 
 					<Form.Group controlId="gallery">
-    <Form.Label>Gallery:</Form.Label>
-    <div>
-        <Form.Control
-            type="file"
-            name="gallery"
-            accept="image/*"
-            id="fileInput1"
-            required // Make the first upload field mandatory
-        />
+  <Form.Label>Gallery:</Form.Label>
+  {[1, 2, 3, 4].map((index) => (
+    <div key={index}>
+      <Form.Control
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        id={`fileInput${index}`}
+      />
     </div>
-    <div>
-        <Form.Control
-            type="file"
-            name="gallery"
-            accept="image/*"
-            id="fileInput2"
-        />
-    </div>
-    <div>
-        <Form.Control
-            type="file"
-            name="gallery"
-            accept="image/*"
-            id="fileInput3"
-        />
-    </div>
-    <div>
-        <Form.Control
-            type="file"
-            name="gallery"
-            accept="image/*"
-            id="fileInput4"
-        />
-    </div>
+  ))}
 </Form.Group>
 
 					{

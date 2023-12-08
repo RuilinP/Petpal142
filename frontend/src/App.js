@@ -36,13 +36,13 @@ function App() {
           <Route path="/signup-seeker" element={<SeekerSignup />} />
           <Route path="/search-pets" element={<SearchPets />} />
           <Route path="/pet/update/:petId" element={<PetUpdate />} />
-          <Route path="/pet/adoption" element={<AdoptionApplicationForm />} />
+          <Route path="/pet/:petId/adoption" element={<AdoptionApplicationForm />} />
           <Route path="/pet/application-list" element={<ApplicationList />} />
           <Route path="/pet/application" element={<Application petId={1} />} />
-          <Route path="/shelters/:shelterId/comments/" element={<ShelterCommentPage/>} />
-          <Route path="/shelters/:shelterId/comments/:commentId" element={<ShelterCommentDetails/>} />
-          <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage/>} />
-          <Route path="/applications/:applicationId/comments/:commentId" element={<ApplicationCommentDetails/>} />
+          <Route path="/shelters/:shelterId/comments/" element={<ShelterCommentPage />} />
+          <Route path="/shelters/:shelterId/comments/:commentId" element={<ShelterCommentDetails />} />
+          <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage />} />
+          <Route path="/applications/:applicationId/comments/:commentId" element={<ApplicationCommentDetails />} />
           <Route path="/notifications/" element={<NotificationPage />} />
           <Route path="/404/" element={<NotFound />} />
         </Routes>

@@ -1,16 +1,16 @@
 import { Button, Card, Col, Form, Image, Row } from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
-import jeff from '../../../assets/images/jeff-photo.png';
 import propTypes from 'prop-types';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getAccessToken, login } from "../../../utils/auth";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ErrorCard from "../../ErrorCard";
+import { useParams } from "react-router-dom";
 
-const AdoptionApplicationForm = (props) => {
-
-	const { petId, petName } = props;
+const AdoptionApplicationForm = () => {
+	const { petId } = useParams();
+	const [petInfo, setPetInfo] = useState({});
 	const [error, setError] = useState();
 	const [formData, setFormData] = useState({
 		message: "",
@@ -45,15 +45,37 @@ const AdoptionApplicationForm = (props) => {
 		submit();
 	}
 
+	useEffect(() => {
+		async function fetchPetData() {
+			login("456@email.com", "456");
+			try {
+				const response = await axios.get(`http://localhost:8000/pets/${petId}`, {
+					headers: {
+						Authorization: `Bearer ${getAccessToken()}`,
+					},
+				});
+		      
+				setPetInfo(response.data);
+				
+			} catch (error) {
+				navigate('/404');
+			}
+		}
+
+		fetchPetData();
+	}, [])
+
 	return (
 		<div>
 
 			<Container className="text-center pt-5 pb-3">
 				<Image
-					width={100} height={100} className="object-fit-cover" src={jeff} roundedCircle
+					width={100} height={100}
+					className="object-fit-cover" roundedCircle
+					src={petInfo.gallery.split(",")[0]}
 				/>
 				<h3 className="mt-3">You're adopting</h3>
-				<h1>{petName}</h1>
+				<h1>{petInfo.name}</h1>
 			</Container>
 
 			<Container>
@@ -108,16 +130,6 @@ Field.propTypes = {
 	as: propTypes.string,
 	value: propTypes.string,
 	name: propTypes.string
-}
-
-AdoptionApplicationForm.propTypes = {
-	petId: propTypes.number.isRequired,
-	petName: propTypes.string
-}
-
-AdoptionApplicationForm.defaultProps = {
-	petId: 1,
-	petName: "Jeff"
 }
 
 export default AdoptionApplicationForm;

@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ShelterListCreateView, ShelterRetrieveUpdateView, ShelterDestroyPetsView, \
-    SeekerCreateView, SeekerRetrieveUpdateView, SeekerDestroyApplicationsView
+    SeekerCreateView, SeekerRetrieveUpdateView, SeekerDestroyApplicationsView, CheckUserTypeView
 
 urlpatterns = [
     path('shelters/', ShelterListCreateView.as_view(), name='shelter-list-create'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('seekers/', SeekerCreateView.as_view(), name='seeker-create'),
     path('seekers/<int:pk>/applications/', SeekerDestroyApplicationsView.as_view(), name='seeker-destroy-applications'),
     path('seekers/<int:pk>/', SeekerRetrieveUpdateView.as_view(), name='seeker-update'),
+    path('check_user_type/', CheckUserTypeView.as_view(), name='check_user_type'),
 ]

@@ -48,15 +48,15 @@ def determine_comment_recipient(comment):
     if comment.content_type == application_content_type:
         # need to know the author type
         if is_shelter(comment.author.id):
-            content_type_str = f"You have a new application comment from applicant {comment.content_object.seeker.id}. See details at "
+            content_type_str = f"You have a new application comment from applicant {comment.content_object.seeker.id}."
             recipient = comment.content_object.seeker # get seeker obj from application
         else:
-            content_type_str = f"You have a new comment on your application {comment.object_id}. See details at "
+            content_type_str = f"You have a new comment on your application {comment.object_id}."
             recipient = comment.content_object.shelter  # get shelter obj from application
     
     else: 
         recipient = comment.content_object # is the shelter
-        content_type_str = f"Your shelter has a new comment from pet seeker {comment.author.id}. See details at "
+        content_type_str = f"Your shelter has a new comment from pet seeker {comment.author.id}."
     
     create_notification_for_user(recipient, comment, content_type_str)
 
@@ -73,11 +73,11 @@ def create_reply_notification(sender, instance, created, **kwargs):
         else: # it is a shelter reply
             shelter = instance.comment.content_object
 
-        create_notification_for_user(shelter, instance, "Your comment has a new reply. See details at ")
+        create_notification_for_user(shelter, instance, "Your comment has a new reply.")
 
         # create notif for comment author (if author is not themselves)
         if instance.comment.author != instance.author:
-            create_notification_for_user(instance.comment.author, instance, "Your comment has a new reply. See details at ")
+            create_notification_for_user(instance.comment.author, instance, "Your comment has a new reply.")
 
 
 
@@ -86,4 +86,4 @@ def create_reply_notification(sender, instance, created, **kwargs):
 
     if created: # for new application submission, alert the shelter
         # shelter = CustomUser.objects.filter(pk=instance.shelter
-        create_notification_for_user(instance.shelter, instance, "Your shelter received a new pet adoption application. See details at ")
+        create_notification_for_user(instance.shelter, instance, "Your shelter received a new pet adoption application.")

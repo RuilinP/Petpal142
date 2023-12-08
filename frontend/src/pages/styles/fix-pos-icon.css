@@ -21,3 +21,14 @@
     opacity: 0.7;
 }
 
+.back-to-top-button button {
+    background-color: white;
+    color: #CA1DC3;
+    border-color: #CA1DC3;
+}
+
+.back-to-top-button button:hover {
+    background-color: #CA1DC3;
+    color: white;
+    border-color: white;
+}

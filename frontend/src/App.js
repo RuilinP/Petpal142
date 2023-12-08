@@ -18,9 +18,12 @@ import ApplicationList from './components/pet/adoption/ApplicationList';
 import Application from './components/pet/adoption/Application';
 import ApplicationCommentPage from './pages/CommentPages/ApplicationCommentPage';
 import ApplicationCommentDetails from './pages/CommentPages/ApplicationCommentDetailsPage';
+import { NotificationProvider } from './contexts/NotifContexts';
+import NotificationPage from './pages/NotificationPages/NotificationPage';
 
 function App() {
   return (
+    <NotificationProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -40,9 +43,11 @@ function App() {
           <Route path="/shelters/:shelterId/comments/:commentId" element={<ShelterCommentDetails/>} />
           <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage/>} />
           <Route path="/applications/:applicationId/comments/:commentId" element={<ApplicationCommentDetails/>} />
+          <Route path="/notifications/" element={<NotificationPage />} />
           <Route path="/404/" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+    </NotificationProvider>
   );
 }
 

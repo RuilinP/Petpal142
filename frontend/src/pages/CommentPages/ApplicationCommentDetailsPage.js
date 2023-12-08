@@ -6,12 +6,16 @@ import '../styles/daterangepicker-bs3.css'
 import '../styles/fix-pos-icon.css'
 import LeaveReplyBox from '../../components/Comments/LeaveReviewBox/LeaveReplyBox';
 import ReplyList from '../../components/Comments/ReplyList/ReplyList';
+import Header from '../../components/common/header';
+import Footer from '../../components/common/footer';
 
 function ApplicationCommentDetails() {
     const { applicationId, commentId } = useParams();
 
     return (
-        <main>
+        <div className='bg-secondary'>
+            <Header/>
+            <main>
             <div className="container white-container p-3 mt-sm-4 mb-sm-4">
 
                 <section id="reviews" className="my-5">
@@ -33,6 +37,8 @@ function ApplicationCommentDetails() {
                 </section>
             </div>    
         </main>
+            <Footer/>
+        </div>
     );
 }
 

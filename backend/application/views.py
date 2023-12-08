@@ -104,9 +104,9 @@ class ApplicationRetrieveUpdateStatusView(RetrieveUpdateAPIView):
                 # shelter if seeker updated the notification
                 # seeker if shelter updated the notification
                 if user.id == instance.seeker.id:
-                    create_notification_for_user(instance.shelter, instance, f"The applicant {user.id} has updated their application status. See details at ")
+                    create_notification_for_user(instance.shelter, instance, f"The applicant {user.id} has updated their application status.")
                 else:
-                    create_notification_for_user(instance.seeker, instance, f"{instance.shelter.organization} has updated your application status. See details at ")
+                    create_notification_for_user(instance.seeker, instance, f"{instance.shelter.organization} has updated your application status.")
 
                 
                 return Response(serializer.data)

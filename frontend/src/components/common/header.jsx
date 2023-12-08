@@ -1,7 +1,12 @@
 import { Button, Container, Navbar } from 'react-bootstrap';
 import logo from '../../assets/images/logo.png';
+import '../../pages/styles/main.css'
+import '../../pages/styles/custom.css'
+import '../../pages/styles/fix-pos-icon.css'
+import { useNotifications } from "../../contexts/NotifContexts"
 
 function Header() {
+	const { hasNewNotifications } = useNotifications();
 
 	const scrollToTop = () => {
 		window.scrollTo({
@@ -13,11 +18,10 @@ function Header() {
 	return (
 		<header>
 			<div className="d-md-none fixed-bottom pr-3 pb-3">
-				<Navbar.Brand href="notifications.html">
-					<Button className="notif-icon" size="sm">
-						&#x1F514;
-					</Button>
-				</Navbar.Brand>
+				<a className={`notif-icon btn btn-sm navbar-brand ${hasNewNotifications ? 'has-notifications' : ''}`} 
+				href="notifications.html">
+					&#x1F514;
+				</a>
 			</div>
 
 			<div className="back-to-top-button">
@@ -49,7 +53,10 @@ function Header() {
 						</ul>
 
 						<a className="btn btn-dark btn-sm ms-0" href="landing.html" role="button">Log out</a>
-						<a href="notifications.html" className="btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block">&#x1F514;</a>
+						<a className={`btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block ${hasNewNotifications ? 'has-notifications' : ''}`} 
+						href="notifications.html">
+							&#x1F514;
+						</a>
 					</div>
 				</Container>
 			</Navbar>

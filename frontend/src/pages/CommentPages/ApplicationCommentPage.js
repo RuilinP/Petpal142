@@ -6,12 +6,16 @@ import '../styles/main.css'
 import '../styles/daterangepicker-bs3.css'
 import '../styles/fix-pos-icon.css'
 import CommentList from '../../components/Comments/CommentList/CommentList';
+import Header from '../../components/common/header';
+import Footer from '../../components/common/footer';
 
 function ApplicationCommentPage() {
     const { applicationId } = useParams();
 
     return (
-        <main>
+        <div className='bg-secondary'>
+            <Header/>
+            <main>
             <div className="container white-container p-3 mt-sm-4 mb-sm-4">
 
                 <section id="reviews" className="my-5">
@@ -33,6 +37,8 @@ function ApplicationCommentPage() {
                 </section>
             </div>    
         </main>
+        <Footer/>
+        </div>
     );
 }
 

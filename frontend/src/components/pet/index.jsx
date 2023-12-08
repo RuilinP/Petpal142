@@ -11,7 +11,7 @@ function SinglePetInfo() {
   const [petInfo, setPetInfo] = useState({});
   const [shelterInfo, setShelterInfo] = useState({});
   const [error, setError] = useState(null);
-  const [accessToken, setAccessToken] = useState('');
+  const accessToken = localStorage.getItem('accessToken');
   const { petId } = useParams();
   const [processedList, setProcessedList] = useState([]);
   const [classList, setClass] = useState([]);
@@ -19,24 +19,10 @@ function SinglePetInfo() {
   
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const token = await fetchAccessToken('123@email.com', '123');
-        setAccessToken(token);
-        localStorage.setItem('accessToken', token);
-      } catch (error) {
-        setError(error.message);
-      }
-    }
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     async function fetchPetData() {
       try {
         if (accessToken && petId) {
-          const response = await axios.get(`http://142.126.176.248:8000/pets/${petId}`, {
+          const response = await axios.get(`http://localhost:8000/pets/${petId}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -56,7 +42,7 @@ function SinglePetInfo() {
     async function fetchShelterData() {
       try {
         if (accessToken && petInfo.shelter) { // Check if petInfo.shelter exists
-          const response = await axios.get(`http://142.126.176.248:8000/accounts/shelters/${petInfo.shelter}`, {
+          const response = await axios.get(`http://localhost:8000/accounts/shelters/${petInfo.shelter}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -233,7 +219,7 @@ function SinglePetInfo() {
                     <p className="card-text text-center text-white mb-5">☎ {shelterInfo.phone_number}</p>
                     <ul className="list-group">
                       <li className="list-group-item border-0 bg-info text-center">
-                        <a href="shelter-details.html" className="btn btn-dark">Shelter Page</a>
+                        <a href={`Implement this: put shelter info url here`} className="btn btn-dark">Shelter Page</a>
                       </li>
                       <li className="list-group-item border-0 bg-info text-center">
                         <a href="adoption.html" className="btn btn-dark">Apply now</a>

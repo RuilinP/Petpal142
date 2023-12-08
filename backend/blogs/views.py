@@ -19,6 +19,9 @@ class BlogListCreateView(ListCreateAPIView):
     serializer_class = BlogSerializer
     permission_classes = [BlogListCreatePermission]
     queryset = Blog.objects.all()
+    
+    def perform_create(self, serializer):
+        serializer.validated_data['author'] = self.request.user
 
 class BlogRetrieveUpdatePermission(BasePermission):
     def has_permission(self, request, view):

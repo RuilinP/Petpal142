@@ -66,7 +66,7 @@ function SinglePetInfo() {
       });
       const processedList = resultList.map(item => {
         if (!item.includes('.')) {
-          return `//player.vimeo.com/video/${item}`; // Vimeo video URL construction
+          return `https://yewtu.be/embed/${item}`; // Vimeo video URL construction
           
         } else {
           if (item.includes('imgur')) {
@@ -139,8 +139,17 @@ function SinglePetInfo() {
             {processedList.map((item, index) => (
               <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
                 {classList[index] === 'embed-responsive-item' ? (
-                  <div className="embed-responsive embed-responsive-16by9 video-container">
-                    <iframe className="embed-responsive-item" src={item}></iframe>
+                  <div className="embed-responsive embed-responsive-16by9" style={{
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '3%',
+
+    width: '40%',
+
+    overflow: 'hidden'
+
+  }}>
+                    <iframe className="embed-responsive-item" src={item} allowFullScreen></iframe>
                   </div>
                 ) : (
                   <img src={item} className="d-block" alt={`Slide ${index + 1}`} />

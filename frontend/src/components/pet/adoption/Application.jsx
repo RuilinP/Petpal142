@@ -41,7 +41,6 @@ const Application = (props) => {
 
 		async function fetchApplications() {
 			try {
-				await login("123@email.com", "123");
 				const response = await axios.get(
 					`http://localhost:8000/applications/${petId}/`, {
 					headers: {
@@ -76,7 +75,6 @@ const Application = (props) => {
 
 	const acceptApplication = async () => {
 		try {
-			await login("123@email.com", "123");
 			const response = await axios.patch(
 				`http://localhost:8000/applications/${application.id}/`, {
 				"status": "accepted"
@@ -93,7 +91,6 @@ const Application = (props) => {
 
 	const denyApplication = async () => {
 		try {
-			await login("123@email.com", "123");
 			const response = await axios.patch(
 				`http://localhost:8000/applications/${application.id}/`, {
 				"status": "denied"

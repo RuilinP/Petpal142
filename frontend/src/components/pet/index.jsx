@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Button, Navbar, Nav, Container } from 'react-bootstrap';
 import { scrollToTop } from '../../assets/js/scroll';
 import { useNavigate } from 'react-router-dom';
+import Header from '../common/header';
+import Footer from '../common/footer';
 
 
 function SinglePetInfo() {
@@ -96,33 +98,7 @@ function SinglePetInfo() {
   
   return (
     <div className='bg-secondary'>
-      <header className="bg-primary"> 
-        {/* Back to Top Button */}
-        <div className="back-to-top-button">
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => scrollToTop()}> &#x2191; </button>
-        </div>
-
-        <Container fluid className="p-0"> 
-          <Navbar expand="sm" bg="primary" variant="light">
-            <Container fluid> 
-              <Navbar.Brand href="/">
-                <img className="logo d-inline-block ms-0" src="../assets/images/logo.png" alt="PetPal Logo" />
-              </Navbar.Brand>
-              <Navbar.Toggle aria-controls="navbarNav" />
-              <Navbar.Collapse id="navbarNav">
-                <Nav className="me-auto">
-                  <Nav.Link href="/">Home</Nav.Link>
-                  <Nav.Link href="/">My Applications</Nav.Link>
-                  <Nav.Link href="/">Profile</Nav.Link>
-                </Nav>
-                                
-                <Button variant="dark" size="sm" href="/" role="button" className="ms-0">Log out</Button>
-                <Button variant="dark" size="sm" href="/" role="button" className="ms-2 me-0 d-none d-md-block">&#x1F514;</Button>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
-        </Container>
-      </header>
+      <Header />
       <main>
         <div id="carouselExampleIndicators" className="carousel slide" data-interval="false">
           <div className="carousel-indicators">
@@ -234,10 +210,10 @@ function SinglePetInfo() {
                     <p className="card-text text-center text-white mb-5">☎ {shelterInfo.phone_number}</p>
                     <ul className="list-group">
                       <li className="list-group-item border-0 bg-info text-center">
-                        <a href={`Implement this: put shelter info url here`} className="btn btn-dark">Shelter Page</a>
+                        <button className="btn btn-dark" onClick={() => navigate(`/shelter/profile`)}>Shelter Page</button>
                       </li>
                       <li className="list-group-item border-0 bg-info text-center">
-                        <a href="adoption.html" className="btn btn-dark">Apply now</a>
+                        <button className="btn btn-dark" onClick={() => navigate(`/pet/application`)}>Apply now</button>
                       </li>
                     </ul>
                   </div>
@@ -249,9 +225,7 @@ function SinglePetInfo() {
 
       </main>
       
-      <footer>
-        <p>© 2023 Copyright: PetPal</p>
-      </footer>
+      <Footer />
     </div>
 
     

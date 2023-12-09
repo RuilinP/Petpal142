@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Image, ListGroup, Button } from "react-bootstrap";
 import ErrorCard from "../../ErrorCard";
 import propTypes from "prop-types";
+import { getAccessToken } from "../../../utils/auth";
 
 const ApplicationList = () => {
 
@@ -10,13 +11,12 @@ const ApplicationList = () => {
 	const [applications, setApplications] = useState([]);
 
 	useEffect(() => {
-
 		async function fetchApplications() {
 			try {
 				const response = await axios.get(
 					`http://localhost:8000/applications/`, {
 					headers: {
-						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+						Authorization: `Bearer ${getAccessToken()}`,
 					},
 				});
 				setApplications(response.data.results);
@@ -29,7 +29,7 @@ const ApplicationList = () => {
 	}, []);
 
 	return (
-		<div className="container py-5" >
+		<div className="container py-3" >
 			<h1>My Applications</h1>
 
 			<ListGroup className="pt-3">

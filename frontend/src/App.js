@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PetList from './components/pets';
@@ -23,7 +22,10 @@ import NotificationPage from './pages/NotificationPages/NotificationPage';
 import ShelterDetails from './pages/ShelterDetailsPage';
 import ShelterProfile from './pages/ShelterProfilePage';
 import ShelterMgPets from './pages/ShelterMgmtPetsPage';
-import PetUpdateShelter from './components/pets/update/indexForShelter';
+import BlogsPage from './pages/BlogPages/Blogs';
+import BlogPage from './pages/BlogPages/Blog';
+import BlogUpdatePage from './pages/BlogPages/BlogUpdate';
+import BlogCreatePage from './pages/BlogPages/BlogCreate';
 
 function App() {
   return (
@@ -52,7 +54,11 @@ function App() {
           <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage/>} />
           <Route path="/applications/:applicationId/comments/:commentId" element={<ApplicationCommentDetails/>} />
           <Route path="/notifications/" element={<NotificationPage />} />
-          <Route path="/404/" element={<NotFound />} />
+          <Route path="/blogs/update/:blogId" element={<BlogUpdatePage />} />
+          <Route path="/blogs/create/" element={<BlogCreatePage />} />
+          <Route path="/blogs/:blogId" element={<BlogPage />} />
+          <Route path="/blogs/" element={<BlogsPage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </NotificationProvider>

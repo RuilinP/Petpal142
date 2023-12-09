@@ -121,7 +121,7 @@ function CommentList({shelterId, applicationId}) {
                 )}
             </div>
             <div className="d-flex justify-content-center col-12 mt-3">
-                {comments.length === 0 ? "Be the first to comment." : `Page ${query.page} out of ${totalPages}.`}
+                {!comments || comments.length === 0 ? "Be the first to comment." : `Page ${query.page} out of ${totalPages}.`}
             </div>           
         </>
     );

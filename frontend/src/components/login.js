@@ -1,14 +1,20 @@
 // Login.js
 import React, { useState } from 'react';
-import { Button, Form, Container, Navbar, Nav, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, Navbar, Nav, Container, Form, Alert } from 'react-bootstrap';
 import './login.css';
+import Footer from './common/footer';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(''); // To store any error messages
     const [isLogged, setIsLogged] = useState(false); // To check if the user is logged in
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -30,8 +36,8 @@ function Login() {
 
             if (response.ok) {
                 // Store the tokens in local storage or context
-                localStorage.setItem('accessToken', data.access);
-                localStorage.setItem('refreshToken', data.refresh);
+                localStorage.setItem('access_token', data.access);
+                localStorage.setItem('refresh_token', data.refresh);
                 setIsLogged(true);
                 // Redirect user or do something upon successful login
             } else {
@@ -45,23 +51,29 @@ function Login() {
 
     return (
         <div className="login-page">
-            <Navbar bg="primary" variant="dark" expand="lg" className="login-navbar">
-                <Container>
-                    <Navbar.Brand as={Link} to="/">
-                        <img
-                            src="../assets/images/logo.png"
-                            className="d-inline-block align-top"
-                            alt="PetPal Logo"
-                        />
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/">Home</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
+            <header className="bg-primary"> 
+                {/* Back to Top Button */}
+                <div className="back-to-top-button">
+                    <button type="button" className="btn btn-secondary btn-sm" onClick={scrollToTop}> &#x2191; </button>
+                </div>
+
+                <Container fluid className="p-0"> 
+                    <Navbar expand="sm" bg="primary" variant="light">
+                        <Container fluid> 
+                            <Navbar.Brand href="/">
+                                <img className="logo d-inline-block ms-0" src="../assets/images/logo.png" alt="PetPal Logo" />
+                            </Navbar.Brand>
+                            <Navbar.Toggle aria-controls="navbarNav" />
+                            <Navbar.Collapse id="navbarNav">
+                                <Nav className="me-auto">
+                                    <Nav.Link onClick={ (event) => { event.preventDefault(); navigate(`/`) } }>Home</Nav.Link>
+                                </Nav>
+                                <Button variant="dark" size="sm" onClick={ (event) => { event.preventDefault(); navigate(`/login`) } } role="button" className="me-0">Login</Button>
+                            </Navbar.Collapse>
+                        </Container>
+                    </Navbar>
                 </Container>
-            </Navbar>
+            </header>
 
             <Container className="login-container">
                 <Form className="login-form" onSubmit={handleSubmit}>
@@ -94,11 +106,7 @@ function Login() {
                 </Form>
             </Container>
 
-            <footer className="login-footer">
-                <Container>
-                    <span>© 2023 Copyright: PetPal</span>
-                </Container>
-            </footer>
+            <Footer />
         </div>
     );
 }

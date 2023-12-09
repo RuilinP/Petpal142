@@ -22,8 +22,6 @@ function Header() {
     let tokenUser;
     if (accessToken) {
         tokenUser = jwtDecode(accessToken); 
-    } else {
-        navigate(`/404`);
     }
 
 
@@ -136,9 +134,9 @@ function Header() {
 
 						{ userInfo.userType === 'shelter' || userInfo.userType === 'seeker' ? (
                             <div className="d-flex flex-row align-items-center">
-                                <Button variant="dark" size="sm" onClick={ (event) => { event.preventDefault(); logout(); navigate(`/`) } }>Log out</Button>
+                                <Button variant="dark" size="sm" onClick={ (event) => { event.preventDefault(); logout(); navigate(`/`); navigate(0) } }>Log out</Button>
                                 <Button className={`btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block bg-transparent ${hasNewNotifications ? 'has-notifications' : ''}`} 
-                                    onClick={ (event) => { event.preventDefault(); navigate(`/notifications/`) } }>
+                                    onClick={ (event) => { event.preventDefault(); navigate(`/notifications/`); } }>
                                     &#x1F514;
                                 </Button>
                             </div>

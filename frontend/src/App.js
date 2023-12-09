@@ -52,7 +52,7 @@ function App() {
           <Route path="/blogs/create/" element={<BlogCreate />} />
           <Route path="/blogs/:blogId" element={<Blog />} />
           <Route path="/blogs/" element={<Blogs />} />
-          <Route path="/404/" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </NotificationProvider>

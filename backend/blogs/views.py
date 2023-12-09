@@ -3,6 +3,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import BasePermission
 from .serializers import BlogSerializer
 from .models import Blog
+from accounts.models import Shelter
 
 class BlogListCreatePermission(BasePermission):
     def has_permission(self, request, view):
@@ -21,7 +22,10 @@ class BlogListCreateView(ListCreateAPIView):
     queryset = Blog.objects.all()
     
     def perform_create(self, serializer):
-        serializer.validated_data['author'] = self.request.user
+        author = get_object_or_404(Shelter, id=self.request.user.id)
+        serializer.validated_data['author'] = author
+        serializer.save()
+        return serializer
 
 class BlogRetrieveUpdatePermission(BasePermission):
     def has_permission(self, request, view):

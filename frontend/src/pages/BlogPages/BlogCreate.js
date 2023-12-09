@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, Container, Card, Row, Col, Alert } from 'react-bootstrap';
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState } from 'react';
+import { Container, Button, Form } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { getAccessToken, login } from '../../utils/auth';
 import { jwtDecode } from 'jwt-decode';
@@ -15,7 +15,14 @@ function BlogCreate() {
         author: 0
     });
     const [newImageFile, setNewImageFile] = useState(null);
-    const [error, setError] = useState(null);
+    const [validated, setValidated] = useState(false);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setValidated(true);
+        createBlog();
+    };
 
     const createBlog = async () => {
         login("shelter1@email.com", "123");
@@ -30,7 +37,7 @@ function BlogCreate() {
             form_data.append('image', newImageFile, newImageFile.name);
             form_data.append('author', blog.author);
 
-            const response = await axios.post(
+            await axios.post(
                 `http://localhost:8000/blogs/`,
                 form_data,
                 {
@@ -40,22 +47,23 @@ function BlogCreate() {
                     }
                 }
             ).then((response) => {
-                navigate(`/blogs/`);
+                navigate(`/blogs/${response.data.id}`);
             });
         } catch(error) {
-            setError("Could not create blog.");
         }
     }
 
     return (
-        <Container className="my-5">
-        { error ? error :
-            <Form>
-                <h1>Create a Blog</h1>
+        <Container>
+            <Form noValidate validated={validated} onSubmit={ (event) => handleSubmit(event) }>
+                <h1 className="mb-3">Create a Blog</h1>
 
                 <Form.Group className="mb-3" controlId="title">
                     <Form.Label>Blog title</Form.Label>
                     <Form.Control required type="text" placeholder="Enter blog title" value={ blog.title } onChange={ (event) => setBlog({ ...blog, title: event.target.value }) } />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter the blog's title.
+                    </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="image">
@@ -64,17 +72,22 @@ function BlogCreate() {
                         setBlog({ ...blog, image: URL.createObjectURL(event.target.files[0]) });
                         setNewImageFile(event.target.files[0]);
                     } } />
+                    <Form.Control.Feedback type="invalid">
+                        Please upload an image for the blog.
+                    </Form.Control.Feedback>
                     <img className="mt-3 mw-100" src={ blog.image } />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="body">
                     <Form.Label>Blog body</Form.Label>
                     <Form.Control required as="textarea" rows="20" placeholder="Enter blog body" value={ blog.body } onChange={ (event) => setBlog({ ...blog, body: event.target.value }) } />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter the blog's body.
+                    </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button type="submit" onClick={ () => { createBlog() } }>Create Blog</Button>
+                <Button type="submit">Create Blog</Button>
             </Form>
-        }
         </Container>
     );
 }

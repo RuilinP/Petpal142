@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Container, Card, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import { getAccessToken, login } from '../../utils/auth';
-import { jwtDecode } from 'jwt-decode';
 
 function BlogUpdate() {
     const navigate = useNavigate();
@@ -17,6 +16,14 @@ function BlogUpdate() {
     });
     const [newImageFile, setNewImageFile] = useState(null);
     const [error, setError] = useState(null);
+    const [validated, setValidated] = useState(false);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setValidated(true);
+        updateBlog();
+    };
 
     const updateBlog = async () => {
         try {
@@ -27,7 +34,7 @@ function BlogUpdate() {
                 form_data.append('image', newImageFile, newImageFile.name);
             }
 
-            const response = await axios.patch(
+            await axios.patch(
                 `http://localhost:8000/blogs/${blogId}/`,
                 form_data,
                 {
@@ -37,16 +44,9 @@ function BlogUpdate() {
                     }
                 }
             ).then((response) => {
-                console.log("hello");
                 navigate(`/blogs/${blogId}`)
             });
         } catch(error) {
-            const token = getAccessToken();
-            const tokenUser = jwtDecode(token); 
-            
-            console.log(error);
-
-            setError("Could not update blog.");
         }
     }
 
@@ -69,16 +69,19 @@ function BlogUpdate() {
     }, []);
 
     return (
-        <Container className="my-5">
-        { error ? error :
-            <Form>
-                <h1>Update Your Blog</h1>
-
+        <Container>
+            { error ? error :
+            <Form noValidate validated={validated} onSubmit={ (event) => handleSubmit(event) }>
+                <h1 className="mb-3">Update Your Blog</h1>
+    
                 <Form.Group className="mb-3" controlId="title">
                     <Form.Label>Blog title</Form.Label>
-                    <Form.Control type="text" placeholder="Enter blog title" value={ blog.title } onChange={ (event) => setBlog({ ...blog, title: event.target.value }) } />
+                    <Form.Control required type="text" placeholder="Enter blog title" value={ blog.title } onChange={ (event) => setBlog({ ...blog, title: event.target.value }) } />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter the blog's title.
+                    </Form.Control.Feedback>
                 </Form.Group>
-
+    
                 <Form.Group className="mb-3" controlId="image">
                     <Form.Label>Blog image</Form.Label>
                     <Form.Control type="file" accept="image/*" onChange={ (event) => {
@@ -87,15 +90,18 @@ function BlogUpdate() {
                     } } />
                     <img className="mt-3 mw-100" src={ blog.image } />
                 </Form.Group>
-
+    
                 <Form.Group className="mb-3" controlId="body">
                     <Form.Label>Blog body</Form.Label>
-                    <Form.Control as="textarea" rows="20" placeholder="Enter blog body" value={ blog.body } onChange={ (event) => setBlog({ ...blog, body: event.target.value }) } />
+                    <Form.Control required as="textarea" rows="20" placeholder="Enter blog body" value={ blog.body } onChange={ (event) => setBlog({ ...blog, body: event.target.value }) } />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter the blog's body.
+                    </Form.Control.Feedback>
                 </Form.Group>
-
-                <Button type="submit" onClick={ () => { updateBlog() } }>Update Blog</Button>
+    
+                <Button type="submit">Update Blog</Button>
             </Form>
-        }
+            }
         </Container>
     );
 }

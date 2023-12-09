@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Container, Card, Row, Col, Alert } from 'react-bootstrap';
+import { Button, Container, Alert } from 'react-bootstrap';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import { getAccessToken, login } from '../../utils/auth';
@@ -21,7 +21,7 @@ function Blog() {
 
     const deleteBlog = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8000/blogs/${blogId}/`, {
+            await axios.delete(`http://localhost:8000/blogs/${blogId}/`, {
                 headers: {
                     Authorization: `Bearer ${getAccessToken()}`,
                 },
@@ -60,20 +60,20 @@ function Blog() {
     }, [blog])
 
     return (
-        <Container className="my-5">
+        <Container className="d-flex flex-column gap-4 align-items-start">
             { isAuthor ?
-                <div>
+                <div className="d-flex gap-3">
                     <Button onClick={ () => { navigate(`/blogs/update/${blog.id}`) } }>Update Blog</Button>
                     <Button onClick={ () => { deleteBlog() } }>Delete Blog</Button>
                 </div>
             : '' }
 
             { error2 ? <Alert>{ error2 }</Alert> : '' }
-
+            
             <h1>{ error ? error : blog.title }</h1>
-            <img className="mw-100" src={ blog.image } />
+            <img className="mw-100 " src={ blog.image } />
             <div>
-                <p>{ blog.body }</p>
+                <p style={ { whiteSpace: "pre-wrap" } }>{ blog.body }</p>
             </div>
         </Container>
     );

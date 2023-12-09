@@ -20,6 +20,10 @@ import ApplicationCommentPage from './pages/CommentPages/ApplicationCommentPage'
 import ApplicationCommentDetails from './pages/CommentPages/ApplicationCommentDetailsPage';
 import { NotificationProvider } from './contexts/NotifContexts';
 import NotificationPage from './pages/NotificationPages/NotificationPage';
+import Blogs from './pages/BlogPages/Blogs';
+import Blog from './pages/BlogPages/Blog';
+import BlogUpdate from './pages/BlogPages/BlogUpdate';
+import BlogCreate from './pages/BlogPages/BlogCreate';
 
 function App() {
   return (
@@ -44,7 +48,11 @@ function App() {
           <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage/>} />
           <Route path="/applications/:applicationId/comments/:commentId" element={<ApplicationCommentDetails/>} />
           <Route path="/notifications/" element={<NotificationPage />} />
-          <Route path="/404/" element={<NotFound />} />
+          <Route path="/blogs/update/:blogId" element={<BlogUpdate />} />
+          <Route path="/blogs/create/" element={<BlogCreate />} />
+          <Route path="/blogs/:blogId" element={<Blog />} />
+          <Route path="/blogs/" element={<Blogs />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </NotificationProvider>

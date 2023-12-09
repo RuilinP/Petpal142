@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'pet',
     'comments',
     'notifications',
+    'blogs',
     'django_extensions',
     'application',
     'corsheaders',

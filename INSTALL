@@ -67,13 +67,16 @@ need to be edited on the configuration of the router.
 2. Setup
 
 After connected to the internet,
------------------------------
-sudo apt update              |
-sudo apt upgrade             |
-sudo apt install pip3        |
-sudo apt install python3-venv|
-sudo pip3 install mod-wsgi   |
-------------------------------
+---------------------------------------------
+git clone https://github.com/RuilinP/CSC309P3|
+sudo apt update                              |
+sudo apt upgrade                             |
+sudo apt install pip3                        |
+sudo apt install python3-venv                |
+sudo pip3 install mod-wsgi                   |
+---------------------------------------------
+
+# REVERSE PROXY
 like in any debian distro for basic setup(local development server)
 To install nginx for reverse proxy(Thing is that, what's deployed on frontend might actaully make https request, but we can only process http, so we need https -> http and then http -> https)
 --------------------------------------------------------------------------------
@@ -121,3 +124,55 @@ systemctl nginx restart                                                         
 sudo certbot --nginx -d petpal.ruilinp.com                                          |
 # and then put the certificate in conf                                              |
 ------------------------------------------------------------------------------------
+#APACHE
+------------------------------------------------------------
+sudo apt install apache2 apache2-dev apache2-utils          |
+libapache2-mod-wsgi-py3                                     |
+sudo cp CSC309P3/backend /var/www/                          |
+sudo chown –R www-data:www-data /var/www/backend            |
+cd /etc/apache2/sites-available/                            |
+sudo nano backend.conf                                      |
+------------------------------------------------------------
+========================================================================================================
+<VirtualHost *:80>
+
+        ServerName petpal.ruilin.site
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/backend
+
+        WSGIDaemonProcess petpal python-path=/var/www/petpal py>
+        WSGIProcessGroup petpal
+        WSGIScriptAlias / /var/www/petpal/petpal/wsgi.py
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, wh>
+        # enabled or disabled at a global level, it is possible>
+        # include a line for only one particular virtual host. >
+        # following line enables the CGI configuration for this>
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+
+        Alias /media/ /var/www/petpal/media
+        <Directory /var/www/petpal/media>
+                Require all granted
+        </Directory>
+
+</VirtualHost>
+==========================================================================================================
+-----------------------------------
+a2ensite petpal.conf              |
+apache2ctl -k start               |
+-----------------------------------
+#React
+-----------------------------------
+cd /home/ruilin/CSC309P3/fontend   |
+npm run build                      |
+cd build                           |
+serve -s build                     |
+-----------------------------------
+
+
+

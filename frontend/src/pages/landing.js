@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/common/header';
 import Footer from '../components/common/footer';
 
 function Landing() {
@@ -13,29 +14,7 @@ function Landing() {
 
     return (
         <div>
-            <header className="bg-primary"> 
-            {/* Back to Top Button */}
-            <div className="back-to-top-button">
-                <button type="button" className="btn btn-secondary btn-sm" onClick={scrollToTop}> &#x2191; </button>
-            </div>
-
-            <Container fluid className="p-0"> 
-                <Navbar expand="sm" bg="primary" variant="light">
-                    <Container fluid> 
-                        <Navbar.Brand href="/">
-                            <img className="logo d-inline-block ms-0" src="../assets/images/logo.png" alt="PetPal Logo" />
-                        </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="navbarNav" />
-                        <Navbar.Collapse id="navbarNav">
-                            <Nav className="me-auto">
-                                <Nav.Link onClick={ (event) => { event.preventDefault(); navigate(`/`) } }>Home</Nav.Link>
-                            </Nav>
-                            <Button variant="dark" size="sm" onClick={ (event) => { event.preventDefault(); navigate(`/login`) } } role="button" className="me-0">Login</Button>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
-            </Container>
-        </header>
+            <Header />
 
             <main>
             <div className="container-fluid p-0">
@@ -55,7 +34,7 @@ function Landing() {
                 <h1 className="pb-3">Looking to adopt a pet?</h1>
                 <p className="fs-5">Ready to bring a new furry friend into your life? Explore pet adoption! Find your perfect companion and provide a loving forever home to a pet in need. Start your journey today!</p>
                 <div className="pt-3">
-                <Link to="/signup-seeker" className="btn btn-dark" role="button">Signup as a Pet Seeker</Link>
+                <Link to="/signup/seeker" className="btn btn-dark" role="button">Signup as a Pet Seeker</Link>
                 </div>
             </div>
         </div>
@@ -65,7 +44,7 @@ function Landing() {
                 <h1 className="pb-3">Looking to put a pet up for adoption?</h1>
                 <p className="fs-5">Seeking a loving home for your beloved pet? Consider pet adoption. Help your pet find a caring family that will cherish them as much as you do. Get started today!</p>
                 <div className="pt-3">
-                    <Link to="/signup-shelter" className="btn btn-dark" role="button">Signup as a Pet Shelter</Link>
+                    <Link to="/signup/shelter" className="btn btn-dark" role="button">Signup as a Pet Shelter</Link>
                 </div>
             </div>
             <img className="d-none d-lg-inline-block landing-row-thumb img-responsive ms-auto" src="assets/images/landing-2.png" />

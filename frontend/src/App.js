@@ -3,9 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PetList from './components/pets';
 import SinglePetInfo from './components/pet';
 import Landing from './pages/landing';
-import Login from './components/login'
-import ShelterSignup from './components/ShelterSignup'
-import SeekerSignup from './components/SeekerSignup';
+import Login from './pages/LoginPage';
 import SearchPets from './components/Searchpets';
 import ShelterCommentPage from './pages/CommentPages/ShelterCommentPage';
 import ShelterCommentDetails from './pages/CommentPages/ShelterCommentDetailsPage';
@@ -26,6 +24,13 @@ import BlogsPage from './pages/BlogPages/Blogs';
 import BlogPage from './pages/BlogPages/Blog';
 import BlogUpdatePage from './pages/BlogPages/BlogUpdate';
 import BlogCreatePage from './pages/BlogPages/BlogCreate';
+import PetUpdateShelter from './components/pets/update/indexForShelter';
+import SignupPage from './pages/SignupPages/Signup';
+import SignupShelterPage from './pages/SignupPages/SignupShelter';
+import SignupShelterDonePage from './pages/SignupPages/SignupShelterDone';
+import SignupSeekerPage from './pages/SignupPages/SignupSeeker';
+import SignupSeekerContinuedPage from './pages/SignupPages/SignupSeekerContinued';
+import SignupSeekerDonePage from './pages/SignupPages/SignupSeekerDone';
 
 function App() {
   return (
@@ -38,8 +43,12 @@ function App() {
           <Route path="/login/" element={<Login />} />
           {/* ... other routes ... */}
           <Route path="/pet/create" element={<CreatePet />} />
-          <Route path="/signup-shelter" element={<ShelterSignup />} />
-          <Route path="/signup-seeker" element={<SeekerSignup />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/signup/shelter" element={<SignupShelterPage />} />
+          <Route path="/signup/shelter/done" element={<SignupShelterDonePage />} />
+          <Route path="/signup/seeker" element={<SignupSeekerPage />} />
+          <Route path="/signup/seeker/continued" element={<SignupSeekerContinuedPage />} />
+          <Route path="/signup/seeker/done" element={<SignupSeekerDonePage />} />
           <Route path="/shelter/profile" element={<ShelterProfile />} />
           <Route path="/shelter/manage_pets" element={<ShelterMgPets />} />
           <Route path="/shelter/:shelterId" element={<ShelterDetails />} />

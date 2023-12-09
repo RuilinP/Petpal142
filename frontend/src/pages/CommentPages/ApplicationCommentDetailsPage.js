@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import '../styles/reviews.css'
 import '../styles/custom.css'
-import '../styles/main.css'
+import '../../assets/styles/main.css'
 import '../styles/daterangepicker-bs3.css'
 import '../styles/fix-pos-icon.css'
 import LeaveReplyBox from '../../components/Comments/LeaveReviewBox/LeaveReplyBox';

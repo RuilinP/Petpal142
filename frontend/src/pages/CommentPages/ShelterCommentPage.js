@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import LeaveCommentBox from '../../components/Comments/LeaveReviewBox/LeaveCommentBox'; 
 import '../styles/reviews.css'
 import '../styles/custom.css'
-import '../styles/main.css'
+import '../../assets/styles/main.css'
 import '../styles/fix-pos-icon.css'
 import CommentList from '../../components/Comments/CommentList/CommentList';
 import AverageRating from '../../components/Comments/CommentList/AvgRating';

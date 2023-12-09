@@ -16,7 +16,6 @@ function Header() {
     const { hasNewNotifications } = useNotifications();
 
     const [userInfo, setUserInfo] = useState({ userType: null, userId: null });
-	const accessToken = localStorage.getItem('accessToken');
 
     const [userType, setUserType] = useState(null);
 	const accessToken = getAccessToken();

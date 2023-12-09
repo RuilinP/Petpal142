@@ -12,7 +12,7 @@ function SignupSeeker() {
         email: '',
         password: '',
         first_name: '',
-        last_name: ''
+        last_name: '',
     });
     const [validated, setValidated] = useState(false);
 

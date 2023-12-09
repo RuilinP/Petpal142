@@ -31,6 +31,8 @@ import SignupShelterDonePage from './pages/SignupPages/SignupShelterDone';
 import SignupSeekerPage from './pages/SignupPages/SignupSeeker';
 import SignupSeekerContinuedPage from './pages/SignupPages/SignupSeekerContinued';
 import SignupSeekerDonePage from './pages/SignupPages/SignupSeekerDone';
+import ProfileShelterPage from './pages/ProfilePages/ProfileShelterPage';
+import ProfileSeekerPage from './pages/ProfilePages/ProfileSeekerPage';
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
           <Route path="/signup/seeker" element={<SignupSeekerPage />} />
           <Route path="/signup/seeker/continued" element={<SignupSeekerContinuedPage />} />
           <Route path="/signup/seeker/done" element={<SignupSeekerDonePage />} />
+          <Route path="/profile/shelter/" element={<ProfileShelterPage />} />
+          <Route path="/profile/seeker/" element={<ProfileSeekerPage />} />
           <Route path="/shelter/profile" element={<ShelterProfile />} />
           <Route path="/shelter/manage_pets" element={<ShelterMgPets />} />
           <Route path="/shelter/:shelterId" element={<ShelterDetails />} />

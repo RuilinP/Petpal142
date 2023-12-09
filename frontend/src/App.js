@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PetList from './components/pets';
@@ -20,10 +19,10 @@ import ApplicationCommentPage from './pages/CommentPages/ApplicationCommentPage'
 import ApplicationCommentDetails from './pages/CommentPages/ApplicationCommentDetailsPage';
 import { NotificationProvider } from './contexts/NotifContexts';
 import NotificationPage from './pages/NotificationPages/NotificationPage';
-import Blogs from './pages/BlogPages/Blogs';
-import Blog from './pages/BlogPages/Blog';
-import BlogUpdate from './pages/BlogPages/BlogUpdate';
-import BlogCreate from './pages/BlogPages/BlogCreate';
+import BlogsPage from './pages/BlogPages/Blogs';
+import BlogPage from './pages/BlogPages/Blog';
+import BlogUpdatePage from './pages/BlogPages/BlogUpdate';
+import BlogCreatePage from './pages/BlogPages/BlogCreate';
 
 function App() {
   return (
@@ -48,10 +47,10 @@ function App() {
           <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage/>} />
           <Route path="/applications/:applicationId/comments/:commentId" element={<ApplicationCommentDetails/>} />
           <Route path="/notifications/" element={<NotificationPage />} />
-          <Route path="/blogs/update/:blogId" element={<BlogUpdate />} />
-          <Route path="/blogs/create/" element={<BlogCreate />} />
-          <Route path="/blogs/:blogId" element={<Blog />} />
-          <Route path="/blogs/" element={<Blogs />} />
+          <Route path="/blogs/update/:blogId" element={<BlogUpdatePage />} />
+          <Route path="/blogs/create/" element={<BlogCreatePage />} />
+          <Route path="/blogs/:blogId" element={<BlogPage />} />
+          <Route path="/blogs/" element={<BlogsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

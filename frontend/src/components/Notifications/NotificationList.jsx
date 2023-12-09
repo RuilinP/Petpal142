@@ -102,7 +102,7 @@ function NotificationList() {
                 )}
             </div>
             <div className="d-flex justify-content-center col-12 mt-3">
-                {notifications.length === 0 ? "You have no notification." : `Page ${query.page} out of ${totalPages}.`}
+                {!notifications || notifications.length === 0 ? "You have no notification." : `Page ${query.page} out of ${totalPages}.`}
             </div>           
         </>
     );

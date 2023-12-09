@@ -43,3 +43,8 @@ export async function login(email, password) {
 	localStorage.setItem("refresh_token", refresh);
 
 }
+
+export function logout() {
+	localStorage.removeItem("access_token");
+	localStorage.removeItem("refresh_token");
+}

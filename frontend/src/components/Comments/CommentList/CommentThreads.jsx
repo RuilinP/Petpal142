@@ -22,7 +22,7 @@ function CommentThreads({ commentType, comments, relevant_shelterEmail }) {
 
     return (
         <div>
-            {comments.map(comment => (
+            {comments && comments.map(comment => (
                 <div key={comment.id} className="darker d-flex flex-start justify-content-center col-lg-12 mt-4">
                     <CommentAvatar key={'comment'+comment.id} comment={comment} />
                     <div className="flex-grow-1 flex-shrink-1">

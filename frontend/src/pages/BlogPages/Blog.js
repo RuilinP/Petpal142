@@ -1,5 +1,5 @@
 import '../styles/custom.css'
-import '../styles/main.css'
+import '../../assets/styles/main.css'
 import '../styles/fix-pos-icon.css'
 import Header from '../../components/common/header';
 import Footer from '../../components/common/footer';

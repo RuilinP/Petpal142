@@ -1,6 +1,6 @@
 import { Button, Container, Navbar } from 'react-bootstrap';
 import logo from '../../assets/images/logo.png';
-import '../../pages/styles/main.css'
+import '../../assets/styles/main.css'
 import '../../pages/styles/custom.css'
 import '../../pages/styles/fix-pos-icon.css'
 import { useNotifications } from '../../contexts/NotifContexts'
@@ -61,21 +61,21 @@ function Header() {
 
     return (
         <header>
-
-			<div className='d-md-none fixed-bottom pr-3 pb-3'>
-				<Button className={`notif-icon btn btn-sm navbar-brand bg-transparent ${hasNewNotifications ? 'has-notifications' : ''}`} 
-				    onClick={ (event) => { event.preventDefault(); navigate(`/notifications/`) } }>
-					&#x1F514;
-				</Button>
-
-			</div>
+            { userInfo.userType === 'shelter' || userInfo.userType === 'seeker' ?
+                <div className='d-md-none fixed-bottom pr-3 pb-3'>
+                    <Button className={`notif-icon btn btn-sm navbar-brand bg-transparent ${hasNewNotifications ? 'has-notifications' : ''}`} 
+                        onClick={ (event) => { event.preventDefault(); navigate(`/notifications/`) } }>
+                        &#x1F514;
+                    </Button>
+                </div>
+            : '' }
 
 			<div className='back-to-top-button'>
 				<button type='button' className='btn btn-secondary btn-sm' onClick={scrollToTop}> &#x2191; </button>
 			</div>
 
             <Navbar bg='primary' expand='sm' variant='light'>
-                <Container fluid>
+                <Container fluid className="d-flex align-items-center">
 					<Button className='navbar-brand mb-0 h1 bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/`) } }>
 						<img className='logo d-line-block' src={logo} alt='PetPal Logo'></img>
 					</Button>
@@ -88,7 +88,10 @@ function Header() {
                     <div className='collapse navbar-collapse' id='navbarNav'>
                         {userInfo.userType === 'shelter' ? (
                             // Shelter user navigation
-                            <ul className='navbar-nav me-auto'>
+                            <ul className='navbar-nav me-auto d-flex align-items-center'>
+                                <li className='nav-item'>
+                                    <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/`) } }>Home</Button>
+                                </li>
                                 <li className='nav-item'>
                                     <ClickHandlerLink url={'/shelter/profile'} className={"nav-link"} children={'Profile'}/>
                                 </li>
@@ -100,12 +103,15 @@ function Header() {
                                 </li>
                                 <li className='nav-item'>
                                     <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/blogs/`) } }>Blogs</Button>
-
                                 </li>
                             </ul>
-                        ) : (
+                        ) :
+                        userInfo.userType === 'seeker' ? (
                             // Seeker user navigation
-                            <ul className='navbar-nav me-auto'>
+                            <ul className='navbar-nav me-auto d-flex align-items-center'>
+                                 <li className='nav-item'>
+                                    <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/`) } }>Home</Button>
+                                </li>
                                 <li className='nav-item'>
                                     <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/profile/seeker/`) } }>Profile</Button>
                                 </li>
@@ -119,15 +125,29 @@ function Header() {
                                     <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/blogs/`) } }>Blogs</Button>
                                 </li>
                             </ul>
+                        ) : (
+                            // Anonymous user navigation
+                            <ul className='navbar-nav me-auto d-flex align-items-center'>
+                                <li className='nav-item'>
+                                    <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/`) } }>Home</Button>
+                                </li>
+                            </ul>
                         )}
 
-
-						<Button variant="dark" size="sm" className='btn btn-dark btn-sm ms-0' onClick={ (event) => { event.preventDefault(); logout(); navigate(`/`) } }>Log out</Button>
-						<Button className={`btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block bg-transparent ${hasNewNotifications ? 'has-notifications' : ''}`} 
-						    onClick={ (event) => { event.preventDefault(); navigate(`/notifications/`) } }>
-							&#x1F514;
-						</Button>
-
+						{ userInfo.userType === 'shelter' || userInfo.userType === 'seeker' ? (
+                            <div className="d-flex flex-row align-items-center">
+                                <Button variant="dark" size="sm" onClick={ (event) => { event.preventDefault(); logout(); navigate(`/`) } }>Log out</Button>
+                                <Button className={`btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block bg-transparent ${hasNewNotifications ? 'has-notifications' : ''}`} 
+                                    onClick={ (event) => { event.preventDefault(); navigate(`/notifications/`) } }>
+                                    &#x1F514;
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className="d-flex flex-row gap-3">
+                                <Button variant="dark" size="sm" onClick={ (event) => { event.preventDefault(); navigate(`/login`) } } role="button" className="me-0">Login</Button>
+                                <Button variant="dark" size="sm" onClick={ (event) => { event.preventDefault(); navigate(`/signup`) } } role="button" className="me-0">Signup</Button>
+                            </div>
+                        )}
                     </div>
                 </Container>
             </Navbar>

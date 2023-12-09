@@ -93,7 +93,7 @@ function Header() {
                                     <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/`) } }>Home</Button>
                                 </li>
                                 <li className='nav-item'>
-                                    <ClickHandlerLink url={'/shelter/profile'} className={"nav-link"} children={'Profile'}/>
+                                    <ClickHandlerLink url={'/profile/shelter/'} className={"nav-link"} children={'Profile'}/>
                                 </li>
                                 <li className='nav-item'>
                                     <ClickHandlerLink url={`/shelters/${userInfo.userId}/comments/`} className={"nav-link"} children={'Shelter Reviews'}/>

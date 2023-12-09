@@ -150,12 +150,15 @@ function SignupSeekerContinued() {
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="mission-statement">
+                    <Form.Group className="mb-3" controlId="preferences">
                         <Form.Label>Preferences</Form.Label>
                         {
                             ['dog', 'cat', 'hamster', 'bird', 'rabbit'].map((pet) => {
                                 return <Form.Check
                                     type="checkbox"
+                                    checked={Object.values(account.preferences).some((preference) =>
+                                        preference.preference === pet
+                                    )}
                                     value={pet}
                                     label={pet[0].toUpperCase() + pet.slice(1)}
                                     id={`preference-${pet}`}

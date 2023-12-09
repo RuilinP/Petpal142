@@ -1,4 +1,5 @@
 import React from 'react';
+import ClickHandlerLink from '../common/ClickHandlerLink';
 
 const NotificationThread = ({ notifications, setNotifications }) => {
     const accessToken = localStorage.getItem('accessToken');
@@ -62,13 +63,13 @@ const NotificationThread = ({ notifications, setNotifications }) => {
                         <br />
                         <p className="mb-2" style={{ fontWeight: notification.is_read ? 'normal' : 'bold' }}>
                             {notification.content_type_str} {"  "}
-                            <a href={`http://localhost:8000${notification.content_object_url}`} target="_blank" rel="noopener noreferrer">
-                                Click for details
-                            </a>
+                            <ClickHandlerLink url={notification.content_object_url} 
+                                                children={`Click for details`} />
                         </p>
                     </div>
                 </div>
-            ))}
+            ))
+            }
         </>
     );
 };

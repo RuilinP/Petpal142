@@ -51,31 +51,44 @@ function NotificationList() {
         const { page } = query;
 
         let url = `http://localhost:8000/notifications/?page=${page}`;
+        let method = 'OPTIONS';
 
         if (filter.value === 'read') {
             url += '&is_read=true';
         } else if (filter.value === 'unread') {
             url += '&is_read=false';
+        } else {
+            method = 'GET';
         }
 
-        try {
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                'Authorization': `Bearer ${accessToken}`
-                }
-            })
-                .then(response => response.json())
-                .then(json => {
-                    setNotifications(json.results);
-                    setTotalPages(Math.ceil(json.count / 10)); // page size
-                });                 
-        } catch (error) {
-            navigate('/404');
+        async function fetchNotifs() {
+
+            try {
+                fetch(url, {
+                    method: method,
+                    headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        setNotifications(json.results);
+                        if (json.count === 0) {
+                        } else {
+                            setTotalPages(Math.ceil(json.count / 10)); // page size
+                        }                    
+                    });                 
+            } catch (error) {
+                navigate('/404');
+            }
+        }
+
+        if (accessToken) {
+            fetchNotifs();
         }
 
     }, [query, filter]);
-
+    
     
     return (
         <>  <div className='mx-auto col-11'>
@@ -88,7 +101,8 @@ function NotificationList() {
                 />
             </div>
 
-            <NotificationThread notifications={notifications} setNotifications={setNotifications} />
+            {notifications && <NotificationThread notifications={notifications} setNotifications={setNotifications} />}
+            {notifications && 
             <div className="d-flex justify-content-center col-12 mt-4">
                 {query.page > 1 && (
                     <button className='btn btn-dark' onClick={() => FlipPage(() => setQuery({ ...query, page: query.page - 1 }))}>
@@ -101,8 +115,9 @@ function NotificationList() {
                     </button>
                 )}
             </div>
+            }
             <div className="d-flex justify-content-center col-12 mt-3">
-                {notifications.length === 0 ? "You have no notification." : `Page ${query.page} out of ${totalPages}.`}
+                {!notifications ? "You have no notification." : `Page ${query.page} out of ${totalPages}.`}
             </div>           
         </>
     );

@@ -6,10 +6,11 @@ import '../../pages/styles/fix-pos-icon.css'
 import { useNotifications } from "../../contexts/NotifContexts"
 
 import React, { useState, useEffect } from 'react';
+import ClickHandlerLink from './ClickHandlerLink';
 
 function Header() {
     const { hasNewNotifications } = useNotifications();
-    const [userType, setUserType] = useState(null);
+    const [userInfo, setUserInfo] = useState({ userType: null, userId: null });
 	const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
@@ -25,12 +26,14 @@ function Header() {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                setUserType(data.user_type.toLowerCase());
+				setUserInfo({ 
+                    userType: data.user_type.toLowerCase(),
+                    userId: data.user_id
+                });
             } catch (error) {
                 console.error('Error fetching user type:', error);
             }
         };
-		console.log(userType);
         fetchUserType();
     }, []);
 
@@ -44,10 +47,8 @@ function Header() {
     return (
         <header>
 			<div className="d-md-none fixed-bottom pr-3 pb-3">
-				<a className={`notif-icon btn btn-sm navbar-brand ${hasNewNotifications ? 'has-notifications' : ''}`} 
-				href="notifications.html">
-					&#x1F514;
-				</a>
+                <ClickHandlerLink className={`notif-icon btn btn-sm navbar-brand ${hasNewNotifications ? 'has-notifications' : ''}`}
+                                url={'/notifications'} children={`🔔`}/>
 			</div>
 
 			<div className="back-to-top-button">
@@ -66,17 +67,17 @@ function Header() {
 					</button>
 
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        {userType === 'shelter' ? (
+                        {userInfo.userType === 'shelter' ? (
                             // Shelter user navigation
                             <ul className="navbar-nav me-auto">
                                 <li className="nav-item">
-                                    <a href="" className="nav-link">Profile</a>
+									<ClickHandlerLink url={'/shelter/profile'} className={"nav-link"} children={'Profile'}/>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="" className="nav-link">Shelter Reviews</a>
+									<ClickHandlerLink url={`/shelters/${userInfo.userId}/comments/`} className={"nav-link"} children={'Shelter Reviews'}/>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="" className="nav-link">Shelter Pets</a>
+                                    <ClickHandlerLink url={'/shelter/manage_pets'} className={"nav-link"} children={'Animal Inventory'}/>
                                 </li>
                             </ul>
                         ) : (
@@ -94,11 +95,9 @@ function Header() {
                             </ul>
                         )}
 
-						<a className="btn btn-dark btn-sm ms-0" href="landing.html" role="button">Log out</a>
-						<a className={`btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block ${hasNewNotifications ? 'has-notifications' : ''}`} 
-						href="notifications.html">
-							&#x1F514;
-						</a>
+						<a className="btn btn-dark btn-sm ms-0" href="/404" role="button">Log out</a>
+                        <ClickHandlerLink className={`btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block ${hasNewNotifications ? 'has-notifications' : ''}`}
+                                url={'/notifications'} children={`🔔`}/>
                     </div>
                 </Container>
             </Navbar>

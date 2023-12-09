@@ -1,6 +1,7 @@
 import React from 'react';
 import RatingStars from '../RatingStars';
 import CommentAvatar from '../CommentAvatar';
+import ClickHandlerLink from '../../common/ClickHandlerLink';
 
 
 function CommentThreads({ commentType, comments, relevant_shelterEmail }) {
@@ -31,10 +32,10 @@ function CommentThreads({ commentType, comments, relevant_shelterEmail }) {
                                 <p className="mb-1">
                                     {comment.author} <span className="small">- {new Date(comment.created_at).toLocaleTimeString()}</span>
                                 </p>
-                                <a href={`/${commentType}/${comment.object_id}/comments/${comment.id}/`}> 
-                                    <span className="small">details
-                                    </span>
-                                </a>
+                                <ClickHandlerLink url={`/${commentType}/${comment.object_id}/comments/${comment.id}/`} 
+                                                children={<span className="small">details
+                                                </span>}
+                                                className={'small'} />
                             </div>
 
                             <RatingStars rating={comment.rating} />

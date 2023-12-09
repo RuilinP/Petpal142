@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, Navbar, Nav, Container } from 'react-bootstrap';
 import { scrollToTop } from '../../assets/js/scroll';
 import { useNavigate } from 'react-router-dom';
+import Header from '../common/header';
+import Footer from '../common/footer';
 
 
 function PetList() {
@@ -257,33 +259,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
 
   return (
     <div className='bg-secondary'>
-      <header className="bg-primary"> 
-                {/* Back to Top Button */}
-                <div className="back-to-top-button">
-                    <button type="button" className="btn btn-secondary btn-sm" onClick={() => scrollToTop()}> &#x2191; </button>
-                </div>
-
-                <Container fluid className="p-0"> 
-                    <Navbar expand="sm" bg="primary" variant="light">
-                        <Container fluid> 
-                            <Navbar.Brand href="/">
-                                <img className="logo d-inline-block ms-0" src="../assets/images/logo.png" alt="PetPal Logo" />
-                            </Navbar.Brand>
-                            <Navbar.Toggle aria-controls="navbarNav" />
-                            <Navbar.Collapse id="navbarNav">
-                                <Nav className="me-auto">
-                                    <Nav.Link href="/">Home</Nav.Link>
-                                    <Nav.Link href="/">My Applications</Nav.Link>
-                                    <Nav.Link href="/">Profile</Nav.Link>
-                                </Nav>
-                                
-                                <Button variant="dark" size="sm" href="/" role="button" className="ms-0">Log out</Button>
-                                <Button variant="dark" size="sm" href="/" role="button" className="ms-2 me-0 d-none d-md-block">&#x1F514;</Button>
-                            </Navbar.Collapse>
-                        </Container>
-                    </Navbar>
-                </Container>
-            </header>
+      <Header />
             <main>
             <div className="container">
             <div className="row mb-3 p-3">
@@ -624,9 +600,7 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
   </div>
             </main>
       
-      <footer>
-                    <p>© 2023 Copyright: PetPal</p>
-                </footer>
+      <Footer />
     </div>
   );
 }

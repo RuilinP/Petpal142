@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Image, ListGroup, Button } from "react-bootstrap";
-import { getAccessToken, login } from "../../../utils/auth";
+import { getAccessToken } from "../../../utils/auth";
 import ErrorCard from "../../ErrorCard";
 import propTypes from "prop-types";
 
@@ -14,7 +14,6 @@ const ApplicationList = () => {
 
 		async function fetchApplications() {
 			try {
-				await login("123@email.com", "123");
 				const response = await axios.get(
 					`http://localhost:8000/applications/`, {
 					headers: {

@@ -39,7 +39,7 @@ const NotificationThread = ({ notifications, setNotifications }) => {
 
     return (
         <>
-            {notifications.map(notification => (
+            {notifications && notifications.map(notification => (
                 <div key={notification.id} className="notification-wrapper mb-4">
                     <div className="notification-container">
                         <div className="col-12 col-md-6">

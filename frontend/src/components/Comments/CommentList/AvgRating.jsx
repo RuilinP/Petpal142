@@ -24,7 +24,6 @@ const AverageRating = ({ shelterId }) => {
     };
 
     const calculateAverageRating = (comments) => {
-        console.log(comments.count);
         if (!comments || comments.count === 0) {
             return 0;
         }
@@ -69,7 +68,7 @@ const AverageRating = ({ shelterId }) => {
         return () => {
             window.removeEventListener('commentPosted', handleNewComment);
         };
-    }, [comments.count]);
+    }, [comments]);
 
 
     return (

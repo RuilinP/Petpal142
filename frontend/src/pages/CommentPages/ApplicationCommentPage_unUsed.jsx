@@ -29,7 +29,6 @@ const ApplicationCommentPage = (props) => {
 
     useEffect(() => {
         async function fetchCommentsData() {
-            login("123@email.com", "123");
             try {
                 const response = await axios.get(`http://localhost:8000/applications/${applicationID}/comments/`, {
                     headers: {

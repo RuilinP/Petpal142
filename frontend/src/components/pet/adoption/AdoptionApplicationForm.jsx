@@ -28,7 +28,6 @@ const AdoptionApplicationForm = (props) => {
 		e.preventDefault();
 		async function submit() {
 			try {
-				await login("456@email.com", "456");
 				const response = await axios.post(
 					`http://localhost:8000/pets/${petId}/applications/`, formData, {
 					headers: {

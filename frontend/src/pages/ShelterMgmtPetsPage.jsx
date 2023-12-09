@@ -102,7 +102,7 @@ function ShelterMgPets() {
                                         <td className="d-none d-md-table-cell">{pet.specie}</td>
                                         <td className="d-none d-md-table-cell">{pet.status}</td>
                                         <td className="d-grid gap-2">
-                                            <ClickHandlerButton className={"btn btn-info"} children={'Update'} url={`/pet/update/${pet.id}`}/>
+                                            <ClickHandlerButton className={"btn btn-info"} children={'Update'} url={`shelter/pet/update/${pet.id}`}/>
                                         </td>
                                     </tr>
                                 ))}

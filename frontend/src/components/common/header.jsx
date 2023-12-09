@@ -3,15 +3,30 @@ import logo from '../../assets/images/logo.png';
 import '../../pages/styles/main.css'
 import '../../pages/styles/custom.css'
 import '../../pages/styles/fix-pos-icon.css'
-import { useNotifications } from "../../contexts/NotifContexts"
-
+import { useNotifications } from '../../contexts/NotifContexts'
 import React, { useState, useEffect } from 'react';
 import ClickHandlerLink from './ClickHandlerLink';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { getAccessToken, logout } from '../../utils/auth';
+
 
 function Header() {
+    const navigate = useNavigate();
     const { hasNewNotifications } = useNotifications();
+
     const [userInfo, setUserInfo] = useState({ userType: null, userId: null });
 	const accessToken = localStorage.getItem('accessToken');
+
+    const [userType, setUserType] = useState(null);
+	const accessToken = getAccessToken();
+    let tokenUser;
+    if (accessToken) {
+        tokenUser = jwtDecode(accessToken); 
+    } else {
+        navigate(`/404`);
+    }
+
 
     useEffect(() => {
         const fetchUserType = async () => {
@@ -34,70 +49,86 @@ function Header() {
                 console.error('Error fetching user type:', error);
             }
         };
+
         fetchUserType();
     }, []);
 
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
-            behavior: "smooth"
+            behavior: 'smooth'
         });
     };
 
     return (
         <header>
-			<div className="d-md-none fixed-bottom pr-3 pb-3">
-                <ClickHandlerLink className={`notif-icon btn btn-sm navbar-brand ${hasNewNotifications ? 'has-notifications' : ''}`}
-                                url={'/notifications'} children={`🔔`}/>
+
+			<div className='d-md-none fixed-bottom pr-3 pb-3'>
+				<Button className={`notif-icon btn btn-sm navbar-brand bg-transparent ${hasNewNotifications ? 'has-notifications' : ''}`} 
+				    onClick={ (event) => { event.preventDefault(); navigate(`/notifications/`) } }>
+					&#x1F514;
+				</Button>
+
 			</div>
 
-			<div className="back-to-top-button">
-				<button type="button" className="btn btn-secondary btn-sm" onClick={scrollToTop}> &#x2191; </button>
+			<div className='back-to-top-button'>
+				<button type='button' className='btn btn-secondary btn-sm' onClick={scrollToTop}> &#x2191; </button>
 			</div>
 
             <Navbar bg='primary' expand='sm' variant='light'>
                 <Container fluid>
-					<a href="landing.html" className="navbar-brand mb-0 h1">
-						<img className="logo d-line-block" src={logo} alt="PetPal Logo"></img>
-					</a>
+					<Button className='navbar-brand mb-0 h1 bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/`) } }>
+						<img className='logo d-line-block' src={logo} alt='PetPal Logo'></img>
+					</Button>
 
-					<button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" className="navbar-toggler"
-						aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-						<span className="navbar-toggler-icon"></span>
+					<button type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' className='navbar-toggler'
+						aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
+						<span className='navbar-toggler-icon'></span>
 					</button>
 
-                    <div className="collapse navbar-collapse" id="navbarNav">
+                    <div className='collapse navbar-collapse' id='navbarNav'>
                         {userInfo.userType === 'shelter' ? (
                             // Shelter user navigation
-                            <ul className="navbar-nav me-auto">
-                                <li className="nav-item">
-									<ClickHandlerLink url={'/shelter/profile'} className={"nav-link"} children={'Profile'}/>
+                            <ul className='navbar-nav me-auto'>
+                                <li className='nav-item'>
+                                    <ClickHandlerLink url={'/shelter/profile'} className={"nav-link"} children={'Profile'}/>
                                 </li>
-                                <li className="nav-item">
-									<ClickHandlerLink url={`/shelters/${userInfo.userId}/comments/`} className={"nav-link"} children={'Shelter Reviews'}/>
+                                <li className='nav-item'>
+                                    <ClickHandlerLink url={`/shelters/${userInfo.userId}/comments/`} className={"nav-link"} children={'Shelter Reviews'}/>
                                 </li>
-                                <li className="nav-item">
+                                <li className='nav-item'>
                                     <ClickHandlerLink url={'/shelter/manage_pets'} className={"nav-link"} children={'Animal Inventory'}/>
+                                </li>
+                                <li className='nav-item'>
+                                    <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/blogs/`) } }>Blogs</Button>
+
                                 </li>
                             </ul>
                         ) : (
                             // Seeker user navigation
-                            <ul className="navbar-nav me-auto">
-                                <li className="nav-item">
-                                    <a href="" className="nav-link">Profile</a>
+                            <ul className='navbar-nav me-auto'>
+                                <li className='nav-item'>
+                                    <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/profile/seeker/`) } }>Profile</Button>
                                 </li>
-								<li className="nav-item">
-                                    <a href="" className="nav-link">Pet Search</a>
+								<li className='nav-item'>
+                                    <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/pets/`) } }>Pet Search</Button>
                                 </li>
-                                <li className="nav-item">
-                                    <a href="" className="nav-link">My Applications</a>
+                                <li className='nav-item'>
+                                    <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/pet/application-list`) } }>My Applications</Button>
+                                </li>
+                                <li className='nav-item'>
+                                    <Button className='nav-link bg-transparent' onClick={ (event) => { event.preventDefault(); navigate(`/blogs/`) } }>Blogs</Button>
                                 </li>
                             </ul>
                         )}
 
-						<a className="btn btn-dark btn-sm ms-0" href="/404" role="button">Log out</a>
-                        <ClickHandlerLink className={`btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block ${hasNewNotifications ? 'has-notifications' : ''}`}
-                                url={'/notifications'} children={`🔔`}/>
+
+						<Button variant="dark" size="sm" className='btn btn-dark btn-sm ms-0' onClick={ (event) => { event.preventDefault(); logout(); navigate(`/`) } }>Log out</Button>
+						<Button className={`btn btn-sm ms-2 me-0 navbar-brand d-none d-md-block bg-transparent ${hasNewNotifications ? 'has-notifications' : ''}`} 
+						    onClick={ (event) => { event.preventDefault(); navigate(`/notifications/`) } }>
+							&#x1F514;
+						</Button>
+
                     </div>
                 </Container>
             </Navbar>

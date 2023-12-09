@@ -57,9 +57,10 @@ class ApplicationListPermission(BasePermission):
         if not request.user.is_authenticated:
             return False
 
-        application = Application.objects.filter(shelter=request.user)
-        if not application:
-            return False
+        # application1 = Application.objects.filter(shelter=request.user)
+        # application2 = Application.objects.filter(seeker=request.user)
+        # if not (application1 and application2):
+        #     return False
         return True
 
 

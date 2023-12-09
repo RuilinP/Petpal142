@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Image, ListGroup, Button } from "react-bootstrap";
-import { getAccessToken, login } from "../../../utils/auth";
 import ErrorCard from "../../ErrorCard";
 import propTypes from "prop-types";
 
@@ -14,11 +13,10 @@ const ApplicationList = () => {
 
 		async function fetchApplications() {
 			try {
-				await login("123@email.com", "123");
 				const response = await axios.get(
 					`http://localhost:8000/applications/`, {
 					headers: {
-						Authorization: `Bearer ${getAccessToken()}`,
+						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
 					},
 				});
 				setApplications(response.data.results);
@@ -62,7 +60,7 @@ const ApplicationRow = (props) => {
 				const response = await axios.get(
 					`http://localhost:8000/pets/${petId}/`, {
 					headers: {
-						Authorization: `Bearer ${getAccessToken()}`,
+						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
 					}
 				});
 				setPetInfo(response.data);

@@ -23,6 +23,7 @@ import NotificationPage from './pages/NotificationPages/NotificationPage';
 import ShelterDetails from './pages/ShelterDetailsPage';
 import ShelterProfile from './pages/ShelterProfilePage';
 import ShelterMgPets from './pages/ShelterMgmtPetsPage';
+import PetUpdateShelter from './components/pets/update/indexForShelter';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="/shelter/:shelterId" element={<ShelterDetails />} />
           <Route path="/search-pets" element={<SearchPets />} />
           <Route path="/pet/update/:petId" element={<PetUpdate />} />
+          <Route path="/shelter/pet/update/:petId" element={<PetUpdateShelter />} />
           <Route path="/pet/adoption" element={<AdoptionApplicationForm />} />
           <Route path="/pet/application-list" element={<ApplicationList />} />
           <Route path="/pet/application" element={<Application petId={1} />} />

@@ -11,9 +11,30 @@ from .permissions import IsShelterUser
 from rest_framework.response import Response
 from django.db.models import Case, When
 from django.db import models
-from accounts.models import Seeker
+from accounts.models import Seeker, Shelter
 from notifications.signals import create_notification_for_user
+from django.core.paginator import Paginator
+from rest_framework.views import APIView
 
+
+class PetsInShelterView(APIView):
+    permission_classes = [IsAuthenticated, IsShelterUser]
+
+    def get(self, request, shelter_id):
+        get_object_or_404(Shelter, pk=shelter_id)
+
+        pets = Pet.objects.filter(shelter=shelter_id)
+        paginator = Paginator(pets, 10)
+        page_number = request.query_params.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        pet_list = list(page_obj.object_list.values())
+
+        return Response({
+            'pets': pet_list,
+            'page': page_obj.number,
+            'total_pages': paginator.num_pages
+        })
 
 
 class PetCreateView(generics.CreateAPIView):

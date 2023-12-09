@@ -38,8 +38,8 @@ class ListNotificationsView(generics.ListAPIView):
         queryset = Notification.objects.filter(recipient=self.request.user)
 
         read_status = self.request.query_params.get('is_read')
-        if read_status is not None: # for read/unread filter
-            queryset = queryset.filter(is_read=read_status == 'true')
+        if read_status is not None:
+            queryset = queryset.filter(is_read=read_status == True)
 
         return queryset
     

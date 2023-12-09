@@ -19,6 +19,9 @@ import ApplicationCommentPage from './pages/CommentPages/ApplicationCommentPage'
 import ApplicationCommentDetails from './pages/CommentPages/ApplicationCommentDetailsPage';
 import { NotificationProvider } from './contexts/NotifContexts';
 import NotificationPage from './pages/NotificationPages/NotificationPage';
+import ShelterDetails from './pages/ShelterDetailsPage';
+import ShelterProfile from './pages/ShelterProfilePage';
+import ShelterMgPets from './pages/ShelterMgmtPetsPage';
 import BlogsPage from './pages/BlogPages/Blogs';
 import BlogPage from './pages/BlogPages/Blog';
 import BlogUpdatePage from './pages/BlogPages/BlogUpdate';
@@ -37,6 +40,9 @@ function App() {
           <Route path="/pet/create" element={<CreatePet />} />
           <Route path="/signup-shelter" element={<ShelterSignup />} />
           <Route path="/signup-seeker" element={<SeekerSignup />} />
+          <Route path="/shelter/profile" element={<ShelterProfile />} />
+          <Route path="/shelter/manage_pets" element={<ShelterMgPets />} />
+          <Route path="/shelter/:shelterId" element={<ShelterDetails />} />
           <Route path="/search-pets" element={<SearchPets />} />
           <Route path="/pet/update/:petId" element={<PetUpdate />} />
           <Route path="/pet/adoption" element={<AdoptionApplicationForm />} />

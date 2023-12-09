@@ -138,4 +138,7 @@ class CheckUserTypeView(APIView):
         elif Shelter.objects.filter(id=user.id).exists():
             user_type = 'Shelter'
 
-        return JsonResponse({'user_type': user_type})
+        return JsonResponse({
+            "user_type": user_type,
+            "user_id": user.id
+        })

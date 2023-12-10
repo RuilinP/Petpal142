@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/common/header';
 import Footer from '../components/common/footer';
 import { useNavigate } from 'react-router-dom';
-import ClickHandlerLink from '../components/common/ClickHandlerLink';
+import { getAccessToken } from '../utils/auth';
 
 function ShelterProfile() {
     const [shelterInfo, setShelterInfo] = useState({
@@ -19,7 +19,7 @@ function ShelterProfile() {
     });
 
     const [comments, setComments] = useState([]);
-	const accessToken = localStorage.getItem('accessToken');
+	const accessToken = getAccessToken();
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
 
@@ -103,7 +103,7 @@ function ShelterProfile() {
                     <section id="profile" className="my-5">
                         <div className="section-heading mb-4">
                             <h2>{`${shelterInfo.organization}'s Profile `}
-                            <ClickHandlerLink className={'btn btn-dark btn-sm'} children={'Edit Profile'} url={'/shelter/update'}/>
+                            
                             </h2>
                         </div>
                         <div className="row justify-content-center">

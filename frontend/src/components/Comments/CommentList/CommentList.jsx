@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CommentThreads from "./CommentThreads";
 import { useNavigate } from 'react-router-dom';
+import { getAccessToken } from '../../../utils/auth';
 
 function FlipPage(action) {
     // scroll to top
@@ -16,7 +17,7 @@ function CommentList({shelterId, applicationId}) {
     const [commentType, setCommentType] = useState('shelters');
     const [comments, setComments] = useState([]);
     const [shelterEmail, setShelterEmail] = useState({});
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getAccessToken();
     const navigate = useNavigate();
 
     useEffect(() => {

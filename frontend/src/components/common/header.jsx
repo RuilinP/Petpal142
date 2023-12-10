@@ -17,7 +17,6 @@ function Header() {
 
     const [userInfo, setUserInfo] = useState({ userType: null, userId: null });
 
-    const [userType, setUserType] = useState(null);
 	const accessToken = getAccessToken();
     let tokenUser;
     if (accessToken) {

@@ -1,8 +1,9 @@
 import React from 'react';
 import ClickHandlerLink from '../common/ClickHandlerLink';
+import { getAccessToken } from '../../utils/auth';
 
 const NotificationThread = ({ notifications, setNotifications }) => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getAccessToken();
 
     const deleteNotification = async (id) => {
         try {

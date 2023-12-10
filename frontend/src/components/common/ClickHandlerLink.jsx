@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAccessToken } from '../../utils/auth';
 
 const ClickHandlerLink = ({ url, className, children }) => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getAccessToken();
     const navigate = useNavigate();
 
     const handleClick = async (e) => {

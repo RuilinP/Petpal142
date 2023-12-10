@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NotificationThread from './NotificationThread';
 import Select from 'react-select';
+import { getAccessToken } from '../../utils/auth';
 
 
 function FlipPage(action) {
@@ -16,7 +17,7 @@ function NotificationList() {
     const [query, setQuery] = useState({ page: 1 });
     const [totalPages, setTotalPages] = useState(1);
     const [notifications, setNotifications] = useState([]);
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getAccessToken();
     const navigate = useNavigate();
     const customStyles = {
         control: (provided, state) => ({

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getAccessToken } from '../../../utils/auth';
 
 function LeaveCommentBox({ shelterId, applicationId }) {
 
@@ -7,7 +8,7 @@ function LeaveCommentBox({ shelterId, applicationId }) {
         message: '',
         termsAccepted: false
     });
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getAccessToken();
     // Adding state for success and error messages
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');

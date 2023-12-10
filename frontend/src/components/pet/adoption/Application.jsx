@@ -1,201 +1,175 @@
-import axios from "axios";
-import propTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { Button, Col, Container, FormControl, Image, InputGroup, Row, Form, ButtonGroup, Toast, ToastContainer, ToastHeader } from "react-bootstrap";
-import { getAccessToken, login } from "../../../utils/auth";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import Header from '../../common/header';
+import Footer from '../../common/footer';
+import { getAccessToken } from '../../../utils/auth';
 
-const Application = (props) => {
-	const { petId } = props;
-	const navigate = useNavigate();
-	const [application, setApplication] = useState({
-		"id": null, 
-		"seeker": null, 
-		"shelter": null, 
-		"pet": null, 
-		"status": null, 
-		"message": null, 
-		"created_at": null, 
-		"updated_at": null
-	});
-	const [petInfo, setPetInfo] = useState({ 
-		"id": null,
-		"name": null,
-		"gallery": null,
-		"specie": null,
-		"breed": null,
-		"age": null,
-		"size": null,
-		"color": null,
-		"gender": null,
-		"location": null,
-		"health": null,
-		"characteristics": null,
-		"story": null,
-		"status": null,
-		"shelter": null,
-	});
-	const [toast, setToast] = useState("");
-	const [error, setError] = useState();
-	useEffect(() => {
+function Application() {
+	const {petId} = useParams();
+    const [seekerInfo, setSeekerInfo] = useState({
+        email: '',
+        first_name: '',
+        last_name: '',
+        'phone_number': '',
+        address: '',
+        country: '',
+        state: '',
+        city: '',
+        zip: '',
+    });
 
-		async function fetchApplications() {
+	const accessToken = getAccessToken();
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    let tokenUser;
+    if (accessToken) {
+        tokenUser = jwtDecode(accessToken); 
+    } else {
+        navigate(`/404`);
+    }
+    const [userId, setUserId] = useState(null);
+    const navigate = useNavigate();
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+        setSuccessMessage('');
+        setErrorMessage('');
+
+
+        // Perform the API call
+        fetch(`http://localhost:8000/pets/${petId}/applications/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}` },
+        })
+        .then(response => {
+			if (response.status === 400) {
+				// Handle Bad Request
+				setErrorMessage('You already have an application with this pet.');
+				throw new Error('Bad Request');
+			  } else {
+				setErrorMessage('Something went wrong. Please try again');
+			  }
+            return response.json();
+        })
+        .then(data => {
+            // Handle successful submission
+            setSuccessMessage('Application submitted!');
+        })
+        .catch(error => {
+            // Handle errors in submission
+        });
+    };
+
+    useEffect(() => {
+        const fetchInfo = async () => {
 			try {
-				const response = await axios.get(
-					`http://localhost:8000/applications/${petId}/`, {
+				const response = await fetch(`http://localhost:8000/accounts/seekers/${tokenUser.user_id}`, {
+					method: 'GET',
 					headers: {
-						Authorization: `Bearer ${getAccessToken()}`,
-					},
-				});
-				setApplication(response.data);
-			} catch (e) {
-				setError(e);
-			}
-		}
-
-		fetchApplications();
-
-		async function fetchPetDetail() {
-			try {
-				const response = await axios.get(
-					`http://localhost:8000/pets/${petId}/`, {
-					headers: {
-						Authorization: `Bearer ${getAccessToken()}`,
+						'Authorization': `Bearer ${accessToken}`
 					}
 				});
-				setPetInfo(response.data);
-			} catch (e) {
-				setError(e);
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const dataInfo = await response.json();
+				setUserId(tokenUser.user_id);
+				setSeekerInfo({
+					email: dataInfo.email,
+					first_name: dataInfo.first_name,
+					last_name: dataInfo.last_name,
+					'phone_number': dataInfo.phone_number,
+					address: dataInfo.address,
+					country: dataInfo.country,
+					state: dataInfo.state,
+					city: dataInfo.city,
+					zip: dataInfo.zip,
+				});
+
+			} catch (error) {
+				navigate("/404");
 			}
-		}
+        };
 
-		fetchPetDetail();
+        fetchInfo();
 
-	}, []);
+    }, [userId]);
 
-	const acceptApplication = async () => {
-		try {
-			const response = await axios.patch(
-				`http://localhost:8000/applications/${application.id}/`, {
-				"status": "accepted"
-			}, {
-				headers: {
-					Authorization: `Bearer ${getAccessToken()}`,
-				}
-			});
-			setToast("Application accepted!");
-		} catch (e) {
-			setError(e);
-		}
-	}
 
-	const denyApplication = async () => {
-		try {
-			const response = await axios.patch(
-				`http://localhost:8000/applications/${application.id}/`, {
-				"status": "denied"
-			}, {
-				headers: {
-					Authorization: `Bearer ${getAccessToken()}`,
-				}
-			});
-			setToast("Application rejected!");
-		} catch (e) {
-			setError(e);
-		}
-	}
+    return (
+        <div className='bg-secondary'>
+            <Header />
+            <main>
+			<div className="d-flex flex-column align-items-center text-center pt-5 pb-3">
+			</div>
 
-	return (
-		<div>
-			<Container className="pt-5 pb-3">
-				<Row className="justify-content-md-center">
-					<Col md={6}>
-						<div className="d-flex flex-column align-items-center">
-							<div className="adoption-photo">
-								<Image src="/assets/images/jeff-photo.png" roundedCircle width={120} height={120} className="object-fit-cover me-3" />
+				<div className="container pb-5">
+					<div className="row justify-content-center">
+					<div className="col-md-8">
+						<form className="py-3" onSubmit={handleSubmit}>
+						<div className="form-group row py-1">
+							<label htmlFor="applicantEmail" className="col-md-4 col-form-label d-md-none text-nowrap">Email <span className="text-danger">*</span> </label>
+							<label htmlFor="applicantEmail" className="col-md-4 col-form-label text-end d-none d-md-block text-nowrap">Email <span className="text-danger">*</span> </label>
+							<div className="col-md-7">
+							<input type="email" className="form-control" id="applicantEmail" defaultValue={seekerInfo.email} required />
 							</div>
-							<h3 className="mt-3">Application Information</h3>
 						</div>
-					</Col>
-				</Row>
-			</Container>
+						<div className="form-group row py-1">
+							<label htmlFor="applicantFirstName" className="col-md-4 col-form-label d-md-none text-nowrap">First Name <span className="text-danger">*</span> </label>
+							<label htmlFor="applicantFirstName" className="col-md-4 col-form-label text-end d-none d-md-block text-nowrap">First Name <span className="text-danger">*</span> </label>
+							<div className="col-md-7">
+							<input type="text" className="form-control" id="applicantFirstName" defaultValue={seekerInfo.first_name} required />
+							</div>
+						</div>
+						<div className="form-group row py-1">
+							<label htmlFor="applicantLastName" className="col-md-4 col-form-label d-md-none text-nowrap">Last Name <span className="text-danger">*</span> </label>
+							<label htmlFor="applicantLastName" className="col-md-4 col-form-label text-end d-none d-md-block text-nowrap">Last Name <span className="text-danger">*</span> </label>
+							<div className="col-md-7">
+							<input type="text" className="form-control" id="applicantLastName" defaultValue={seekerInfo.last_name} required />
+							</div>
+						</div>
+						<div className="form-group row py-1">
+							<label htmlFor="applicantPhoneNumber" className="col-md-4 col-form-label d-md-none text-nowrap">Phone Number <span className="text-danger">*</span></label>
+							<label htmlFor="applicantPhoneNumber" className="col-md-4 col-form-label text-end d-none d-md-block text-nowrap">Phone Number <span className="text-danger">*</span></label>
+							<div className="col-md-7">
+							<input type="tel" className="form-control" id="applicantPhoneNumber" defaultValue={seekerInfo.phone_number} required />
+							</div>
+						</div>
+						<div className="form-group row py-1">
+							<label htmlFor="applicantAddress1" className="col-md-4 col-form-label d-md-none text-nowrap">Address <span className="text-danger">*</span> </label>
+							<label htmlFor="applicantAddress1" className="col-md-4 col-form-label text-end d-none d-md-block text-nowrap">Address <span className="text-danger">*</span> </label>
+							<div className="col-md-7">
+							<textarea className="form-control" id="applicantAddress1" rows="3" defaultValue={`${seekerInfo.address ? seekerInfo.address + ', ' : ''}${seekerInfo.city ? seekerInfo.city + ', ' : ''}${seekerInfo.state ? seekerInfo.state + ' ' : ''}${seekerInfo.zip ? seekerInfo.zip + ', ' : ''}${seekerInfo.country || ''}`} required ></textarea>
+							</div>
+						</div>
+						<div className="form-group row py-1">
+						<label htmlFor="applicantMessage" className="col-md-4 col-form-label d-md-none">Message</label>
+						<label htmlFor="applicantMessage" className="col-md-4 col-form-label text-end d-none d-md-block">Message</label>
+						<div className="col-md-7">
+							<textarea className="form-control" id="applicantMessage" rows="5"></textarea>
+						</div>
+						</div>
+						<div className="row py-1">
+							<p className="text-danger text-end col-md-11">* required field</p>
+						</div>
+						<div>
+							{successMessage && <div className="alert alert-success">{successMessage}</div>}
+							{errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+							<div className="row py-1 px-3 justify-content-md-center">
+								<button type="submit" className="btn btn-dark col-md-4">Submit</button>
+							</div>
+						</div>
 
-			<Container className="pb-5">
-				<Col md={8}>
-					<Form className="form-inline p-3">
-						<InfoRow label="Application ID" value={String(application.id)} />
-						<InfoRow label="Application Status" value={application.status} />
-						<InfoRow label="Applicant User ID" value={String(application.id)} />
-						<InfoRow label="Pet ID" value={String(application.pet)} />
-						<InfoRow label="Pet Name" value={petInfo.name} />
-						<InfoRow label="Applicant Surname" value={"N/A"} />
-						<InfoRow label="Applicant Given Name" value={"N/A"} />
-						<InfoRow label="Applicant Address Line 1" value={"N/A"} />
-						<InfoRow label="Applicant Address Line 2" value={"N/A"} />
-						<InfoRow label="Applicant Message" value={application.message} as={"textarea"} rows={3} />
-
-
-
-						<Row className="p-3 justify-content-md-center">
-							<ButtonGroup>
-								<Button variant="primary" onClick={navigate(`/applications/${application.id}/comments/`)}>
-									Chat with Applicant
-								</Button>
-								<Button variant="secondary" onClick={acceptApplication}>
-									Accept
-								</Button>
-								<Button variant="danger" onClick={denyApplication}>
-									Deny
-								</Button>
-							</ButtonGroup>
-						</Row>
-						<Row className="pt-2 pb-1">
-							<p>
-								Application submitted: <span>{(new Date(application.created_at)).toLocaleString()}</span>
-							</p>
-						</Row>
-					</Form>
-				</Col>
-			</Container>
-
-			<ToastContainer position="top-start" className="p-3">
-				<Toast show={toast} onClose={() => { setToast(null) }} autohide>
-					<Toast.Body>
-						{toast}
-					</Toast.Body>
-				</Toast> 
-			</ToastContainer>
-		</div >
-	)
+						</form>
+					</div>
+					</div>
+				</div>
+            </main>
+            <Footer />
+        </div>
+    );
 }
-
-Application.propTypes = {
-	petId: propTypes.number.isRequired,
-};
-
-Application.defaultProps = {
-	petId: 1,
-};
-
-const InfoRow = (props) => {
-	const { label, value, as } = props;
-	return (
-		<Form.Group as={Row} className="py-1">
-			<Form.Label column sm={4} className="fw-bold text-sm-start text-md-end">
-				{label}
-			</Form.Label>
-			<Col sm={8}>
-				<FormControl readOnly type="text" as={as} id="applicationID" value={value} plaintext {...props} />
-			</Col>
-		</Form.Group>
-	)
-}
-
-InfoRow.propTypes = {
-	label: propTypes.any,
-	value: propTypes.any,
-	as: propTypes.string,
-};
-
 
 export default Application;

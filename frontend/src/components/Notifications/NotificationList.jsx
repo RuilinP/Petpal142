@@ -51,7 +51,7 @@ function NotificationList() {
     useEffect(() => {
         const { page } = query;
 
-        let url = `http://localhost:8000/notifications/?page=${page}`;
+        let url = `http://142.126.176.248:8000/notifications/?page=${page}`;
         let method = 'OPTIONS';
 
         if (filter.value === 'read') {

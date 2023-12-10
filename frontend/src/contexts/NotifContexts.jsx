@@ -30,7 +30,11 @@ export const NotificationProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchNotifications();
+        if (token) {
+            console.log(token);
+            fetchNotifications();
+        }
+
         const intervalId = setInterval(fetchNotifications, 10000); 
 
         // Clear the interval when the component is unmounted

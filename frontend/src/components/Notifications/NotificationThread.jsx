@@ -7,7 +7,7 @@ const NotificationThread = ({ notifications, setNotifications }) => {
 
     const deleteNotification = async (id) => {
         try {
-            await fetch(`http://localhost:8000/notifications/${id}`, {
+            await fetch(`http://142.126.176.248:8000/notifications/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -23,7 +23,7 @@ const NotificationThread = ({ notifications, setNotifications }) => {
 
     const markAsRead = async (id) => {
         try {
-            await fetch(`http://localhost:8000/notifications/${id}`, {
+            await fetch(`http://142.126.176.248:8000/notifications/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`

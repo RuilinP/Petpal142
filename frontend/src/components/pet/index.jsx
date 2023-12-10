@@ -25,7 +25,7 @@ function SinglePetInfo() {
     async function fetchPetData() {
       try {
         if (accessToken && petId) {
-          const response = await axios.get(`http://localhost:8000/pets/${petId}`, {
+          const response = await axios.get(`http://142.126.176.248:8000/pets/${petId}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -45,7 +45,7 @@ function SinglePetInfo() {
     async function fetchShelterData() {
       try {
         if (accessToken && petInfo.shelter) { // Check if petInfo.shelter exists
-          const response = await axios.get(`http://localhost:8000/accounts/shelters/${petInfo.shelter}`, {
+          const response = await axios.get(`http://142.126.176.248:8000/accounts/shelters/${petInfo.shelter}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

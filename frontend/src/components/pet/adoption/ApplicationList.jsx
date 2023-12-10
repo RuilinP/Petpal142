@@ -60,7 +60,7 @@ const ApplicationRow = (props) => {
 				const response = await axios.get(
 					`http://localhost:8000/pets/${petId}/`, {
 					headers: {
-						Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+						Authorization: `Bearer ${getAccessToken()}`,
 					}
 				});
 				setPetInfo(response.data);

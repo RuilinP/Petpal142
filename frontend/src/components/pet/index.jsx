@@ -7,13 +7,14 @@ import { scrollToTop } from '../../assets/js/scroll';
 import { useNavigate } from 'react-router-dom';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import { getAccessToken } from '../../utils/auth';
 
 
 function SinglePetInfo() {
   const [petInfo, setPetInfo] = useState({});
   const [shelterInfo, setShelterInfo] = useState({});
   const [error, setError] = useState(null);
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = getAccessToken();
   const { petId } = useParams();
   const [processedList, setProcessedList] = useState([]);
   const [classList, setClass] = useState([]);
@@ -213,7 +214,7 @@ function SinglePetInfo() {
                         <button className="btn btn-dark" onClick={() => navigate(`/shelter/profile`)}>Shelter Page</button>
                       </li>
                       <li className="list-group-item border-0 bg-info text-center">
-                        <button className="btn btn-dark" onClick={() => navigate(`/pet/application`)}>Apply now</button>
+                        <button className="btn btn-dark" onClick={() => navigate(`/pet/${petId}/application`)}>Apply now</button>
                       </li>
                     </ul>
                   </div>

@@ -10,7 +10,6 @@ import ShelterCommentDetails from './pages/CommentPages/ShelterCommentDetailsPag
 import NotFound from './pages/404';
 import CreatePet from './components/pet/create/CreatePet';
 import PetUpdate from './components/pets/update';
-import AdoptionApplicationForm from './components/pet/adoption/AdoptionApplicationForm';
 import Application from './components/pet/adoption/Application';
 import ApplicationCommentPage from './pages/CommentPages/ApplicationCommentPage';
 import ApplicationCommentDetails from './pages/CommentPages/ApplicationCommentDetailsPage';
@@ -59,9 +58,8 @@ function App() {
           <Route path="/search-pets" element={<SearchPets />} />
           <Route path="/pet/update/:petId" element={<PetUpdate />} />
           <Route path="/shelter/pet/update/:petId" element={<PetUpdateShelter />} />
-          <Route path="/pet/adoption" element={<AdoptionApplicationForm />} />
           <Route path="/pet/application-list" element={<ApplicationListPage />} />
-          <Route path="/pet/application" element={<Application petId={1} />} />
+          <Route path="/pet/:petId/application" element={<Application />} />
           <Route path="/shelters/:shelterId/comments/" element={<ShelterCommentPage/>} />
           <Route path="/shelters/:shelterId/comments/:commentId" element={<ShelterCommentDetails/>} />
           <Route path="/applications/:applicationId/comments/" element={<ApplicationCommentPage/>} />

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import RatingStars from '../RatingStars';
+import { getAccessToken } from '../../../utils/auth';
 
 const AverageRating = ({ shelterId }) => {
     
     const [comments, setComments] = useState([]);
     const [avgRating, setAvgRating] = useState(0);
     const [profileImage, setProfileImage] = useState('');
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getAccessToken();
 
     const fetchProfileImage = async () => {
         try {

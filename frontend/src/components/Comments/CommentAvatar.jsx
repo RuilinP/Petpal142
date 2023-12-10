@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { getAccessToken } from '../../utils/auth';
 
 const CommentAvatar = ({ comment }) => {
     const [profileImageUrl, setProfileImageUrl] = useState(null);
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getAccessToken();;
 
     const fetchProfileImage = async (authorId, author_is_seeker) => {
         let response;

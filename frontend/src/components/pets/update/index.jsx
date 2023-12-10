@@ -6,6 +6,8 @@ import ErrorCard from "../../ErrorCard";
 import { fetchAccessToken, fetchSinglePet } from '../../../ajax';
 import { getAccessToken, refreshToken } from "../../../utils/auth";
 import { useParams } from 'react-router-dom';
+import Header from "../../common/header";
+import Footer from "../../common/footer";
 
 function PetUpdate() {
     const { petId } = useParams();
@@ -292,198 +294,201 @@ function PetUpdate() {
 	}, [formData.gallery]);
 
 	return (
-		<Card>
-			<Form onSubmit={onFormSubmit} onChange={onFormChange}>
-				<Card.Body>
-					<Card.Title>Update Pet</Card.Title>
-					<Form.Group controlId="name">
-						<Form.Label>Name:</Form.Label>
-						<Form.Control
-							type="text"
-							name="name"
-							placeholder="Name"
-							value={formData.name}
-							required
-						/>
-					</Form.Group>
+		<div className='bg-secondary'>
+			<Header />
+				<Card className='container pb-5 pt-5 my-5'>
+					<Form onSubmit={onFormSubmit} onChange={onFormChange}>
+						<Card.Body>
+							<Card.Title>Update Pet</Card.Title>
+							<Form.Group controlId="name">
+								<Form.Label>Name:</Form.Label>
+								<Form.Control
+									type="text"
+									name="name"
+									placeholder="Name"
+									value={formData.name}
+									required
+								/>
+							</Form.Group>
 
 
-					<Form.Group controlId="specie">
-    <Form.Label>Specie:</Form.Label>
-    <Form.Control
-        as="select"
-        name="specie"
-        value={formData.specie}
-        onChange={onFormChange} // Ensure you have an onChange handler to update the form data
-        required
-    >
-        <option value="">Select a specie</option>
-        <option value="Dog">Dog</option>
-        <option value="Cat">Cat</option>
-    </Form.Control>
-</Form.Group>
+							<Form.Group controlId="specie">
+			<Form.Label>Specie:</Form.Label>
+			<Form.Control
+				as="select"
+				name="specie"
+				value={formData.specie}
+				onChange={onFormChange} // Ensure you have an onChange handler to update the form data
+				required
+			>
+				<option value="">Select a specie</option>
+				<option value="Dog">Dog</option>
+				<option value="Cat">Cat</option>
+			</Form.Control>
+		</Form.Group>
 
-					<Form.Group controlId="breed">
-						<Form.Label>Breed:</Form.Label>
-						<Form.Control
-							type="text"
-							name="breed"
-							placeholder="breed"
-							value={formData.breed}
-							required
-						/>
-					</Form.Group>
+							<Form.Group controlId="breed">
+								<Form.Label>Breed:</Form.Label>
+								<Form.Control
+									type="text"
+									name="breed"
+									placeholder="breed"
+									value={formData.breed}
+									required
+								/>
+							</Form.Group>
 
-					<Form.Group controlId="age">
-                        <Form.Label>Age:</Form.Label>
-                        <Form.Control
-                            as="select"
-                            name="age"
-                            value={formData.age}
-                            onChange={handleAgeChange}
-                            required
-                        >
-                            {ageOptions.map((option, index) => (
-                                <option key={index} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </Form.Control>
-                    </Form.Group>
+							<Form.Group controlId="age">
+								<Form.Label>Age:</Form.Label>
+								<Form.Control
+									as="select"
+									name="age"
+									value={formData.age}
+									onChange={handleAgeChange}
+									required
+								>
+									{ageOptions.map((option, index) => (
+										<option key={index} value={option}>
+											{option}
+										</option>
+									))}
+								</Form.Control>
+							</Form.Group>
 
-					<Form.Group controlId="size">
-    <Form.Label>Size:</Form.Label>
-    <Form.Control
-        as="select"
-        name="size"
-        value={formData.size}
-        onChange={onFormChange} // Make sure to have an onChange handler to update the form data
-        required
-    >
-        <option value="">Select a size</option>
-        <option value="Small">Small</option>
-        <option value="Medium">Medium</option>
-        <option value="Large">Large</option>
-    </Form.Control>
-</Form.Group>
+							<Form.Group controlId="size">
+			<Form.Label>Size:</Form.Label>
+			<Form.Control
+				as="select"
+				name="size"
+				value={formData.size}
+				onChange={onFormChange} // Make sure to have an onChange handler to update the form data
+				required
+			>
+				<option value="">Select a size</option>
+				<option value="Small">Small</option>
+				<option value="Medium">Medium</option>
+				<option value="Large">Large</option>
+			</Form.Control>
+		</Form.Group>
 
-					<Form.Group controlId="color">
-						<Form.Label>Color:</Form.Label>
-						<Form.Control
-							type="text"
-							name="color"
-							placeholder="color"
-							value={formData.color}
-							required
-						/>
-					</Form.Group>
+							<Form.Group controlId="color">
+								<Form.Label>Color:</Form.Label>
+								<Form.Control
+									type="text"
+									name="color"
+									placeholder="color"
+									value={formData.color}
+									required
+								/>
+							</Form.Group>
 
-					<Form.Group controlId="gender">
-						<Form.Label>Gender:</Form.Label>
-						<Form.Control
-							as="select"
-							name="gender"
-							value={formData.gender}
-							required
-						>
-							<option value="male">Male</option>
-							<option value="female">Female</option>
-						</Form.Control>
-					</Form.Group>
+							<Form.Group controlId="gender">
+								<Form.Label>Gender:</Form.Label>
+								<Form.Control
+									as="select"
+									name="gender"
+									value={formData.gender}
+									required
+								>
+									<option value="male">Male</option>
+									<option value="female">Female</option>
+								</Form.Control>
+							</Form.Group>
 
-					<Form.Group controlId="location">
-						<Form.Label>Location:</Form.Label>
-						<Form.Control
-							type="text"
-							name="location"
-							placeholder="location"
-							value={formData.location}
-							required
-						/>
-					</Form.Group>
+							<Form.Group controlId="location">
+								<Form.Label>Location:</Form.Label>
+								<Form.Control
+									type="text"
+									name="location"
+									placeholder="location"
+									value={formData.location}
+									required
+								/>
+							</Form.Group>
 
-					<Form.Group controlId="health">
-						<Form.Label>Health:</Form.Label>
-						<Form.Control
-							type="text"
-							name="health"
-							placeholder="health"
-							value={formData.health}
-							required
-						/>
-					</Form.Group>
+							<Form.Group controlId="health">
+								<Form.Label>Health:</Form.Label>
+								<Form.Control
+									type="text"
+									name="health"
+									placeholder="health"
+									value={formData.health}
+									required
+								/>
+							</Form.Group>
 
-					<Form.Group controlId="characteristics">
-						<Form.Label>Characteristics:</Form.Label>
-						<Form.Control
-							type="text"
-							name="characteristics"
-							placeholder="characteristics"
-							value={formData.characteristics}
-							required
-						/>
-					</Form.Group>
+							<Form.Group controlId="characteristics">
+								<Form.Label>Characteristics:</Form.Label>
+								<Form.Control
+									type="text"
+									name="characteristics"
+									placeholder="characteristics"
+									value={formData.characteristics}
+									required
+								/>
+							</Form.Group>
 
-					<Form.Group controlId="story">
-						<Form.Label>Story:</Form.Label>
-						<Form.Control
-							as="textarea"
-							rows={3}
-							name="story"
-							placeholder="story"
-							value={formData.story}
-							required
-						/>
-					</Form.Group>
+							<Form.Group controlId="story">
+								<Form.Label>Story:</Form.Label>
+								<Form.Control
+									as="textarea"
+									rows={3}
+									name="story"
+									placeholder="story"
+									value={formData.story}
+									required
+								/>
+							</Form.Group>
 
-					<Form.Group controlId="gallery">
-    <Form.Label>Main Imgur URLs, separate with , no space:(BBCode only, up to 4)</Form.Label>
-    <Form.Control
-        type="text"
-        name="gallery"
-        placeholder="Image URL"
-        onChange={(e) => {
-            onFormChange(e);
-            handleOptionalImageURLChange(e, 0); // Sending the URL to handleOptionalImageURLChange
-        }}
-        required
-    />
-</Form.Group>
-
+							<Form.Group controlId="gallery">
+			<Form.Label>Main Imgur URLs, separate with , no space:(BBCode only, up to 4)</Form.Label>
+			<Form.Control
+				type="text"
+				name="gallery"
+				placeholder="Image URL"
+				onChange={(e) => {
+					onFormChange(e);
+					handleOptionalImageURLChange(e, 0); // Sending the URL to handleOptionalImageURLChange
+				}}
+			/>
+		</Form.Group>
 
 
-					
 
-					{/* <Form.Group controlId="gallery">
-  <Form.Label>Gallery:</Form.Label>
-  {[1, 2, 3, 4].map((index) => (
-    <div key={index}>
-      <Form.Control
-        type="text"
-        placeholder={`Image URL ${index}`}
-        onChange={(e) => handleImageURLChange(e, index)}
-      />
-    </div>
-  ))}
-</Form.Group> */}
+							
 
-					{
-						error && (
-							<ErrorCard error={error} />
-						)
-					}
-				
-				</Card.Body>
-				<Card.Footer>
-					<Button variant="secondary" type="submit">
-						Submit
-					</Button>
-					<Button variant="secondary" href="/">
-						Cancel
-					</Button>
-				</Card.Footer>
-			</Form>
-		</Card >
+							{/* <Form.Group controlId="gallery">
+		<Form.Label>Gallery:</Form.Label>
+		{[1, 2, 3, 4].map((index) => (
+			<div key={index}>
+			<Form.Control
+				type="text"
+				placeholder={`Image URL ${index}`}
+				onChange={(e) => handleImageURLChange(e, index)}
+			/>
+			</div>
+		))}
+		</Form.Group> */}
+
+							{
+								error && (
+									<ErrorCard error={error} />
+								)
+							}
+						
+						</Card.Body>
+						<Card.Footer>
+							<Button variant="secondary" type="submit">
+								Submit
+							</Button>
+							<Button variant="secondary" href="/">
+								Cancel
+							</Button>
+						</Card.Footer>
+					</Form>
+				</Card>
+			<Footer />
+		</div>
 	)
 }
 

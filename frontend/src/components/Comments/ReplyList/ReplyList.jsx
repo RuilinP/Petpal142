@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReplyThreads from './ReplyThreads';
+import { getAccessToken } from '../../../utils/auth';
 
 function FlipPage(action) {
     // scroll to top
@@ -15,7 +16,7 @@ function ReplyList({shelterId, applicationId, commentId}) {
     const [replies, setReplies] = useState([]);
     const [comment, setComment] = useState([]);
     const [shelterEmail, setShelterEmail] = useState({});
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = getAccessToken();
 
     useEffect(() => {
         const { page } = query;

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { getAccessToken } from '../utils/auth';
 
 const NotificationContext = createContext();
 
@@ -7,14 +8,14 @@ export const useNotifications = () => useContext(NotificationContext);
 
 export const NotificationProvider = ({ children }) => {
     const [hasNewNotifications, setHasNewNotifications] = useState(false);
-    const accessToken = localStorage.getItem('accessToken');
+    const token = getAccessToken();
 
     const fetchNotifications = async () => {
 
         try {
             const response = await axios.get(`http://localhost:8000/notifications/`, {
                 headers: {
-                  Authorization: `Bearer ${accessToken}`,
+                  Authorization: `Bearer ${token}`,
                 },
             });
             const data = response.data;

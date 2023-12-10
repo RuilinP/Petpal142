@@ -3,6 +3,7 @@ import Header from '../components/common/header';
 import Footer from '../components/common/footer';
 import { useNavigate, useParams } from 'react-router-dom';
 import ClickHandlerLink from '../components/common/ClickHandlerLink';
+import { getAccessToken } from '../utils/auth';
 
 function ShelterDetails() {
     const { shelterId } = useParams();
@@ -21,7 +22,7 @@ function ShelterDetails() {
     });
 
     const [comments, setComments] = useState([]);
-	const accessToken = localStorage.getItem('accessToken');
+	const accessToken = getAccessToken();
 
     useEffect(() => {
         const fetchProfileInfo = async () => {

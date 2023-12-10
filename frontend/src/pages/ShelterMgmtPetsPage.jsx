@@ -4,6 +4,7 @@ import Footer from '../components/common/footer';
 import { useNavigate } from 'react-router-dom';
 import ClickHandlerLink from '../components/common/ClickHandlerLink';
 import ClickHandlerButton from '../components/common/ClickHandlerButton';
+import { getAccessToken } from '../utils/auth';
 
 function FlipPage(action) {
     // scroll to top
@@ -16,7 +17,7 @@ function FlipPage(action) {
 function ShelterMgPets() {
 
     const [pets, setPets] = useState([]);
-	const accessToken = localStorage.getItem('accessToken');
+	const accessToken = getAccessToken();
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
     const [query, setQuery] = useState({ page: 1 });
@@ -102,7 +103,7 @@ function ShelterMgPets() {
                                         <td className="d-none d-md-table-cell">{pet.specie}</td>
                                         <td className="d-none d-md-table-cell">{pet.status}</td>
                                         <td className="d-grid gap-2">
-                                            <ClickHandlerButton className={"btn btn-info"} children={'Update'} url={`shelter/pet/update/${pet.id}`}/>
+                                            <ClickHandlerButton className={"btn btn-info"} children={'Update'} url={`/shelter/pet/update/${pet.id}`}/>
                                         </td>
                                     </tr>
                                 ))}

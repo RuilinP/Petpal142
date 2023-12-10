@@ -73,9 +73,9 @@ function PetCreationForm() {
 		}
 	
 		// Check if at least one image URL is provided in the gallery
-		if (imagePreviews.length === 0 || imagePreviews.every((url) => url.trim() === '')) {
-			throw new Error('Please provide at least one valid image URL in the gallery.');
-		}
+		// if (imagePreviews.length === 0 || imagePreviews.every((url) => url.trim() === '')) {
+		// 	throw new Error('Please provide at least one valid image URL in the gallery.');
+		// }
 	
 		return true; // Return true when all fields are present
 	};

@@ -13,7 +13,7 @@ export const NotificationProvider = ({ children }) => {
     const fetchNotifications = async () => {
 
         try {
-            const response = await axios.get(`http://localhost:8000/notifications/`, {
+            const response = await axios.get(`http://142.126.176.248:8000/notifications/`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },

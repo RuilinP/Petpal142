@@ -140,7 +140,6 @@ function SignupShelter() {
                     </Form.Group>
 
                     <div className="mt-4">
-                        <button className="btn btn-dark align-self-start" type="submit" onClick={showError}>Signup</button>
                         <div className="mt-1">
                             <p className="fs-6"><span className="fw-bold">Already have an account?</span> Log in <span role="button" className="link-dark" onClick={() => { navigate('/login') }}>here</span>.</p>
                         </div>

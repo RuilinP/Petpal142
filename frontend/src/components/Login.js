@@ -66,6 +66,7 @@ function Login() {
                     </Form.Group>
         
                     <div className="mt-1">
+                        <button className="btn btn-dark align-self-start" type="submit">Login</button>
                         <div className="mt-1">
                             <p className="fs-6"><span className="fw-bold">Don't have an account?</span> Sign up <span role="button" className="link-dark" onClick={() => navigate(`/signup`)}>here</span>.</p>
                         </div>

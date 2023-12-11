@@ -2,12 +2,12 @@ import React from 'react';
 import ClickHandlerLink from '../common/ClickHandlerLink';
 import { getAccessToken } from '../../utils/auth';
 
-const NotificationThread = ({ notifications, setNotifications }) => {
+const NotificationThread = ({ notifications, setNotifications, setIsUpdated, isUpdated }) => {
     const accessToken = getAccessToken();
 
     const deleteNotification = async (id) => {
         try {
-            await fetch(`http://142.126.176.248:8000/notifications/${id}`, {
+            await fetch(`http://localhost:8000/notifications/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -16,6 +16,7 @@ const NotificationThread = ({ notifications, setNotifications }) => {
             // Remove the deleted notification from the state
             const updatedNotifications = notifications.filter(notification => notification.id !== id);
             setNotifications(updatedNotifications);
+            setIsUpdated(!isUpdated);
         } catch (error) {
             console.error('Error deleting notification:', error);
         }
@@ -23,7 +24,7 @@ const NotificationThread = ({ notifications, setNotifications }) => {
 
     const markAsRead = async (id) => {
         try {
-            await fetch(`http://142.126.176.248:8000/notifications/${id}`, {
+            await fetch(`http://localhost:8000/notifications/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -34,6 +35,7 @@ const NotificationThread = ({ notifications, setNotifications }) => {
                 notification.id === id ? { ...notification, is_read: true } : notification
             );
             setNotifications(updatedNotifications);
+            setIsUpdated(!isUpdated);
         } catch (error) {
             console.error('Error marking notification as read:', error);
         }

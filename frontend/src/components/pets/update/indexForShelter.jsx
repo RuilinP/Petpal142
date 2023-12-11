@@ -89,7 +89,7 @@ function PetUpdateShelter() {
         async function fetchPetData() {
             try {
                 if (accessToken && petId) {
-                    const response = await axios.get(`http://localhost:8000/pets/${petId}`, {
+                    const response = await axios.get(`http://142.126.176.248:8000/pets/${petId}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },

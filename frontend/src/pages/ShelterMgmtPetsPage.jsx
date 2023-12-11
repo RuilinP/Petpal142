@@ -29,7 +29,7 @@ function ShelterMgPets() {
 
         const fetchInfo = async () => {
             try {
-                const response = await fetch('http://localhost:8000/accounts/check_user_type/', {
+                const response = await fetch('http://142.126.176.248:8000/accounts/check_user_type/', {
 					method: 'GET',
 					headers: {
 					'Authorization': `Bearer ${accessToken}`
@@ -43,7 +43,7 @@ function ShelterMgPets() {
 
     
                 try {
-                    const response = await fetch(`http://localhost:8000/pets_in_shelter/${data.user_id}/?page=${page}`, {
+                    const response = await fetch(`http://142.126.176.248:8000/pets_in_shelter/${data.user_id}/?page=${page}`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${accessToken}`

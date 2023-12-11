@@ -49,7 +49,7 @@ function Header() {
         const fetchNotifications = async () => {
 
             try {
-                const response = await axios.get(`http://localhost:8000/notifications/check_unread/`, {
+                const response = await axios.get(`http://142.126.176.248:8000/notifications/check_unread/`, {
                     headers: {
                     Authorization: `Bearer ${accessToken}`,
                     },

@@ -27,7 +27,7 @@ function Header() {
     useEffect(() => {
         const fetchUserType = async () => {
             try {
-                const response = await fetch('http://localhost:8000/accounts/check_user_type/', {
+                const response = await fetch('http://142.126.176.248:8000/accounts/check_user_type/', {
 					method: 'GET',
 					headers: {
 					'Authorization': `Bearer ${accessToken}`

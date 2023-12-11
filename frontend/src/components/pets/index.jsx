@@ -157,103 +157,98 @@ const [previousPageUrl, setPreviousPageUrl] = useState(null);
     );
   }
   const handleNextPage = async () => {
-    if (nextPageUrl) { // Ensure there's a next page URL available
-      try {
-        const response = await fetch(nextPageUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-  
-        if (!response.ok) {
-          throw new Error('Failed to fetch next page data');
-        }
-  
-        const nextPageData = await response.json();
-        setPets(nextPageData.results);
-        
-        // Update pagination info for the subsequent page
-        const { count, next } = nextPageData;
-        const pageCount = Math.ceil(count / 10); // Adjust per your API's page size
-        setTotalPages(pageCount);
-        setNextPageUrl(next);
-      } catch (error) {
-        setError(error.message);
-      }
-    }
-  };
-
-  const handlePreviousPage = async () => {
-    if (previousPageUrl) {
-      try {
-        const response = await fetch(previousPageUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-  
-        if (!response.ok) {
-          throw new Error('Failed to fetch previous page data');
-        }
-  
-        const previousPageData = await response.json();
-        setPets(previousPageData.results);
-  
-        // Update pagination info for the previous page
-        const { count, next, previous } = previousPageData;
-        const pageCount = Math.ceil(count / 10); // Adjust per your API's page size
-        setTotalPages(pageCount);
-        setNextPageUrl(next);
-        setPreviousPageUrl(previous);
-      } catch (error) {
-        setError(error.message);
-      }
-    }
-  };
-  
-  const fetchPetsByPage = async (pageNumber) => {
+  if (nextPageUrl) {
     try {
-      const url = `http://142.126.176.248:8000/pets?page=${pageNumber}${
-        status ? `&status=${status}` : ''
-      }${species !== 'Any' ? `&specie=${species}` : ''}${
-        size !== 'Any' ? `&size=${size}` : ''
-      }${age !== 'Any' ? `&age=${age}` : ''}${
-        gender !== 'Any' ? `&gender=${gender}` : ''
-      }${sortOption !== 'id' ? `&sort=${sortOption}` : ''}`;
-  
-      const response = await fetch(url, {
+      const response = await fetch(nextPageUrl, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Failed to fetch next page data');
       }
-  
-      const petData = await response.json();
-      setPets(petData.results); // Set the 'results' array in the state
-      const { count, next, previous } = petData;
-      const pageCount = Math.ceil(count / 10);
-      setTotalPages(pageCount);
-      setNextPageUrl(next);
-      setPreviousPageUrl(previous);
+
+      const nextPageData = await response.json();
+      setPets(nextPageData.results);
+      setNextPageUrl(nextPageData.next);
+      setPreviousPageUrl(nextPageData.previous);
+      setCurrentPage(currentPage + 1); // Update currentPage
     } catch (error) {
       setError(error.message);
     }
-  };
+  }
+};
+
+  const handlePreviousPage = async () => {
+  if (previousPageUrl) {
+    try {
+      const response = await fetch(previousPageUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch previous page data');
+      }
+
+      const previousPageData = await response.json();
+      setPets(previousPageData.results);
+      setNextPageUrl(previousPageData.next);
+      setPreviousPageUrl(previousPageData.previous);
+      setCurrentPage(currentPage - 1); // Update currentPage
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+};
+  
+  const fetchPetsByPage = async (pageNumber) => {
+  try {
+    const url = `http://142.126.176.248:8000/pets?page=${pageNumber}${
+      status ? `&status=${status}` : ''
+    }${species !== 'Any' ? `&specie=${species}` : ''}${
+      size !== 'Any' ? `&size=${size}` : ''
+    }${age !== 'Any' ? `&age=${age}` : ''}${
+      gender !== 'Any' ? `&gender=${gender}` : ''
+    }${sortOption !== 'id' ? `&sort=${sortOption}` : ''}`;
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const petData = await response.json();
+    setPets(petData.results); // Set the 'results' array in the state
+    setNextPageUrl(petData.next);
+    setPreviousPageUrl(petData.previous);
+    setCurrentPage(pageNumber);
+  } catch (error) {
+    setError(error.message);
+  }
+};
 
   const renderPageButtons = () => {
-    const buttons = [];
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push(
-        <button key={i} onClick={() => fetchPetsByPage(i)} className="btn btn-dark me-2">
-          {i}
-        </button>
-      );
-    }
-    return buttons;
-  };
+  const buttons = [];
+  for (let i = 1; i <= totalPages; i++) {
+    buttons.push(
+      <button
+        key={i}
+        onClick={() => fetchPetsByPage(i)}
+        className={`btn btn-dark me-2 ${currentPage === i ? 'active' : ''}`}
+      >
+        {i}
+      </button>
+    );
+  }
+  return buttons;
+};
 
 
 

@@ -6,7 +6,7 @@ export function getAccessToken() {
 export async function refreshToken() {
 	const refresh_token = localStorage.getItem("refresh_token");
 	if (refresh_token) {
-		const response = await fetch("http://localhost:8000/api/token/refresher/", {
+		const response = await fetch("http://142.126.176.248:8000/api/token/refresher/", {
 			"method": "POST",
 			"headers": {
 				"Content-Type": "application/json; charset=utf-8"
@@ -26,7 +26,7 @@ export async function refreshToken() {
 
 export async function login(email, password) {
 
-	const response = await fetch("http://localhost:8000/api/token/", {
+	const response = await fetch("http://142.126.176.248:8000/api/token/", {
 		"method": "POST",
 		"headers": {
 			"content-type": "application/json; charset=utf-8"

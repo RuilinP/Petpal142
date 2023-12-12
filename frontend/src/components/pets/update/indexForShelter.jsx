@@ -160,17 +160,17 @@ function PetUpdateShelter() {
 			}));
 		}
 	}, [shelterInfo.city, shelterInfo.state]);
-	useEffect(() => {
-		async function fetchData() {
-		  try {
-			setAccessToken(getAccessToken());
-		  } catch (error) {
-			setError(error.message);
-		  }
-		}
+	// useEffect(() => {
+	// 	async function fetchData() {
+	// 	  try {
+	// 		setAccessToken(getAccessToken());
+	// 	  } catch (error) {
+	// 		setError(error.message);
+	// 	  }
+	// 	}
 	
-		fetchData();
-	  }, []);
+	// 	fetchData();
+	//   }, []);
 
 
 	useEffect(() => {

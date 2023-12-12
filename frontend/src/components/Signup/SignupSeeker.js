@@ -26,7 +26,7 @@ function SignupSeeker() {
     const signup = async () => {
         try {
             await axios.post(
-                `http://localhost:8000/accounts/seekers/`,
+                `http://142.126.176.248:8000/accounts/seekers/`,
                 signupForm,
                 {
                     headers: {

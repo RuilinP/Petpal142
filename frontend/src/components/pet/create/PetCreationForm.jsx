@@ -135,19 +135,19 @@ function PetCreationForm() {
 			}));
 		}
 	}, [shelterInfo.city, shelterInfo.state]);
-	useEffect(() => {
-		async function fetchData() {
-		  try {
-			const token = await fetchAccessToken('ruilin@gmail.com', '123');
-			setAccessToken(token);
-			localStorage.setItem('accessToken', token);
-		  } catch (error) {
-			setError(error.message);
-		  }
-		}
+	// useEffect(() => {
+	// 	async function fetchData() {
+	// 	  try {
+	// 		const token = await fetchAccessToken('ruilin@gmail.com', '123');
+	// 		setAccessToken(token);
+	// 		localStorage.setItem('accessToken', token);
+	// 	  } catch (error) {
+	// 		setError(error.message);
+	// 	  }
+	// 	}
 	
-		fetchData();
-	  }, []);
+	// 	fetchData();
+	//   }, []);
 
 
 	useEffect(() => {

@@ -8,13 +8,21 @@ import { getAccessToken, refreshToken } from "../../../utils/auth";
 import { useParams } from 'react-router-dom';
 import Header from "../../common/header";
 import Footer from "../../common/footer";
+import { jwtDecode } from 'jwt-decode';
 
 function PetUpdate() {
     const { petId } = useParams();
 
 	const [error, setError] = useState();
-	const [accessToken, setAccessToken] = useState('');
-	const shelterid = 1;
+	// const [accessToken, setAccessToken] = useState('');
+	const accessToken = getAccessToken();
+	let tokenUser;
+    	if (accessToken) {
+        	tokenUser = jwtDecode(accessToken); 
+    	} else {
+        	navigate(`/404`);
+    	}	
+	const shelterid = tokenUser.user_id;
 	const [shelterInfo, setShelterInfo] = useState({});
 	const ageOptions = ['Select Age','Baby', 'Young', 'Adult', 'Senior'];
 	const [imagePreviews, setImagePreviews] = useState([]);
@@ -37,13 +45,13 @@ function PetUpdate() {
 		"age": "",
 		"size": "",
 		"color": "",
-		"gender": "Male",
+		"gender": "Female",
 		"location": "",
 		"health": "",
 		"characteristics": "",
 		"story": "",
 		"status": "Available",
-		"shelter": 1,
+		"shelter": tokenUser ? tokenUser.user_id : 1, 
 	});
 	const navigate = useNavigate();
 
@@ -152,19 +160,19 @@ function PetUpdate() {
 			}));
 		}
 	}, [shelterInfo.city, shelterInfo.state]);
-	useEffect(() => {
-		async function fetchData() {
-		  try {
-			const token = await fetchAccessToken('ruilin@gmail.com', '123');
-			setAccessToken(token);
-			localStorage.setItem('accessToken', token);
-		  } catch (error) {
-			setError(error.message);
-		  }
-		}
+	// useEffect(() => {
+	// 	async function fetchData() {
+	// 	  try {
+	// 		const token = await fetchAccessToken('ruilin@gmail.com', '123');
+	// 		setAccessToken(token);
+	// 		localStorage.setItem('accessToken', token);
+	// 	  } catch (error) {
+	// 		setError(error.message);
+	// 	  }
+	// 	}
 	
-		fetchData();
-	  }, []);
+	// 	fetchData();
+	//   }, []);
 
 
 	useEffect(() => {

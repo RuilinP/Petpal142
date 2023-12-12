@@ -5,12 +5,20 @@ import { useNavigate } from "react-router-dom";
 import ErrorCard from "../../ErrorCard";
 import { fetchAccessToken, fetchSinglePet } from '../../../ajax';
 import { getAccessToken, refreshToken } from "../../../utils/auth";
+import { jwtDecode } from 'jwt-decode';
 
 function PetCreationForm() {
 
 	const [error, setError] = useState();
-	const [accessToken, setAccessToken] = useState('');
-	const shelterid = 1;
+	// const [accessToken, setAccessToken] = useState('');
+	const Token = getAccessToken();
+	let tokenUser;
+    	if (token) {
+        	tokenUser = jwtDecode(token); 
+    	} else {
+        	navigate(`/404`);
+    	}	
+	const shelterid = tokenUser.user_id;
 	const [shelterInfo, setShelterInfo] = useState({});
 	const ageOptions = ['Select Age','Baby', 'Young', 'Adult', 'Senior'];
 	const [imagePreviews, setImagePreviews] = useState([]);
@@ -39,7 +47,7 @@ function PetCreationForm() {
 		"characteristics": "",
 		"story": "",
 		"status": "Available",
-		"shelter": 1,
+		"shelter": tokenUser ? tokenUser.user_id : 1, 
 	});
 	const navigate = useNavigate();
 

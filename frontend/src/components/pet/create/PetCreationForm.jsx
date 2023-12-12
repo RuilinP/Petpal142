@@ -11,10 +11,10 @@ function PetCreationForm() {
 
 	const [error, setError] = useState();
 	// const [accessToken, setAccessToken] = useState('');
-	const Token = getAccessToken();
+	const accessToken = getAccessToken();
 	let tokenUser;
-    	if (token) {
-        	tokenUser = jwtDecode(token); 
+    	if (accessToken) {
+        	tokenUser = jwtDecode(accessToken); 
     	} else {
         	navigate(`/404`);
     	}	

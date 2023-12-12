@@ -32,7 +32,7 @@ function SignupShelter() {
     const signup = async () => {
         try {
             await axios.post(
-                `http://localhost:8000/accounts/shelters/`,
+                `http://142.126.176.248:8000/accounts/shelters/`,
                 signupForm,
                 {
                     headers: {

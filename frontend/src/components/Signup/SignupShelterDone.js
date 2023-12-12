@@ -22,7 +22,7 @@ function SignupShelterDone() {
 
         async function fetchAccount() {
             try {
-                const response = await axios.get(`http://localhost:8000/accounts/shelters/${tokenUser.user_id}/`, {
+                const response = await axios.get(`http://142.126.176.248:8000/accounts/shelters/${tokenUser.user_id}/`, {
                     headers: {
                         Authorization: `Bearer ${getAccessToken()}`,
                     },

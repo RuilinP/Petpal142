@@ -33,7 +33,7 @@ function SignupSeekerContinued() {
 
         async function fetchAccount() {
             try {
-                const response = await axios.get(`http://localhost:8000/accounts/seekers/${tokenUser.user_id}/`, {
+                const response = await axios.get(`http://142.126.176.248:8000/accounts/seekers/${tokenUser.user_id}/`, {
                     headers: {
                         Authorization: `Bearer ${getAccessToken()}`,
                     },
@@ -75,7 +75,7 @@ function SignupSeekerContinued() {
 
         try {
             await axios.patch(
-                `http://localhost:8000/accounts/seekers/${tokenUser.user_id}/`,
+                `http://142.126.176.248:8000/accounts/seekers/${tokenUser.user_id}/`,
                 updatedData,
                 {
                     headers: {
